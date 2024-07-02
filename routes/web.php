@@ -27,6 +27,8 @@ Route::get('/', function () {
 Route::controller(UserController::class)->group(function(){
     Route::get('add-user','create');
     Route::post('/create-user','store')->name('users.store');
+
+    Route::get('all-user','index');
 });
 
 Route::controller(PositionController::class)->group(function(){

@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\Department;
 use App\Models\Position;
@@ -14,7 +12,10 @@ class UserController extends Controller
 {
     public function create()
     {
-        return view('Users.create');
+        $dpt = Department::pluck('department_name', 'id');
+        $position = Position::pluck('position_name', 'id');
+        $selectedID = 1;
+        return view('Users.create', compact('dpt', 'position', 'selectedID'));
     }
 
     public function store(Request $request)
@@ -23,15 +24,13 @@ class UserController extends Controller
             'FirstName' => 'required|string|max:255',
             'LastName' => 'required|string|max:255',
             'NickName' => 'nullable|string|max:255',
-            'Username' => 'required|string|max:255|unique:users',
-            'Password' => 'required|string|min:8',
+            'Username' => 'required|digits:13|unique:users',
+            'Password' => 'required|string|min:6',
             'Email' => 'required|string|email|max:255|unique:users',
             'Address' => 'required|string|max:255',
             'Phone' => 'required|string|max:20',
-            'DPT_id' => 'required|integer',
-            'department_name' => 'required|string|max:255',
-            'PT_id' => 'required|integer',
-            'position_name' => 'required|string|max:255',
+            'department_id' => 'required|exists:departments,id',
+            'position_id' => 'required|exists:positions,id',
             'image_Profile' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
@@ -40,29 +39,32 @@ class UserController extends Controller
             $imagePath = $request->file('image_Profile')->store('profile_images', 'public');
         }
 
-        // สร้างผู้ใช้ใหม่และบันทึกลงฐานข้อมูล
         $user = new User();
         $user->FirstName = $request->FirstName;
         $user->LastName = $request->LastName;
         $user->NickName = $request->NickName;
         $user->Username = $request->Username;
-        $user->Password = bcrypt($request->Password);
+        $user->Password = Hash::make($request->Password);
         $user->Email = $request->Email;
         $user->Address = $request->Address;
         $user->Phone = $request->Phone;
-        $user->DPT_id = $request->DPT_id;
-        $user->department_name = $request->department_name;
-        $user->PT_id = $request->PT_id;
-        $user->position_name = $request->position_name;
+        $user->department_id = $request->department_id;
+        $user->position_id = $request->position_id;
         $user->image_Profile = $imagePath;
 
         $save = $user->save();
 
-        // ตรวจสอบการบันทึก
         if ($save) {
             return back()->with('success', 'เพิ่มข้อมูลสำเร็จ');
         } else {
             return back()->with('fail', 'มีบางอย่างผิดพลาด');
         }
+    }
+    public function index()
+    {
+        $users = User::all();
+        $dpt = Department::all();
+        $position = Position::all();
+        return view('users.index', compact('users','dpt','position'));
     }
 }
