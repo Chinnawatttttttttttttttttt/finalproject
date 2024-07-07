@@ -62,7 +62,6 @@ class ElderlyController extends Controller
         }
         return view('Elderlys.edit', compact('elderly'));
     }
-
     public function update(Request $request) //5.ฟังก์ชั่นแก้ไข
     {
         $request->validate([

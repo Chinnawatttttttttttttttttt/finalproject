@@ -29,6 +29,11 @@ Route::controller(UserController::class)->group(function(){
     Route::post('/create-user','store')->name('users.store');
 
     Route::get('all-user','index');
+
+    Route::get('edit-user/{id}','edit');
+    Route::post('/update-user','update')->name('users.update');
+
+    Route::delete('/delete-user/{id}','destroy')->name('users.delete');
 });
 
 Route::controller(PositionController::class)->group(function(){

@@ -20,7 +20,8 @@
                     <th>อีเมล</th>
                     <th>แผนก</th>
                     <th>ตำแหน่ง</th>
-                    <th>จัดการ</th>
+                    <th>แก้ไข้ข้อมูล</th>
+                    <th>ลบข้อมูล</th>
                 </tr>
             </thead>
             <tbody>
@@ -44,15 +45,14 @@
                             @endif
                         @endforeach
                     </td>
-                    {{--  <td>
-                        <!-- สร้างลิงก์ไปยังหน้าแก้ไขและลบ -->
-                        <a href="{{ route('users.edit', $user->id) }}" class="btn btn-primary">แก้ไข</a>
-                        <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display: inline;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger" onclick="return confirm('คุณต้องการลบผู้ใช้งานนี้ใช่หรือไม่?')">ลบ</button>
-                        </form>
-                    </td>  --}}
+                    <td><a href="/edit-user/{{ $user->id}}" class="btn btn-warning"><i class="fas fa-edit"></i> แก้ไข </a></td>
+                    <td>
+                      <form action="{{ route('users.delete',$user->id) }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="_method" value="DELETE">
+                        <button type="submit" class="btn btn-danger btn-sm show_confirm" data-toggle="tooltip" title="Delete"><i class="fas fa-trash"></i> ลบ </button>
+                      </form>
+                    </td>
                 </tr>
                 @endforeach
             </tbody>
