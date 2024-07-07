@@ -21,7 +21,7 @@ class UserController extends Controller
         return view('Users.create', compact('dpt', 'position', 'selectedID'));
     }
 
-    public function store(Request $request) ///2.ฟังก์ชั่นการเพิ่ม
+    public function store(Request $request)
     {
         $request->validate([
             'FirstName' => 'required|string|max:255',
@@ -37,10 +37,13 @@ class UserController extends Controller
             'image_Profile' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        $image = $request->file('file');
-        $imageName = time().'.'.$image->extension();
-        $image->move(public_path('images'),$imageName);
+        $imageName = null; // กำหนดค่าเริ่มต้นให้ $imageName เป็น null
 
+        if ($request->hasFile('image_Profile')) { // ตรวจสอบว่ามีการอัปโหลดไฟล์หรือไม่
+            $image = $request->file('image_Profile');
+            $imageName = time().'.'.$image->extension();
+            $image->move(public_path('images'), $imageName);
+        }
 
         $user = new User();
         $user->FirstName = $request->FirstName;
@@ -53,7 +56,7 @@ class UserController extends Controller
         $user->Phone = $request->Phone;
         $user->department_id = $request->department_id;
         $user->position_id = $request->position_id;
-        $user->profileimage = $imageName;
+        $user->image_Profile = $imageName;
 
         $save = $user->save();
 
@@ -137,7 +140,7 @@ class UserController extends Controller
     public function destroy($id) //6.ฟังก์ชั่นลบข้อมูล
     {
         $user = User::find($id);
-        // unlink(public_path('images').'/'.$user->profileimage);///เป็นการลบรูปภาพ
+        unlink(public_path('images').'/'.$user->image_Profile);///เป็นการลบรูปภาพ
         $user->delete();
 
         return back();

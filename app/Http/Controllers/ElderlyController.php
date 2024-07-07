@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 use App\Models\Elderly;
+use App\Models\ScoreTAI;
+
 
 class ElderlyController extends Controller
 {
@@ -15,7 +17,7 @@ class ElderlyController extends Controller
         return view('Elderlys.create');
     }
 
-    public function store(Request $request) //2.ฟังก์ชั่นการเพิ่ม
+        public function store(Request $request) //2.ฟังก์ชั่นการเพิ่ม
     {
         $request->validate([
             'FirstName' => 'required|string',
@@ -43,11 +45,22 @@ class ElderlyController extends Controller
 
         // ตรวจสอบว่าข้อมูลถูกบันทึกลงในฐานข้อมูลหรือไม่
         if ($elderly->wasRecentlyCreated) {
+            // สร้างข้อมูล ScoreTAI ใหม่
+            ScoreTAI::create([
+                'elderly_id' => $elderly->id,
+                'mobility' => null,
+                'confuse' => null,
+                'feed' => null,
+                'toilet' => null,
+                'user_id' => null,
+            ]);
+
             return back()->with('success', 'ลงทะเบียนสำเร็จ');
         } else {
             return back()->with('fail', 'มีข้อผิดพลาดเกิดขึ้นในการลงทะเบียน');
         }
     }
+
     public function index() //3.หน้ารวมข้อมูล
     {
         $elderly = Elderly::all();
