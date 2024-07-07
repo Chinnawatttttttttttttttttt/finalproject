@@ -5,8 +5,10 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ElderlyController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\PositionController;
+use App\Http\Controllers\ScoreTAIController;
 use App\Models\Position;
 use App\Models\Department;
+use App\Models\ScoreTAI;
 use GuzzleHttp\Promise\Create;
 
 /*
@@ -70,6 +72,11 @@ Route::controller(ElderlyController::class)->group(function(){
     Route::post('/update-elderly','update')->name('elderlys.update');
 
     Route::delete('/delete-elderly/{id}','destroy')->name('elderlys.delete');
+});
+
+Route::controller(ScoreTAIController::class)->group(function() {
+    Route::get('/score/{id}', 'create');
+
 });
 
 
