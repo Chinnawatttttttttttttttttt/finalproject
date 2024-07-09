@@ -43,10 +43,12 @@ Route::middleware(['auth', 'IsAdmin', 'CheckLogin', 'NowLogin'])->group(function
     // User
     Route::controller(UserController::class)->group(function() {
         Route::get('add-user', 'create')->name('add-user');
+        Route::get('profile', 'profile')->name('profile');
         Route::post('/create-user', 'store')->name('users.store');
         Route::get('/all-user', 'index')->name('all-user');
         Route::post('/edit-user/{id}', 'edit')->name('users.update');
         Route::delete('/delete-user/{id}', 'destroy')->name('users.delete');
+
     });
 
     // Position

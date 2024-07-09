@@ -6,10 +6,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Department;
 use App\Models\Elderly;
 use App\Models\Position;
+use PhpParser\Node\Expr\FuncCall;
 
 class UserController extends Controller
 {
@@ -144,5 +146,12 @@ class UserController extends Controller
         $user->delete();
 
         return back();
+    }
+
+    public function profile()
+    {
+        $user = Auth::user();
+
+        return view('Users.user', ['user' => $user]);
     }
 }
