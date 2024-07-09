@@ -39,75 +39,48 @@ Route::group(['middleware' => 'web'], function () {
 });
 
 Route::middleware(['auth', 'IsAdmin', 'CheckLogin', 'NowLogin'])->group(function () {
-    
-    //User
-    Route::get('add-user', [UserController::class, 'create'])->name('add-user');
-    Route::post('/create-user', [UserController::class, 'store'])->name('users.store');
-    Route::get('/all-user', [UserController::class, 'index'])->name('all-user');
-    // Route::get('/users/{id}', [UserController::class, 'show'])->name('users.show');
-    Route::post('/edit-user/{id}', [UserController::class, 'edit'])->name('users.update');
-    Route::delete('/delete-user/{id}', [UserController::class, 'destroy'])->name('users.delete');
 
-    //Position
-    //Department
-    //Elderly
-    //ScoreTAI
+    // User
+    Route::controller(UserController::class)->group(function() {
+        Route::get('add-user', 'create')->name('add-user');
+        Route::post('/create-user', 'store')->name('users.store');
+        Route::get('/all-user', 'index')->name('all-user');
+        Route::post('/edit-user/{id}', 'edit')->name('users.update');
+        Route::delete('/delete-user/{id}', 'destroy')->name('users.delete');
+    });
 
-});
+    // Position
+    Route::controller(PositionController::class)->group(function() {
+        Route::get('add-position', 'create')->name('add-position');
+        Route::post('/create-position', 'store')->name('positions.store');
+        Route::get('/all-position', 'index')->name('all-position');
+        Route::post('/edit-position/{id}', 'edit')->name('positions.update');
+        Route::delete('/delete-position/{id}', 'destroy')->name('positions.delete');
+    });
 
-// Route::controller(UserController::class)->group(function(){
-//     Route::get('add-user','create');
-//     Route::post('/create-user','store')->name('users.store');
+    // Department
+    Route::controller(DepartmentController::class)->group(function() {
+        Route::get('add-department', 'create')->name('add-department');
+        Route::post('/create-department', 'store')->name('departments.store');
+        Route::get('/all-department', 'index')->name('all-department');
+        Route::post('/edit-department/{id}', 'edit')->name('departments.update');
+        Route::delete('/delete-department/{id}', 'destroy')->name('departments.delete');
+    });
 
-//     Route::get('/all-user','index')->name('all-user');
+    // Elderly
+    Route::controller(ElderlyController::class)->group(function() {
+        Route::get('add-elderly', 'create');
+        Route::post('/create-elderly', 'store')->name('elderlys.store');
+        Route::get('all-elderly', 'index');
+        Route::get('edit-elderly/{id}', 'edit');
+        Route::post('/update-elderly', 'update')->name('elderlys.update');
+        Route::delete('/delete-elderly/{id}', 'destroy')->name('elderlys.delete');
+    });
 
-//     Route::get('edit-user/{id}','edit');
-//     Route::post('/update-user','update')->name('users.update');
-
-//     Route::delete('/delete-user/{id}','destroy')->name('users.delete');
-// });
-
-Route::controller(PositionController::class)->group(function(){
-    Route::get('add-position','create');
-    Route::post('/create-position','store')->name('positions.store');
-
-    Route::get('all-position','index');
-
-    Route::get('edit-position/{id}','edit');
-    Route::post('/update-position','update')->name('positions.update');
-
-    Route::delete('/delete-position/{id}','destroy')->name('positions.delete');
-});
-
-Route::controller(DepartmentController::class)->group(function(){
-    Route::get('add-department','create');
-    Route::post('/create-department','store')->name('departments.store');
-
-    Route::get('all-department','index');
-
-    Route::get('edit-department/{id}','edit');
-    Route::post('/update-department','update')->name('departments.update');
-
-    Route::delete('/delete-department/{id}','destroy')->name('departments.delete');
-});
-
-Route::controller(ElderlyController::class)->group(function(){
-    Route::get('add-elderly','create');
-    Route::post('/create-elderly','store')->name('elderlys.store');
-
-    Route::get('all-elderly','index');
-
-    Route::get('edit-elderly/{id}','edit');
-    Route::post('/update-elderly','update')->name('elderlys.update');
-
-    Route::delete('/delete-elderly/{id}','destroy')->name('elderlys.delete');
-});
-
-Route::controller(ScoreTAIController::class)->group(function() {
-    Route::get('/score/{id}', 'create');
+    // ScoreTAI
+    Route::controller(ScoreTAIController::class)->group(function() {
+        Route::get('/score/{id}', 'create');
+        Route::post('/create-score', 'store')->name('score.create');
+    });
 
 });
-
-
-
-
