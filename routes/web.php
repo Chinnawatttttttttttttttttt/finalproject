@@ -38,18 +38,34 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 });
 
+Route::middleware(['auth', 'IsAdmin', 'CheckLogin', 'NowLogin'])->group(function () {
+    
+    //User
+    Route::get('add-user', [UserController::class, 'create'])->name('add-user');
+    Route::post('/create-user', [UserController::class, 'store'])->name('users.store');
+    Route::get('/all-user', [UserController::class, 'index'])->name('all-user');
+    // Route::get('/users/{id}', [UserController::class, 'show'])->name('users.show');
+    Route::post('/edit-user/{id}', [UserController::class, 'edit'])->name('users.update');
+    Route::delete('/delete-user/{id}', [UserController::class, 'destroy'])->name('users.delete');
 
-Route::controller(UserController::class)->group(function(){
-    Route::get('add-user','create');
-    Route::post('/create-user','store')->name('users.store');
+    //Position
+    //Department
+    //Elderly
+    //ScoreTAI
 
-    Route::get('/all-user','index')->name('all-user');
-
-    Route::get('edit-user/{id}','edit');
-    Route::post('/update-user','update')->name('users.update');
-
-    Route::delete('/delete-user/{id}','destroy')->name('users.delete');
 });
+
+// Route::controller(UserController::class)->group(function(){
+//     Route::get('add-user','create');
+//     Route::post('/create-user','store')->name('users.store');
+
+//     Route::get('/all-user','index')->name('all-user');
+
+//     Route::get('edit-user/{id}','edit');
+//     Route::post('/update-user','update')->name('users.update');
+
+//     Route::delete('/delete-user/{id}','destroy')->name('users.delete');
+// });
 
 Route::controller(PositionController::class)->group(function(){
     Route::get('add-position','create');

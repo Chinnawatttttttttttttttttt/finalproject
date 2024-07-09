@@ -14,6 +14,7 @@ class NowLogin
         if (Auth::check() && $request->is('login')){
             return redirect()->route('home');
         }
+        
         return $next($request);
     }
 }

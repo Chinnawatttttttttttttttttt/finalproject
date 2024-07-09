@@ -17,7 +17,7 @@ class CheckLogin
     public function handle(Request $request, Closure $next): Response
     {
         if (!Auth::check()) {
-            return redirect()->route('login')->with('error', 'Please log in.');
+            return redirect('login')->with('error', 'Please log in.');
         }
         return $next($request);
     }
