@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class ScoreTAI extends Model
 {
     use HasFactory;
+    feature/07/08/2024
 
     protected $table = 'score_tais';
 
