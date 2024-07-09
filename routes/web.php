@@ -6,6 +6,7 @@ use App\Http\Controllers\ElderlyController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\PositionController;
 use App\Http\Controllers\ScoreTAIController;
+use App\Http\Controllers\AuthController;
 use App\Models\Position;
 use App\Models\Department;
 use App\Models\ScoreTAI;
@@ -26,11 +27,23 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+route::get('error', function(){
+    return view('error.error');
+});
+
+Route::group(['middleware' => 'web'], function () {
+    Route::get('home', [AuthController::class, 'home']);
+    Route::get('login', [AuthController::class, 'login'])->name('login');
+    Route::post('login', [AuthController::class, 'loginUser'])->name('login.submit');
+    Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+});
+
+
 Route::controller(UserController::class)->group(function(){
     Route::get('add-user','create');
     Route::post('/create-user','store')->name('users.store');
 
-    Route::get('all-user','index');
+    Route::get('/all-user','index')->name('all-user');
 
     Route::get('edit-user/{id}','edit');
     Route::post('/update-user','update')->name('users.update');
@@ -78,6 +91,7 @@ Route::controller(ScoreTAIController::class)->group(function() {
     Route::get('/score/{id}', 'create');
 
 });
+
 
 
 
