@@ -5,8 +5,11 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ElderlyController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\PositionController;
+use App\Http\Controllers\ScoreTAIController;
+use App\Http\Controllers\AuthController;
 use App\Models\Position;
 use App\Models\Department;
+use App\Models\ScoreTAI;
 use GuzzleHttp\Promise\Create;
 
 /*
@@ -24,17 +27,45 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::controller(UserController::class)->group(function(){
-    Route::get('add-user','create');
-    Route::post('/create-user','store')->name('users.store');
-
-    Route::get('all-user','index');
-
-    Route::get('edit-user/{id}','edit');
-    Route::post('/update-user','update')->name('users.update');
-
-    Route::delete('/delete-user/{id}','destroy')->name('users.delete');
+route::get('error', function(){
+    return view('error.error');
 });
+
+Route::group(['middleware' => 'web'], function () {
+    Route::get('home', [AuthController::class, 'home']);
+    Route::get('login', [AuthController::class, 'login'])->name('login');
+    Route::post('login', [AuthController::class, 'loginUser'])->name('login.submit');
+    Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+});
+
+Route::middleware(['auth', 'IsAdmin', 'CheckLogin', 'NowLogin'])->group(function () {
+    
+    //User
+    Route::get('add-user', [UserController::class, 'create'])->name('add-user');
+    Route::post('/create-user', [UserController::class, 'store'])->name('users.store');
+    Route::get('/all-user', [UserController::class, 'index'])->name('all-user');
+    // Route::get('/users/{id}', [UserController::class, 'show'])->name('users.show');
+    Route::post('/edit-user/{id}', [UserController::class, 'edit'])->name('users.update');
+    Route::delete('/delete-user/{id}', [UserController::class, 'destroy'])->name('users.delete');
+
+    //Position
+    //Department
+    //Elderly
+    //ScoreTAI
+
+});
+
+// Route::controller(UserController::class)->group(function(){
+//     Route::get('add-user','create');
+//     Route::post('/create-user','store')->name('users.store');
+
+//     Route::get('/all-user','index')->name('all-user');
+
+//     Route::get('edit-user/{id}','edit');
+//     Route::post('/update-user','update')->name('users.update');
+
+//     Route::delete('/delete-user/{id}','destroy')->name('users.delete');
+// });
 
 Route::controller(PositionController::class)->group(function(){
     Route::get('add-position','create');
@@ -71,6 +102,12 @@ Route::controller(ElderlyController::class)->group(function(){
 
     Route::delete('/delete-elderly/{id}','destroy')->name('elderlys.delete');
 });
+
+Route::controller(ScoreTAIController::class)->group(function() {
+    Route::get('/score/{id}', 'create');
+
+});
+
 
 
 

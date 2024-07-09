@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('groups', function (Blueprint $table) {
             $table->id();
+            feature/07/08/2024
+            $table->string('name');
+            $table->foreignId('elderly_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
