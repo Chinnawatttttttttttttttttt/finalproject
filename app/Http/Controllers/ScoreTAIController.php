@@ -5,6 +5,7 @@ use App\Models\ScoreTAI;
 use App\Models\Group;
 use App\Models\Elderly;
 use App\Models\user;
+use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\Request;
 
