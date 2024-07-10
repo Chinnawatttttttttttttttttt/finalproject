@@ -39,10 +39,12 @@
                 </td>
                 <td><a href="{{ route('users.edit', $user->id) }}" class="btn btn-warning"><i class="fas fa-edit"></i> แก้ไข </a></td>
                 <td>
-                    <form action="{{ route('users.delete', $user->id) }}" method="POST">
+                    <form action="{{ route('users.delete', $user->id) }}" method="POST" class="delete-form">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-danger btn-sm show_confirm" data-toggle="tooltip" title="Delete"><i class="fas fa-trash"></i> ลบ </button>
+                        <button type="submit" class="btn btn-danger btn-sm" data-toggle="tooltip" title="Delete" onclick="return confirmDelete();">
+                            <i class="fas fa-trash"></i> ลบ
+                        </button>
                     </form>
                 </td>
             </tr>
@@ -51,3 +53,9 @@
     </table>
 </div>
 @endsection
+
+<script>
+    function confirmDelete() {
+        return confirm('คุณแน่ใจหรือไม่ที่ต้องการลบข้อมูลนี้?');
+    }
+</script>
