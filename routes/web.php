@@ -22,8 +22,8 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('login', [AuthController::class, 'loginUser'])->name('login.submit');
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 });
-
-Route::middleware(['auth', 'IsAdmin', 'CheckLogin', 'NowLogin'])->group(function () {
+// 'auth', 'IsAdmin', 'CheckLogin', 'NowLogin'
+Route::middleware([])->group(function () {
     // User
     Route::controller(UserController::class)->group(function() {
         Route::resource('users', UserController::class);
