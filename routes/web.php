@@ -29,6 +29,8 @@ Route::middleware([])->group(function () {
         Route::resource('users', UserController::class);
         Route::get('add-user', 'create')->name('add-user');
         Route::get('profile', 'profile')->name('profile');
+        Route::get('/profile/edit','editProfile')->name('edit-profile');
+        Route::post('/profile/update','updateProfile')->name('update-profile');
         Route::post('create-user', 'store')->name('users.store');
         Route::get('all-user', 'index')->name('all-user');
         Route::get('edit-user/{id}', 'edit')->name('users.edit');

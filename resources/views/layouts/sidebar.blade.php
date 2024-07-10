@@ -13,7 +13,7 @@
                 </a>
             </li>
             <li>
-                <a class="nav-link" href="{{ url('user') }}">
+                <a class="nav-link" href="{{ url('profile') }}">
                     <i class="nc-icon nc-circle-09"></i>
                     <p>User Profile</p>
                 </a>

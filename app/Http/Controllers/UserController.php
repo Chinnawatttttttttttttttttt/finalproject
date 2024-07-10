@@ -150,8 +150,48 @@ class UserController extends Controller
 
     public function profile()
     {
+        if (Auth::check()) {
+            $user = Auth::user();
+            return view('Users.profile', ['user' => $user]);
+        } else {
+            // Handle case when user is not logged in
+            return redirect()->route('login')->with('error', 'Please login to view your profile.');
+        }
+    }
+    
+    public function editProfile()
+    {
         $user = Auth::user();
+        return view('users.profile', compact('user'));
+    }
 
-        return view('Users.user', ['user' => $user]);
+    public function updateProfile(Request $request)
+    {
+        $request->validate([
+            'FirstName' => 'required|string|max:255',
+            'LastName' => 'required|string|max:255',
+            'Username' => 'required|string|max:255|unique:users,Username,' . Auth::id(),
+            'Email' => 'required|string|email|max:255|unique:users,Email,' . Auth::id(),
+            'Address' => 'required|string|max:255',
+            'Phone' => 'required|string|max:20',
+            'image_Profile' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        $user = Auth::user();
+        $user->FirstName = $request->input('FirstName');
+        $user->LastName = $request->input('LastName');
+        $user->Username = $request->input('Username');
+        $user->Email = $request->input('Email');
+        $user->Address = $request->input('Address');
+        $user->Phone = $request->input('Phone');
+
+        if ($request->hasFile('image_Profile')) {
+            $imagePath = $request->file('image_Profile')->store('images', 'public');
+            $user->image_Profile = $imagePath;
+        }
+
+        $user->save();
+
+        return redirect()->route('profile')->with('success', 'Profile updated successfully.');
     }
 }
