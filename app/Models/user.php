@@ -11,6 +11,7 @@ class User extends AuthenticatableUser implements Authenticatable
 {
     use HasFactory, Notifiable;
 
+    // กำหนดความสัมพันธ์
     public function department()
     {
         return $this->belongsTo(Department::class, 'department_id', 'id');
@@ -21,14 +22,17 @@ class User extends AuthenticatableUser implements Authenticatable
         return $this->belongsTo(Position::class, 'position_id', 'id');
     }
 
+    // กำหนดฟิลด์ที่สามารถรับค่าได้แบบกลุ่ม
     protected $fillable = [
-        'name', 'email', 'username', 'password',
+        'FirstName', 'LastName', 'Email', 'department_id', 'position_id', 'password',
     ];
 
+    // กำหนดฟิลด์ที่ต้องซ่อน
     protected $hidden = [
         'password', 'remember_token',
     ];
 
+    // กำหนดการแปลงข้อมูลสำหรับแอตทริบิวต์
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];

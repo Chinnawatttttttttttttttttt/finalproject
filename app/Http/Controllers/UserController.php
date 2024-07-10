@@ -11,7 +11,6 @@ use App\Models\User;
 use App\Models\Department;
 use App\Models\Elderly;
 use App\Models\Position;
-use PhpParser\Node\Expr\FuncCall;
 
 class UserController extends Controller
 {
@@ -90,7 +89,8 @@ class UserController extends Controller
 
         return view('Users.edit', compact('user', 'dpt', 'position'));
     }
-    public function update(Request $request) //5.ฟังก์ชั่นแก้ไข
+
+    public function update(Request $request, $id)
     {
         $request->validate([
             'FirstName' => 'required|string|max:255',
@@ -106,29 +106,29 @@ class UserController extends Controller
             'image_Profile' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        $user = User::find($request->id);
+        $user = User::find($id);
 
         if (!$user) {
             return back()->with('fail', 'ไม่พบข้อมูลผู้ใช้ที่ต้องการแก้ไข');
         }
 
         if ($request->hasFile('image_Profile')) {
-            $imagePath = $request->file('image_Profile')->store('profile_images', 'public');
+            $imagePath = $request->file('image_Profile')->store('images', 'public');
             $user->image_Profile = $imagePath;
         }
 
-        $user->FirstName = $request->FirstName;
-        $user->LastName = $request->LastName;
-        $user->NickName = $request->NickName;
-        $user->Username = $request->Username;
-        if($request->Password) {
-            $user->Password = Hash::make($request->Password);
+        $user->FirstName = $request->input('FirstName');
+        $user->LastName = $request->input('LastName');
+        $user->NickName = $request->input('NickName');
+        $user->Username = $request->input('Username');
+        if ($request->has('Password')) {
+            $user->Password = Hash::make($request->input('Password'));
         }
-        $user->Email = $request->Email;
-        $user->Address = $request->Address;
-        $user->Phone = $request->Phone;
-        $user->department_id = $request->department_id;
-        $user->position_id = $request->position_id;
+        $user->Email = $request->input('Email');
+        $user->Address = $request->input('Address');
+        $user->Phone = $request->input('Phone');
+        $user->department_id = $request->input('department_id');
+        $user->position_id = $request->input('position_id');
 
         $save = $user->save();
 
