@@ -1,68 +1,66 @@
-<!-- resources/views/users/index.blade.php -->
+@extends('layouts.app')
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>รายชื่อผู้ใช้งาน</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-</head>
-@include('layout.nav');
-<body>
-    <div class="container mt-5">
-        <h1>รายชื่อผู้ใช้งาน</h1>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>ลำดับ</th>
-                    <th>ชื่อ</th>
-                    <th>นามสกุล</th>
-                    <th>อีเมล</th>
-                    <th>แผนก</th>
-                    <th>ตำแหน่ง</th>
-                    <th>แก้ไข้ข้อมูล</th>
-                    <th>ลบข้อมูล</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($users as $user)
-                <tr>
-                    <td>{{ $loop->iteration }}</td>
-                    <td>{{ $user->FirstName }}</td>
-                    <td>{{ $user->LastName }}</td>
-                    <td>{{ $user->Email }}</td>
-                    <td>
-                        @foreach ($dpt as $department)
-                            @if ($department->id === $user->department_id)
-                                {{ $department->department_name }}
-                            @endif
-                        @endforeach
-                    </td>
-                    <td>
-                        @foreach ($position as $positions)
-                            @if ($positions->id === $user->position_id)
-                                {{ $positions->position_name }}
-                            @endif
-                        @endforeach
-                    </td>
-                    <td><a href="/edit-user/{{ $user->id}}" class="btn btn-warning"><i class="fas fa-edit"></i> แก้ไข </a></td>
-                    <td>
-                      <form action="{{ route('users.delete',$user->id) }}" method="POST">
+@section('content')
+<div class="container mt-5">
+    <h3>รายชื่อผู้ใช้งาน</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ลำดับ</th>
+                <th>ชื่อ</th>
+                <th>นามสกุล</th>
+                <th>อีเมล</th>
+                <th>แผนก</th>
+                <th>ตำแหน่ง</th>
+                <th>แก้ไขข้อมูล</th>
+                <th>ลบข้อมูล</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($users as $user)
+            <tr>
+                <td>{{ $loop->iteration }}</td>
+                <td>{{ $user->FirstName }}</td>
+                <td>{{ $user->LastName }}</td>
+                <td>{{ $user->Email }}</td>
+                <td>{{ $user->department->department_name }}</td>
+                <td>{{ $user->position->position_name }}</td>
+                <td><a href="{{ route('users.edit', $user->id) }}" class="btn btn-warning"><i class="fas fa-edit"></i> แก้ไข </a></td>
+                <td>
+                    <form action="{{ route('users.destroy', $user->id) }}" method="POST">
                         @csrf
-                        <input type="hidden" name="_method" value="DELETE">
-                        <button type="submit" class="btn btn-danger btn-sm show_confirm" data-toggle="tooltip" title="Delete"><i class="fas fa-trash"></i> ลบ </button>
-                      </form>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger btn-sm show_confirm" data-name="{{ $user->FirstName }} {{ $user->LastName }}" data-toggle="tooltip" title="Delete"><i class="fas fa-trash"></i> ลบ </button>
+                    </form>
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
+@endsection
 
-    <!-- Bootstrap JS and dependencies -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-</html>
+@section('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.show_confirm').click(function(event) {
+            event.preventDefault();
+            var form = $(this).closest("form");
+            var name = $(this).data("name");
+
+            swal({
+                title: 'Are you sure?',
+                text: 'คุณต้องการลบ ' + name + ' ใช่หรือไม่?',
+                icon: 'warning',
+                buttons: ['ยกเลิก', 'ลบ'],
+                dangerMode: true,
+            }).then((willDelete) => {
+                if (willDelete) {
+                    form.submit();
+                }
+            });
+        });
+    });
+</script>
+@endsection

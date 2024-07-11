@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Models\User;
 use App\Models\Department;
 use App\Models\Elderly;
@@ -88,7 +90,8 @@ class UserController extends Controller
 
         return view('Users.edit', compact('user', 'dpt', 'position'));
     }
-    public function update(Request $request) //5.ฟังก์ชั่นแก้ไข
+
+    public function update(Request $request, $id)
     {
         $request->validate([
             'FirstName' => 'required|string|max:255',
@@ -104,29 +107,29 @@ class UserController extends Controller
             'image_Profile' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        $user = User::find($request->id);
+        $user = User::find($id);
 
         if (!$user) {
             return back()->with('fail', 'ไม่พบข้อมูลผู้ใช้ที่ต้องการแก้ไข');
         }
 
         if ($request->hasFile('image_Profile')) {
-            $imagePath = $request->file('image_Profile')->store('profile_images', 'public');
+            $imagePath = $request->file('image_Profile')->store('images', 'public');
             $user->image_Profile = $imagePath;
         }
 
-        $user->FirstName = $request->FirstName;
-        $user->LastName = $request->LastName;
-        $user->NickName = $request->NickName;
-        $user->Username = $request->Username;
-        if($request->Password) {
-            $user->Password = Hash::make($request->Password);
+        $user->FirstName = $request->input('FirstName');
+        $user->LastName = $request->input('LastName');
+        $user->NickName = $request->input('NickName');
+        $user->Username = $request->input('Username');
+        if ($request->has('Password')) {
+            $user->Password = Hash::make($request->input('Password'));
         }
-        $user->Email = $request->Email;
-        $user->Address = $request->Address;
-        $user->Phone = $request->Phone;
-        $user->department_id = $request->department_id;
-        $user->position_id = $request->position_id;
+        $user->Email = $request->input('Email');
+        $user->Address = $request->input('Address');
+        $user->Phone = $request->input('Phone');
+        $user->department_id = $request->input('department_id');
+        $user->position_id = $request->input('position_id');
 
         $save = $user->save();
 
@@ -144,5 +147,58 @@ class UserController extends Controller
         $user->delete();
 
         return back();
+    }
+
+    public function profile()
+    {
+        if (Auth::check()) {
+            $user = Auth::user();
+            return view('Users.profile', ['user' => $user]);
+        } else {
+            // Handle case when user is not logged in
+            return redirect()->route('login')->with('error', 'Please login to view your profile.');
+        }
+    }
+
+    public function updateProfile(Request $request)
+    {
+        // ตรวจสอบความถูกต้องของข้อมูลที่รับเข้ามา
+        $request->validate([
+            'FirstName' => 'required|string|max:255',
+            'LastName' => 'required|string|max:255',
+            'Email' => 'required|email|max:255',
+            'Address' => 'required|string|max:255',
+            'Phone' => 'required|string|max:20',
+            'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        // รับผู้ใช้ที่กำลังเข้าสู่ระบบ
+        $user = Auth::user();
+
+        // อัปเดตข้อมูลผู้ใช้
+        $user->FirstName = $request->FirstName;
+        $user->LastName = $request->LastName;
+        $user->Email = $request->Email;
+        $user->Address = $request->Address;
+        $user->Phone = $request->Phone;
+
+        // อัปเดตรูปโปรไฟล์หากมีการอัปโหลด
+        if ($request->hasFile('profile_image')) {
+            // ลบรูปโปรไฟล์เก่าออกจากระบบ
+            if ($user->image_Profile) {
+                Storage::delete('public/images/' . $user->image_Profile);
+            }
+
+            // บันทึกรูปโปรไฟล์ใหม่
+            $imageName = time() . '.' . $request->profile_image->extension();
+            $request->profile_image->move(public_path('images'), $imageName);
+            $user->image_Profile = $imageName;
+        }
+
+        // บันทึกข้อมูลลงฐานข้อมูล
+        $user->save();
+
+        // เปลี่ยนเส้นทางกลับไปยังหน้าที่ต้องการพร้อมแสดงข้อความสำเร็จ
+        return redirect()->back()->with('success', 'Profile updated successfully!');
     }
 }

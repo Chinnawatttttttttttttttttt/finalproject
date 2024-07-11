@@ -1,73 +1,77 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-  <title>Admin</title>
-</head>
-<body>
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="card">
-          <div class="card-header">
-            <h3 class="mb-0"> รวม </h3>
-          </div>
-          <div class="card-body">
-            <a href="{{ url('add-department') }}" class="btn btn-success btn-sm"><i class="fas fa-user-plus"></i> Add Admin</a>
-            <div class="table-responsive">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>Name</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  @foreach ($dpt as $dpts )
-                  <tr>
-                    <td>{{ $loop->iteration }}</td>
-                    <td>{{ $dpts->department_name }}</td>
-                    <td><a href="/edit-department/{{ $dpts->id}}" class="btn btn-warning"><i class="fas fa-edit"></i> แก้ไข </a></td>
-                    <td>
-                      <form action="{{ route('departments.delete',$dpts->id) }}" method="POST">
-                        @csrf
-                        <input type="hidden" name="_method" value="DELETE">
-                        <button type="submit" class="btn btn-danger btn-sm show_confirm" data-toggle="tooltip" title="Delete"><i class="fas fa-trash"></i> ลบ </button>
-                      </form>
-                    </td>
-                  </tr>
-                  @endforeach
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</body>
-{{--  <script type="text/javascript">
-  $('.show_confirm').click(function (event){
-      event.preventDefault();
-      var form = $(this).closest("form");
-      var name = $(this).data("name");
+@extends('layouts.app')
 
-      swal({
-          title: 'Are you sure you want to delete this record?',
-          text: "If you delete this, it will be gone forever.",
-          icon: "warning",
-          buttons: true,
-          dangerMode: true,
-      })
-      .then((willDelete) => {
-          if (willDelete) {
-              form.submit();
-          }
-      });
-  });
+@section('content')
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h3 class="mb-0">รายชื่อแผนก</h3>
+                        <a href="{{ url('add-department') }}" class="btn btn-success btn-sm"><i class="fas fa-plus"></i> เพิ่มแผนก</a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>ลำดับ</th>
+                                    <th>ชื่อแผนก</th>
+                                    <th>แก้ไข</th>
+                                    <th>ลบ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($dpt as $dpts)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $dpts->department_name }}</td>
+                                    <td>
+                                        <a href="{{ url('edit-department/'.$dpts->id) }}" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i> แก้ไข</a>
+                                    </td>
+                                    <td>
+                                        <form action="{{ route('departments.delete', $dpts->id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-sm show_confirm" data-toggle="tooltip" title="Delete" data-name="{{ $dpts->department_name }}"><i class="fas fa-trash"></i> ลบ</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
+
+@section('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.show_confirm').click(function(event) {
+            event.preventDefault();
+            var form = $(this).closest("form");
+            var name = $(this).data("name");
+
+            swal({
+                title: 'Are you sure?',
+                text: 'คุณต้องการลบ ' + name + ' ใช่หรือไม่?',
+                icon: 'warning',
+                buttons: ['ยกเลิก', 'ลบ'],
+                dangerMode: true,
+            }).then((willDelete) => {
+                if (willDelete) {
+                    if (!form.hasClass('logout-form')) { // Check if it's not the logout form
+                        form.submit();
+                    }
+                }
+            });
+        });
+    });
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>  --}}
-</html>
+@endsection
