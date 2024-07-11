@@ -36,13 +36,13 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>First Name</label>
+                                        <label>ชื่อ</label>
                                         <input type="text" class="form-control" name="FirstName" value="{{ old('FirstName', $user->FirstName) }}" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Last Name</label>
+                                        <label>นามสกุล</label>
                                         <input type="text" class="form-control" name="LastName" value="{{ old('LastName', $user->LastName) }}" required>
                                     </div>
                                 </div>
@@ -58,7 +58,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label>Address</label>
+                                        <label>ที่อยู่</label>
                                         <input type="text" class="form-control" name="Address" value="{{ old('Address', $user->Address) }}" required>
                                     </div>
                                 </div>
@@ -66,7 +66,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label>Phone</label>
+                                        <label>เบอร์โทรศัพท์</label>
                                         <input type="text" class="form-control" name="Phone" value="{{ old('Phone', $user->Phone) }}" required>
                                     </div>
                                 </div>
@@ -74,12 +74,12 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label>Profile Image</label>
+                                        <label>รูปภาพ</label>
                                         <input type="file" class="form-control-file" name="profile_image">
                                     </div>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-info btn-fill pull-right">Update Profile</button>
+                            <button type="submit" class="btn btn-info btn-fill pull-right">อัพโหลด</button>
                             <div class="clearfix"></div>
                         </form>
                     </div>
@@ -99,11 +99,10 @@
                             @endif
                             <p class="description">
                                 Username: {{ $user->Username }} <br>
-                                First Name: {{ $user->FirstName }} <br>
-                                Last Name: {{ $user->LastName }} <br>
-                                Nickname: {{ $user->NickName }} <br>
+                                ชื่อ-นามกุล : {{ $user->FirstName }} {{ $user->LastName }} <br>
+                                ชื่อเล่น : {{ $user->NickName }} <br>
                                 Email: {{ $user->Email }} <br>
-                                Phone: {{ $user->Phone }}
+                                เบอร์โทรศัพท์ : {{ $user->Phone }}
                             </p>
                         </div>
                         <hr>

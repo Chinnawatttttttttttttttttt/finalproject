@@ -12,7 +12,7 @@ class IsAdmin
     {
         $user = Auth::user();
 
-        if ($user && $user->position_id === 1) {
+        if ($user && $user->position_id === 10) {
             return $next($request);
         }
 
