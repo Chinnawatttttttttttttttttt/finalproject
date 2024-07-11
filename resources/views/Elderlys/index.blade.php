@@ -2,7 +2,12 @@
 
 @section('content')
 <div class="container mt-5">
-    <h3>รายชื่อผู้สูงอายุ</h3>
+    <div class="d-flex justify-content-between mb-3">
+        <h3>รายชื่อผู้สูงอายุ</h3>
+        <a href="{{ route('add-elderly') }}" class="btn btn-primary">
+            <i class="nc-icon nc-simple-add"></i> เพิ่มข้อมูลผู้สูงอายุ
+        </a>
+    </div>
     <table class="table table-hover table-striped">
         <thead>
             <tr>

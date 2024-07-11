@@ -29,8 +29,7 @@ Route::middleware(['auth', 'IsAdmin', 'CheckLogin', 'NowLogin'])->group(function
         Route::resource('users', UserController::class);
         Route::get('add-user', 'create')->name('add-user');
         Route::get('profile', 'profile')->name('profile');
-        Route::get('/profile/edit','editProfile')->name('edit-profile');
-        Route::post('/profile/update','updateProfile')->name('update-profile');
+        Route::post('/update-profile','updateProfile')->name('update-profile');
         Route::post('create-user', 'store')->name('users.store');
         Route::get('all-user', 'index')->name('all-user');
         Route::get('edit-user/{id}', 'edit')->name('users.edit');
@@ -70,7 +69,13 @@ Route::middleware(['auth', 'IsAdmin', 'CheckLogin', 'NowLogin'])->group(function
 
     // ScoreTAI
     Route::controller(ScoreTAIController::class)->group(function() {
+        // Route for showing the form to create a new score
         Route::get('score/{id}', 'create')->name('score.create');
+
+        // Route for storing (creating) a new score
         Route::post('create-score', 'store')->name('score.store');
+
+        // Route for showing all scores
+        Route::get('all-score', 'showTAI')->name('all-score');
     });
 });

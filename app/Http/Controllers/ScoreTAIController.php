@@ -58,13 +58,41 @@ class ScoreTAIController extends Controller
         // Determine group
         $group_name = $this->determineGroup($score);
 
+        // Check if the group exists and delete if so
+        $existingGroup = Group::where('elderly_id', $request->input('elderly_id'))->first();
+        if ($existingGroup) {
+            $existingGroup->delete();
+        }
+
         // Save group information
         $group = new Group();
         $group->name = $group_name;
         $group->elderly_id = $request->input('elderly_id');
         $group->save();
 
-        return redirect()->back()->with('success', 'บันทึกข้อมูลเรียบร้อยแล้ว')->with('group', $group_name);
+        // Redirect to index page with success message
+        return redirect()->route('all-score')->with('success', 'บันทึกข้อมูลเรียบร้อยแล้ว');
+    }
+
+    public function showTAI()
+    {
+        $scores = ScoreTAI::all();
+        $groups = Group::all();
+
+        if ($scores->isEmpty()) {
+            return redirect()->back()->with('error', 'No scores found');
+        }
+
+        // Assuming the first score's elderly and user details are needed for display
+        $elderly = Elderly::find($scores->first()->elderly_id);
+
+        if (!$elderly) {
+            return redirect()->back()->with('error', 'Elderly not found');
+        }
+
+        $user = Auth::user(); // Get the authenticated user
+
+        return view('TAI.index', compact('scores', 'elderly', 'user', 'groups'));
     }
 
     private function determineGroup($score)

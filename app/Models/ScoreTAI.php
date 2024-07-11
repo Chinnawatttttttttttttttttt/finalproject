@@ -29,4 +29,17 @@ class ScoreTAI extends Model
     {
         return $this->belongsTo(User::class);
     }
+    
+    // ScoreTAI model
+    public function group()
+    {
+        return $this->hasOne(Group::class, 'elderly_id', 'elderly_id');
+    }
+
+    // Group model
+    public function score()
+    {
+        return $this->belongsTo(ScoreTAI::class, 'elderly_id', 'elderly_id');
+    }
+
 }
