@@ -77,5 +77,7 @@ Route::middleware(['auth', 'IsAdmin', 'CheckLogin', 'NowLogin'])->group(function
 
         // Route for showing all scores
         Route::get('all-score', 'showTAI')->name('all-score');
+
+        Route::get('tai', 'show')->name('show');
     });
 });

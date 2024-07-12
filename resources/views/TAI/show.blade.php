@@ -32,28 +32,20 @@
                 <tr>
                     <th>#</th>
                     <th>ชื่อ-ผู้สูงอายุ</th>
-                    <th>การเคลื่อนไหว</th>
-                    <th>สับสน</th>
-                    <th>การป้อนอาหาร</th>
-                    <th>การใช้ห้องน้ำ</th>
-                    <th>กลุ่มคะแนน</th>
                     <th>แบบทดสอบ</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($scores as $score)
-                <tr>
-                    <td>{{ $loop->iteration }}</td>
-                    <td>{{ $score->elderly->FirstName }}{{ $score->elderly->LastName }}</td>
-                    <td>{{ $score->mobility ?? 'N/A' }}</td>
-                    <td>{{ $score->confuse ?? 'N/A' }}</td>
-                    <td>{{ $score->feed ?? 'N/A' }}</td>
-                    <td>{{ $score->toilet ?? 'N/A' }}</td>
-                    <td>{{ isset($score->group) ? $score->group->name : 'N/A' }}</td>
-                    <td>
-                        <a href="{{ route('score.create', ['id' => $score->id]) }}" class="btn btn-primary">ไปที่หน้าแบบทดสอบ</a>
-                    </td>
-                </tr>
+                    @if (is_null($score->mobility) && is_null($score->confuse) && is_null($score->feed) && is_null($score->toilet))
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $score->elderly->FirstName }}{{ $score->elderly->LastName }}</td>
+                            <td>
+                                <a href="{{ route('score.create', ['id' => $score->id]) }}" class="btn btn-primary">ไปที่หน้าแบบทดสอบ</a>
+                            </td>
+                        </tr>
+                    @endif
                 @endforeach
             </tbody>
         </table>
