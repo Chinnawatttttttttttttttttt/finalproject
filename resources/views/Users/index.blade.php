@@ -2,41 +2,61 @@
 
 @section('content')
 <div class="container mt-5">
-    <h3>รายชื่อผู้ใช้งาน</h3>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>ลำดับ</th>
-                <th>ชื่อ</th>
-                <th>นามสกุล</th>
-                <th>อีเมล</th>
-                <th>แผนก</th>
-                <th>ตำแหน่ง</th>
-                <th>แก้ไขข้อมูล</th>
-                <th>ลบข้อมูล</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($users as $user)
-            <tr>
-                <td>{{ $loop->iteration }}</td>
-                <td>{{ $user->FirstName }}</td>
-                <td>{{ $user->LastName }}</td>
-                <td>{{ $user->Email }}</td>
-                <td>{{ $user->department->department_name }}</td>
-                <td>{{ $user->position->position_name }}</td>
-                <td><a href="{{ route('users.edit', $user->id) }}" class="btn btn-warning"><i class="fas fa-edit"></i> แก้ไข </a></td>
-                <td>
-                    <form action="{{ route('users.destroy', $user->id) }}" method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger btn-sm show_confirm" data-name="{{ $user->FirstName }} {{ $user->LastName }}" data-toggle="tooltip" title="Delete"><i class="fas fa-trash"></i> ลบ </button>
-                    </form>
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex justify-content-between">
+                <h3>ข้อมูลผู้ใช้</h3>
+                <a href="{{ route('users.create') }}" class="btn btn-primary">
+                    <i class="nc-icon nc-simple-add"></i> เพิ่มข้อมูลผู้ใช้
+                </a>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ลำดับ</th>
+                            <th>ชื่อ</th>
+                            <th>นามสกุล</th>
+                            <th>อีเมล</th>
+                            <th>แผนก</th>
+                            <th>ตำแหน่ง</th>
+                            <th>แก้ไขข้อมูล</th>
+                            <th>ลบข้อมูล</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($users as $user)
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $user->FirstName }}</td>
+                            <td>{{ $user->LastName }}</td>
+                            <td>{{ $user->Email }}</td>
+                            <td>{{ $user->department->department_name }}</td>
+                            <td>{{ $user->position->position_name }}</td>
+                            <td>
+                                <a href="{{ route('users.edit', $user->id) }}" class="btn btn-warning">
+                                    <i class="fas fa-edit"></i> แก้ไข
+                                </a>
+                            </td>
+                            <td>
+                                <form action="{{ route('users.destroy', $user->id) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger show_confirm" data-name="{{ $user->FirstName }} {{ $user->LastName }}" data-toggle="tooltip" title="Delete">
+                                        <i class="fas fa-trash"></i> ลบ
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
 @endsection
 

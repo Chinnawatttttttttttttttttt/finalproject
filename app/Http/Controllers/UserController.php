@@ -74,8 +74,7 @@ class UserController extends Controller
         $users = User::all();
         $dpt = Department::all();
         $position = Position::all();
-        $selectedID = 1;
-        return view('users.index', compact('users','dpt','position','selectedID'));
+        return view('users.index', compact('users','dpt','position'));
     }
 
     public function edit($id) // 4. แสดงหน้าแก้ไขตาม ID
