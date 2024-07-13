@@ -2,9 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('assets/img/apple-icon.png') }}">
-    <link rel="icon" type="image/png" href="{{ asset('assets/img/favicon.ico') }}">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no">
     <title>Light Bootstrap Dashboard - Free Bootstrap 4 Admin Dashboard by Creative Tim</title>
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
     <!-- Fonts and icons -->
@@ -25,15 +23,14 @@
             @include('layouts.navbar')
 
             <div class="content">
-                @yield('content')
                 <div class="container-fluid">
                     <!-- Row for Statistics Cards -->
                     <div class="row">
                         <div class="col-md-4">
                             <div class="card">
                                 <div class="card-header">
-                                    <h4 class="card-title">TAI แผ่นภูมิวงกลม </h4>
-                                    <p class="card-category">คะแนนคิดเป็นเปอร์เซ็นต์ทั้งหมด ( 0-5 คะแนน)</p>
+                                    <h4 class="card-title">TAI แผ่นภูมิวงกลม</h4>
+                                    <p class="card-category">คะแนนคิดเป็นเปอร์เซ็นต์ทั้งหมด (0-5 คะแนน)</p>
                                 </div>
                                 <div class="card-body">
                                     <div id="chartPreferences" class="ct-chart ct-perfect-fourth"></div>
@@ -54,7 +51,7 @@
                             <div class="card">
                                 <div class="card-header">
                                     <h4 class="card-title">TAI แผ่นภูมิแท่ง</h4>
-                                    <p class="card-category">คะแนนคิดเป็นเปอร์เซ็นทั้งหมด ( 0-5 คะแนน) TAI</p>
+                                    <p class="card-category">คะแนนคิดเป็นเปอร์เซ็นทั้งหมด (0-5 คะแนน) TAI</p>
                                 </div>
                                 <div class="card-body">
                                     <div id="chartHours" class="ct-chart"></div>
@@ -74,7 +71,34 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Add more content as needed -->
+                    <!-- End Row for Statistics Cards -->
+
+                    <!-- Row for Group Counts -->
+                    <div class="row mt-5">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Group Counts (Pie Chart)</h4>
+                                    <p class="card-category">Percentage of individuals in each group</p>
+                                </div>
+                                <div class="card-body">
+                                    <div id="chartGroupPie" class="ct-chart ct-perfect-fourth"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Group Counts (Bar Chart)</h4>
+                                    <p class="card-category">Percentage of individuals in each group</p>
+                                </div>
+                                <div class="card-body">
+                                    <div id="chartGroupBar" class="ct-chart"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Row for Group Counts -->
                 </div>
             </div>
 
@@ -86,22 +110,12 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <!-- Plugin for Switches, full documentation here: http://www.jque.re/plugins/version3/bootstrap.switch/ -->
-    <script src="{{ asset('assets/js/plugins/bootstrap-switch.js') }}"></script>
-    <!-- Google Maps Plugin -->
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY"></script>
-    <!-- Chartist Plugin -->
+    <!-- Chartist JS -->
     <script src="https://cdn.jsdelivr.net/npm/chartist/dist/chartist.min.js"></script>
-    <!-- Notifications Plugin -->
-    <script src="{{ asset('assets/js/plugins/bootstrap-notify.js') }}"></script>
-    <!-- Control Center for Light Bootstrap Dashboard: scripts for the example pages etc -->
-    <script src="{{ asset('assets/js/light-bootstrap-dashboard.js?v=2.0.0') }}" type="text/javascript"></script>
-    <!-- Light Bootstrap Dashboard DEMO methods, dont include it in your project! -->
-    <script src="{{ asset('assets/js/demo.js') }}"></script>
     <!-- Your custom scripts -->
     <script>
         $(document).ready(function() {
-            // Data for pie chart
+            // Data for TAI pie chart
             var mobility = {{ $mobilityPercentage }};
             var confuse = {{ $confusePercentage }};
             var feed = {{ $feedPercentage }};
@@ -112,7 +126,7 @@
                 series: [mobility, confuse, feed, toilet]
             });
 
-            // Data for bar chart
+            // Data for TAI bar chart
             var data = {
                 labels: ['Mobility', 'Confuse', 'Feed', 'Toilet'],
                 series: [
@@ -120,7 +134,6 @@
                 ]
             };
 
-            // Options for bar chart
             var options = {
                 seriesBarDistance: 10,
                 axisX: {
@@ -129,8 +142,22 @@
                 height: "245px"
             };
 
-            // Initialize the bar chart
             new Chartist.Bar('#chartHours', data, options);
+
+            // Data for Group Counts pie chart
+            var groupLabels = {!! json_encode(array_keys($groupCounts)) !!};
+            var groupPercentages = {!! json_encode(array_values($groupCounts)) !!};
+
+            new Chartist.Pie('#chartGroupPie', {
+                labels: groupLabels,
+                series: groupPercentages
+            });
+
+            // Data for Group Counts bar chart
+            new Chartist.Bar('#chartGroupBar', {
+                labels: groupLabels,
+                series: [groupPercentages]
+            }, options);
         });
     </script>
 </body>

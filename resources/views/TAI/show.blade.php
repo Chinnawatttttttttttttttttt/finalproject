@@ -40,7 +40,7 @@
                     @if (is_null($score->mobility) && is_null($score->confuse) && is_null($score->feed) && is_null($score->toilet))
                         <tr>
                             <td>{{ $loop->iteration }}</td>
-                            <td>{{ $score->elderly->FirstName }}{{ $score->elderly->LastName }}</td>
+                            <td>{{ $score->elderly->FirstName }} {{ $score->elderly->LastName }}</td>
                             <td>
                                 <a href="{{ route('score.create', ['id' => $score->id]) }}" class="btn btn-primary">ไปที่หน้าแบบทดสอบ</a>
                             </td>
