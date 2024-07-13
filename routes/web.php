@@ -85,5 +85,6 @@ Route::middleware(['auth', 'IsAdmin', 'CheckLogin', 'NowLogin'])->group(function
 
     Route::controller(DashboardController::class)->group(function(){
         Route::get('/dashboard','index')->name('dashboard');
+        Route::post('/dashboard/save_colors', 'saveGroupColors')->name('dashboard.save_colors');
     });
 });

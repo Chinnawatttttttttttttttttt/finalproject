@@ -3,13 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\AuthController;
-use App\Models\User;
-use App\Models\Position;
-use App\Models\Department;
 use App\Models\ScoreTAI;
-use App\Models\Elderly;
-use App\Models\Group;
+use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
@@ -21,9 +16,63 @@ class DashboardController extends Controller
         $feedPercentage = $scores->avg('feed');
         $toiletPercentage = $scores->avg('toilet');
 
+        // Calculate group averages and counts
+        $groupAverages = $this->calculateGroupAverages($scores);
         $groupCounts = $this->calculateGroupCounts($scores);
 
-        return view('dashboard.index', compact('scores', 'mobilityPercentage', 'confusePercentage', 'feedPercentage', 'toiletPercentage', 'groupCounts'));
+        // Define colors for each group
+        $groupColors = [
+            'B5' => '#ff0000',   // Red
+            'B4' => '#ff6600',   // Orange
+            'B3' => '#ffff00',   // Yellow
+            'C4' => '#00ff00',   // Green
+            'C3' => '#0000ff',   // Blue
+            'C2' => '#6600ff',   // Purple
+            'I3' => '#ff00ff',   // Magenta
+            'I2' => '#00ffff',   // Cyan
+            'I1' => '#f5f5f5',   // Light Gray
+            'Unknown' => '#cccccc'  // Gray
+        ];
+
+        $lastUpdate = Carbon::now()->toDateTimeString();
+
+        // Pass data to view
+        return view('dashboard.index', compact('lastUpdate','mobilityPercentage', 'confusePercentage', 'feedPercentage', 'toiletPercentage', 'groupAverages', 'groupCounts', 'groupColors'));
+    }
+
+    private function calculateGroupAverages($scores)
+    {
+        $groupCounts = [
+            'B5' => 0,
+            'B4' => 0,
+            'B3' => 0,
+            'C4' => 0,
+            'C3' => 0,
+            'C2' => 0,
+            'I3' => 0,
+            'I2' => 0,
+            'I1' => 0,
+            'Unknown' => 0,
+        ];
+
+        foreach ($scores as $score) {
+            $group = $this->determineGroup($score);
+            $groupCounts[$group]++;
+        }
+
+        $groupAverages = [];
+        $totalScores = count($scores);
+
+        foreach ($groupCounts as $group => $count) {
+            if ($totalScores > 0) {
+                $average = round(($count / $totalScores) * 100, 2);
+            } else {
+                $average = 0;
+            }
+            $groupAverages[$group] = $average;
+        }
+
+        return $groupAverages;
     }
 
     private function calculateGroupCounts($scores)
