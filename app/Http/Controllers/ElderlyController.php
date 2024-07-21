@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 use App\Models\Elderly;
 use App\Models\ScoreTAI;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Illuminate\Support\Facades\Storage;
 
 
 class ElderlyController extends Controller
@@ -46,7 +48,7 @@ class ElderlyController extends Controller
         // ตรวจสอบว่าข้อมูลถูกบันทึกลงในฐานข้อมูลหรือไม่
         if ($elderly->wasRecentlyCreated) {
             // สร้างข้อมูล ScoreTAI ใหม่
-            ScoreTAI::create([
+            $scoreTai = ScoreTAI::create([
                 'elderly_id' => $elderly->id,
                 'mobility' => null,
                 'confuse' => null,
@@ -54,6 +56,16 @@ class ElderlyController extends Controller
                 'toilet' => null,
                 'user_id' => null,
             ]);
+
+        // สร้าง QR Code และจัดเก็บ
+        $qrContent = url('/score/' . $scoreTai->id); // หรือ URL ที่คุณต้องการลิงค์ไปยัง ScoreTAI
+        $qrImage = QrCode::format('png')->size(300)->generate($qrContent);
+        $qrPath = 'qr-codes/score_tai_' . $scoreTai->id . '.png';
+        Storage::disk('qr')->put($qrPath, $qrImage);
+
+        // อัพเดตเส้นทาง QR Code ใน ScoreTAI
+        $scoreTai->qr_path = $qrPath;
+        $scoreTai->save();
 
             return back()->with('success', 'ลงทะเบียนสำเร็จ');
         } else {
