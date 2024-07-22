@@ -44,7 +44,7 @@
                             <td>{{ $elderly->Longitude }}</td>
                             <td>{{ $elderly->Phone }}</td>
                             <td>
-                                <a href="{{ route('edit-elderly', $elderly->id) }}" class="btn btn-warning">
+                                <a href="{{ route('elderlys.edit', $elderly->id) }}" class="btn btn-warning">
                                     <i class="nc-icon nc-preferences-circle-rotate"></i> แก้ไข
                                 </a>
                             </td>

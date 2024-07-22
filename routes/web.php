@@ -64,9 +64,16 @@ Route::middleware([])->group(function () {
     Route::controller(ElderlyController::class)->group(function() {
         Route::get('add-elderly', 'create')->name('add-elderly');
         Route::post('create-elderly', 'store')->name('elderlys.store');
+
         Route::get('all-elderly', 'index')->name('all-elderly');
-        Route::get('edit-elderly/{id}', 'edit')->name('edit-elderly');
-        Route::patch('update-elderly/{id}', 'update')->name('elderlys.update');
+        // Route::get('edit-elderly/{id}', 'edit')->name('edit-elderly');
+        // Route::patch('update-elderly/{id}', 'update')->name('elderlys.update');
+
+        // Route สำหรับแสดงฟอร์มแก้ไข
+        Route::get('/elderlys/{id}/edit','edit')->name('elderlys.edit');
+        // Route สำหรับอัปเดตข้อมูล
+        Route::put('/elderlys/{id}','update')->name('elderlys.update');
+
         Route::delete('delete-elderly/{id}', 'destroy')->name('elderlys.delete');
 
         Route::get('/maps','showMap')->name('map');

@@ -74,44 +74,29 @@ class ElderlyController extends Controller
 
     public function edit($id)
     {
-        $elderly = Elderly::find($id);
-        if (!$elderly) {
-            return back()->with('fail', 'ไม่พบข้อมูลผู้สูงอายุที่ต้องการแก้ไข');
-        }
+        $elderly = Elderly::findOrFail($id);
         return view('Elderlys.edit', compact('elderly'));
     }
 
-    public function update(Request $request)
+    // Method สำหรับอัปเดตข้อมูล
+    public function update(Request $request, $id)
     {
         $request->validate([
-            'FirstName' => 'required|string',
-            'LastName' => 'required|string',
-            'NickName' => 'nullable|string',
+            'FirstName' => 'required|string|max:255',
+            'LastName' => 'required|string|max:255',
+            'NickName' => 'nullable|string|max:255',
             'Birthday' => 'required|date',
             'Age' => 'required|integer',
-            'Address' => 'required|string',
-            'Latitude' => 'required|numeric|between:-90,90',
-            'Longitude' => 'required|numeric|between:-180,180',
-            'Phone' => 'required|string'
+            'Address' => 'nullable|string|max:255',
+            'Latitude' => 'nullable|numeric',
+            'Longitude' => 'nullable|numeric',
+            'Phone' => 'nullable|string|max:20',
         ]);
 
-        $elderly = Elderly::find($request->id);
-        if (!$elderly) {
-            return back()->with('fail', 'ไม่พบข้อมูลผู้สูงอายุที่ต้องการแก้ไข');
-        }
+        $elderly = Elderly::findOrFail($id);
+        $elderly->update($request->all());
 
-        $elderly->FirstName = $request->FirstName;
-        $elderly->LastName = $request->LastName;
-        $elderly->NickName = $request->NickName;
-        $elderly->Birthday = $request->Birthday;
-        $elderly->Age = $request->Age;
-        $elderly->Address = $request->Address;
-        $elderly->Latitude = $request->Latitude;
-        $elderly->Longitude = $request->Longitude;
-        $elderly->Phone = $request->Phone;
-        $elderly->save();
-
-        return redirect()->route('all-elderly')->with('success', 'แก้ไขข้อมูลสำเร็จ');
+        return redirect()->route('elderlys.edit', $id)->with('success', 'Elderly details updated successfully.');
     }
 
     public function destroy($id)
