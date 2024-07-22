@@ -33,6 +33,7 @@
                     <th>#</th>
                     <th>ชื่อ-ผู้สูงอายุ</th>
                     <th>แบบทดสอบ</th>
+                    <th>QR-Code</th>
                 </tr>
             </thead>
             <tbody>
@@ -43,6 +44,13 @@
                             <td>{{ $score->elderly->FirstName }} {{ $score->elderly->LastName }}</td>
                             <td>
                                 <a href="{{ route('score.create', ['id' => $score->id]) }}" class="btn btn-primary">ไปที่หน้าแบบทดสอบ</a>
+                            </td>
+                            <td>
+                                @if($score->qr_path)
+                                    <img src="{{ asset('storage/' . $score->qr_path) }}" alt="QR Code" style="width: 100px; height: 100px;">
+                                @else
+                                    ไม่มี QR Code
+                                @endif
                             </td>
                         </tr>
                     @endif

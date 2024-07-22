@@ -19,7 +19,7 @@ class ElderlyController extends Controller
         return view('Elderlys.create');
     }
 
-        public function store(Request $request) //2.ฟังก์ชั่นการเพิ่ม
+    public function store(Request $request)
     {
         $request->validate([
             'FirstName' => 'required|string',
@@ -45,9 +45,7 @@ class ElderlyController extends Controller
         $elderly->Phone = $request->Phone;
         $elderly->save();
 
-        // ตรวจสอบว่าข้อมูลถูกบันทึกลงในฐานข้อมูลหรือไม่
         if ($elderly->wasRecentlyCreated) {
-            // สร้างข้อมูล ScoreTAI ใหม่
             $scoreTai = ScoreTAI::create([
                 'elderly_id' => $elderly->id,
                 'mobility' => null,
@@ -57,15 +55,15 @@ class ElderlyController extends Controller
                 'user_id' => null,
             ]);
 
-        // สร้าง QR Code และจัดเก็บ
-        $qrContent = url('/score/' . $scoreTai->id); // หรือ URL ที่คุณต้องการลิงค์ไปยัง ScoreTAI
-        $qrImage = QrCode::format('png')->size(300)->generate($qrContent);
-        $qrPath = 'qr-codes/score_tai_' . $scoreTai->id . '.png';
-        Storage::disk('qr')->put($qrPath, $qrImage);
+            $qrContent = url('/score/' . $scoreTai->id);
+            $qrImage = QrCode::format('png')->size(300)->generate($qrContent);
+            $qrPath = 'qr-codes/score_tai_' . $scoreTai->id . '.png';
 
-        // อัพเดตเส้นทาง QR Code ใน ScoreTAI
-        $scoreTai->qr_path = $qrPath;
-        $scoreTai->save();
+            // ใช้ public disk
+            file_put_contents(public_path($qrPath), $qrImage);
+
+            $scoreTai->qr_path = $qrPath;
+            $scoreTai->save();
 
             return back()->with('success', 'ลงทะเบียนสำเร็จ');
         } else {
