@@ -60,7 +60,7 @@ Route::middleware([])->group(function () {
         Route::delete('delete-department/{id}', 'destroy')->name('departments.delete');
     });
 
-    // Elderly
+    //Elderly
     Route::controller(ElderlyController::class)->group(function() {
         Route::get('add-elderly', 'create')->name('add-elderly');
         Route::post('create-elderly', 'store')->name('elderlys.store');
@@ -68,6 +68,9 @@ Route::middleware([])->group(function () {
         Route::get('edit-elderly/{id}', 'edit')->name('edit-elderly');
         Route::patch('update-elderly/{id}', 'update')->name('elderlys.update');
         Route::delete('delete-elderly/{id}', 'destroy')->name('elderlys.delete');
+
+        Route::get('/maps','showMap')->name('map');
+
     });
 
     // ScoreTAI
