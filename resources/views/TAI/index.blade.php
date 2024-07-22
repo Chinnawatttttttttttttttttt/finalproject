@@ -38,6 +38,7 @@
                     <th>การใช้ห้องน้ำ</th>
                     <th>กลุ่มคะแนน</th>
                     <th>แบบทดสอบ</th>
+                    <th>Qr-Code</th>
                 </tr>
             </thead>
             <tbody>
@@ -52,6 +53,13 @@
                     <td>{{ isset($score->group) ? $score->group->name : 'N/A' }}</td>
                     <td>
                         <a href="{{ route('score.create', ['id' => $score->id]) }}" class="btn btn-primary">ไปที่หน้าแบบทดสอบ</a>
+                    </td>
+                    <td>
+                        @if($score->qr_path)
+                            <img src="{{ asset($score->qr_path) }}" alt="QR Code" style="width: 100px; height: 100px;">
+                        @else
+                            ไม่มี QR Code
+                        @endif
                     </td>
                 </tr>
                 @endforeach
