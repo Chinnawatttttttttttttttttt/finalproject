@@ -47,7 +47,7 @@
                             </td>
                             <td>
                                 @if($score->qr_path)
-                                    <img src="{{ asset('storage/' . $score->qr_path) }}" alt="QR Code" style="width: 100px; height: 100px;">
+                                    <img src="{{ asset($score->qr_path) }}" alt="QR Code" style="width: 100px; height: 100px;">
                                 @else
                                     ไม่มี QR Code
                                 @endif
