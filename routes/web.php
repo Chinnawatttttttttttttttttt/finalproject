@@ -8,7 +8,10 @@ use App\Http\Controllers\PositionController;
 use App\Http\Controllers\ScoreTAIController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PDFController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
+
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -17,6 +20,8 @@ Route::get('/', function () {
 Route::get('error', function() {
     return view('error.error');
 });
+
+Route::get('/print-pdf-score', [PDFController::class, 'printPDF'])->name('print.pdf-score');
 
 Route::group(['middleware' => 'web'], function () {
     Route::get('home', [AuthController::class, 'home']);

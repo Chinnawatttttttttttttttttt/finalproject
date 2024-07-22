@@ -16,7 +16,7 @@
                 </li>
                 <li class="dropdown nav-item">
                     <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-                        <i class="nc-icon nc-planet"></i>
+                        <i class="nc-icon nc-cloud-download-93"></i>
                         <span class="notification">5</span>
                         <span class="d-lg-none">Notification</span>
                     </a>
