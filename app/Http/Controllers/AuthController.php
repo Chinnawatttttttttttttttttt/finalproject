@@ -33,7 +33,7 @@ class AuthController extends Controller
         Auth::login($user);
 
         // Redirect to all-user page
-        return redirect()->route('all-user');
+        return redirect()->route('dashboard');
     }
 
     public function logout(Request $request)

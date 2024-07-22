@@ -2,53 +2,67 @@
 
 @section('content')
 <div class="container mt-5">
-    <div class="d-flex justify-content-between mb-3">
-        <h3>รายชื่อผู้สูงอายุ</h3>
-        <a href="{{ route('add-elderly') }}" class="btn btn-primary">
-            <i class="nc-icon nc-simple-add"></i> เพิ่มข้อมูลผู้สูงอายุ
-        </a>
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex justify-content-between">
+                <h3>รายชื่อผู้สูงอายุ</h3>
+                <a href="{{ route('add-elderly') }}" class="btn btn-primary">
+                    <i class="nc-icon nc-simple-add"></i> เพิ่มข้อมูลผู้สูงอายุ
+                </a>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>ชื่อ</th>
+                            <th>นามสกุล</th>
+                            <th>ชื่อเล่น</th>
+                            <th>วันเกิด</th>
+                            <th>อายุ</th>
+                            <th>ที่อยู่</th>
+                            <th>ละติจูด</th>
+                            <th>ลองจิจูด</th>
+                            <th>โทรศัพท์</th>
+                            <th>แก้ไขข้อมูล</th>
+                            <th>ลบข้อมูล</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($elderly as $elderly)
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $elderly->FirstName }}</td>
+                            <td>{{ $elderly->LastName }}</td>
+                            <td>{{ $elderly->NickName }}</td>
+                            <td>{{ $elderly->Birthday }}</td>
+                            <td>{{ $elderly->Age }} ปี</td>
+                            <td>{{ $elderly->Address }}</td>
+                            <td>{{ $elderly->Latitude }}</td>
+                            <td>{{ $elderly->Longitude }}</td>
+                            <td>{{ $elderly->Phone }}</td>
+                            <td>
+                                <a href="{{ route('edit-elderly', $elderly->id) }}" class="btn btn-warning">
+                                    <i class="nc-icon nc-preferences-circle-rotate"></i> แก้ไข
+                                </a>
+                            </td>
+                            <td>
+                                <form action="{{ route('elderlys.delete', $elderly->id) }}" method="POST" style="display: inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger show_confirm" data-toggle="tooltip" title="Delete">
+                                        <i class="fas fa-trash"></i> ลบข้อมูล
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-    <table class="table table-hover table-striped">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Nick Name</th>
-                <th>Birthday</th>
-                <th>Age</th>
-                <th>Address</th>
-                <th>Latitude</th>
-                <th>Longitude</th>
-                <th>Phone</th>
-                <th>แก้ไขข้อมูล</th>
-                <th>ลบข้อมูล</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($elderly as $elderlys)
-            <tr>
-                <td>{{ $loop->iteration }}</td>
-                <td>{{ $elderlys->FirstName }}</td>
-                <td>{{ $elderlys->LastName }}</td>
-                <td>{{ $elderlys->NickName }}</td>
-                <td>{{ $elderlys->Birthday }}</td>
-                <td>{{ $elderlys->Age }}</td>
-                <td>{{ $elderlys->Address }}</td>
-                <td>{{ $elderlys->Latitude }}</td>
-                <td>{{ $elderlys->Longitude }}</td>
-                <td>{{ $elderlys->Phone }}</td>
-                <td><a href="/edit-elderly/{{ $elderlys->id}}" class="btn btn-warning font-icon-detaill"><i class="nc-icon nc-preferences-circle-rotate"></i> แก้ไข </a></td>
-                <td>
-                    <form action="{{ route('elderlys.delete', $elderlys->id) }}" method="POST" style="display:inline;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger btn-sm show_confirm" data-toggle="tooltip" title="Delete"><i class="fas fa-trash"></i> ลบข้อมูล </button>
-                    </form>
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
 </div>
 @endsection

@@ -7,6 +7,8 @@ use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\PositionController;
 use App\Http\Controllers\ScoreTAIController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 Route::get('/', function () {
     return view('welcome');
@@ -23,7 +25,8 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 });
 
-Route::middleware(['auth', 'IsAdmin', 'CheckLogin', 'NowLogin'])->group(function () {
+//'auth', 'IsAdmin', 'CheckLogin', 'NowLogin'
+Route::middleware([])->group(function () {
     // User
     Route::controller(UserController::class)->group(function() {
         Route::resource('users', UserController::class);
@@ -42,7 +45,7 @@ Route::middleware(['auth', 'IsAdmin', 'CheckLogin', 'NowLogin'])->group(function
         Route::get('add-position', 'create')->name('add-position');
         Route::post('create-position', 'store')->name('positions.store');
         Route::get('all-position', 'index')->name('all-position');
-        Route::get('edit-position/{id}', 'edit')->name('positions.edit');
+        Route::get('edit-position/{id}', 'edit')->name('edit-position');
         Route::patch('update-position/{id}', 'update')->name('positions.update');
         Route::delete('delete-position/{id}', 'destroy')->name('positions.delete');
     });
@@ -52,7 +55,7 @@ Route::middleware(['auth', 'IsAdmin', 'CheckLogin', 'NowLogin'])->group(function
         Route::get('add-department', 'create')->name('add-department');
         Route::post('create-department', 'store')->name('departments.store');
         Route::get('all-department', 'index')->name('all-department');
-        Route::get('edit-department/{id}', 'edit')->name('departments.edit');
+        Route::get('edit-department/{id}', 'edit')->name('edit-department');
         Route::patch('update-department/{id}', 'update')->name('departments.update');
         Route::delete('delete-department/{id}', 'destroy')->name('departments.delete');
     });
@@ -62,7 +65,7 @@ Route::middleware(['auth', 'IsAdmin', 'CheckLogin', 'NowLogin'])->group(function
         Route::get('add-elderly', 'create')->name('add-elderly');
         Route::post('create-elderly', 'store')->name('elderlys.store');
         Route::get('all-elderly', 'index')->name('all-elderly');
-        Route::get('edit-elderly/{id}', 'edit')->name('elderlys.edit');
+        Route::get('edit-elderly/{id}', 'edit')->name('edit-elderly');
         Route::patch('update-elderly/{id}', 'update')->name('elderlys.update');
         Route::delete('delete-elderly/{id}', 'destroy')->name('elderlys.delete');
     });
@@ -77,5 +80,12 @@ Route::middleware(['auth', 'IsAdmin', 'CheckLogin', 'NowLogin'])->group(function
 
         // Route for showing all scores
         Route::get('all-score', 'showTAI')->name('all-score');
+
+        Route::get('tai', 'show')->name('show');
+    });
+
+    Route::controller(DashboardController::class)->group(function(){
+        Route::get('/dashboard','index')->name('dashboard');
+        Route::post('/dashboard/save_colors', 'saveGroupColors')->name('dashboard.save_colors');
     });
 });

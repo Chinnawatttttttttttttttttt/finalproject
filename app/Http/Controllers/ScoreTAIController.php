@@ -95,6 +95,26 @@ class ScoreTAIController extends Controller
         return view('TAI.index', compact('scores', 'elderly', 'user', 'groups'));
     }
 
+    public function show()
+    {
+        $scores = ScoreTAI::all();
+        $groups = Group::all();
+
+        if ($scores->isEmpty()) {
+            return redirect()->back()->with('error', 'No scores found');
+        }
+
+        $elderly = Elderly::find($scores->first()->elderly_id);
+
+        if (!$elderly) {
+            return redirect()->back()->with('error', 'Elderly not found');
+        }
+
+        $user = Auth::user(); // Get the authenticated user
+
+        return view('TAI.show', compact('scores', 'elderly', 'user', 'groups'));
+    }
+
     private function determineGroup($score)
     {
         $mobility = $score->mobility;

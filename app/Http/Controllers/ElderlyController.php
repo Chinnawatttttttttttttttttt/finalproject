@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 use App\Models\Elderly;
 use App\Models\ScoreTAI;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Illuminate\Support\Facades\Storage;
 
 
 class ElderlyController extends Controller
@@ -17,7 +19,7 @@ class ElderlyController extends Controller
         return view('Elderlys.create');
     }
 
-        public function store(Request $request) //2.ฟังก์ชั่นการเพิ่ม
+    public function store(Request $request)
     {
         $request->validate([
             'FirstName' => 'required|string',
@@ -43,10 +45,8 @@ class ElderlyController extends Controller
         $elderly->Phone = $request->Phone;
         $elderly->save();
 
-        // ตรวจสอบว่าข้อมูลถูกบันทึกลงในฐานข้อมูลหรือไม่
         if ($elderly->wasRecentlyCreated) {
-            // สร้างข้อมูล ScoreTAI ใหม่
-            ScoreTAI::create([
+            $scoreTai = ScoreTAI::create([
                 'elderly_id' => $elderly->id,
                 'mobility' => null,
                 'confuse' => null,
@@ -54,6 +54,16 @@ class ElderlyController extends Controller
                 'toilet' => null,
                 'user_id' => null,
             ]);
+
+            $qrContent = url('/score/' . $scoreTai->id);
+            $qrImage = QrCode::format('png')->size(300)->generate($qrContent);
+            $qrPath = 'qr-codes/score_tai_' . $scoreTai->id . '.png';
+
+            // ใช้ public disk
+            file_put_contents(public_path($qrPath), $qrImage);
+
+            $scoreTai->qr_path = $qrPath;
+            $scoreTai->save();
 
             return back()->with('success', 'ลงทะเบียนสำเร็จ');
         } else {

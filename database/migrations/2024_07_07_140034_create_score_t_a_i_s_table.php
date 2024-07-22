@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('confuse')->nullable();
             $table->integer('feed')->nullable();
             $table->integer('toilet')->nullable();
+            $table->string('qr_path')->nullable();
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
             $table->timestamps();
         });

@@ -56,6 +56,13 @@ return [
             'throw' => false,
         ],
 
+        'qr' => [
+        'driver' => 'local',
+        'root' =>public_path('qr-codes'),
+        'url' => env('APP_URL') . '/qr-codes',
+        'visibility' => 'public',
+    ],
+
     ],
 
     /*
