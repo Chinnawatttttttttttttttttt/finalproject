@@ -2,8 +2,6 @@
 
 @section('content')
 <div class="container mt-5">
-    <h1 class="mb-4">Elderly Locations</h1>
-
     <div id="map" style="height: 600px;"></div>
 </div>
 

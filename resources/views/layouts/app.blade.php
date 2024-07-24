@@ -83,7 +83,7 @@
                 "searching": true,
                 "ordering": true,
                 "info": true,
-                "lengthMenu": [5, 10, 25, 50, 100],
+                "lengthMenu": [05, 10, 25, 50, 100],
                 "language": {
                     "lengthMenu": "แสดง _MENU_ รายการต่อหน้า",
                     "zeroRecords": "ไม่พบข้อมูล",
