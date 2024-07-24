@@ -3,9 +3,9 @@
 @section('content')
 <div class="container mt-5">
     <div class="card">
-        <div class="card-header">
-            <div class="d-flex justify-content-between">
-                <h3>รายชื่อแผนก</h3>
+        <div class="card-header text-center">
+            <h3>รายชื่อแผนก</h3>
+            <div class="d-flex justify-content-center mt-3">
                 <a href="{{ route('add-department') }}" class="btn btn-primary">
                     <i class="nc-icon nc-simple-add"></i> เพิ่มข้อมูลแผนก
                 </a>
@@ -13,9 +13,9 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-hover table-striped">
+                <table id="table" class="table table-hover table-striped">
                     <thead>
-                        <tr>
+                        <tr class="text-center">
                             <th>ลำดับ</th>
                             <th>ชื่อแผนก</th>
                             <th>แก้ไข</th>
@@ -24,11 +24,11 @@
                     </thead>
                     <tbody>
                         @foreach ($dpt as $department)
-                        <tr>
+                        <tr class="text-center">
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $department->department_name }}</td>
                             <td>
-                                <a href="{{ route('edit-department', $department->id) }}" class="btn btn-warning">
+                                <a href="{{ route('edit-department', $department->id) }}" class="btn btn-warning btn-sm">
                                     <i class="fas fa-edit"></i> แก้ไข
                                 </a>
                             </td>
@@ -36,7 +36,7 @@
                                 <form action="{{ route('departments.delete', $department->id) }}" method="POST" style="display: inline;">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger show_confirm" data-toggle="tooltip" title="Delete" data-name="{{ $department->department_name }}">
+                                    <button type="submit" class="btn btn-danger btn-sm show_confirm" data-name="{{ $department->department_name }}" title="ลบ">
                                         <i class="fas fa-trash"></i> ลบ
                                     </button>
                                 </form>
@@ -51,7 +51,7 @@
 </div>
 @endsection
 
-@section('scripts')
+@push('scripts')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function() {
@@ -61,7 +61,7 @@
             var name = $(this).data("name");
 
             swal({
-                title: 'Are you sure?',
+                title: 'คุณแน่ใจหรือไม่?',
                 text: 'คุณต้องการลบ ' + name + ' ใช่หรือไม่?',
                 icon: 'warning',
                 buttons: ['ยกเลิก', 'ลบ'],
@@ -74,4 +74,4 @@
         });
     });
 </script>
-@endsection
+@endpush

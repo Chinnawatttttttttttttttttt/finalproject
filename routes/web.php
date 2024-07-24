@@ -8,7 +8,10 @@ use App\Http\Controllers\PositionController;
 use App\Http\Controllers\ScoreTAIController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PDFController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
+
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -18,6 +21,8 @@ Route::get('error', function() {
     return view('error.error');
 });
 
+Route::get('/print-pdf-score', [PDFController::class, 'printPDF'])->name('print.pdf-score');
+
 Route::group(['middleware' => 'web'], function () {
     Route::get('home', [AuthController::class, 'home']);
     Route::get('login', [AuthController::class, 'login'])->name('login');
@@ -25,8 +30,8 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 });
 
-//'auth', 'IsAdmin', 'CheckLogin', 'NowLogin'
-Route::middleware([])->group(function () {
+
+Route::middleware(['auth', 'IsAdmin', 'CheckLogin', 'NowLogin'])->group(function () {
     // User
     Route::controller(UserController::class)->group(function() {
         Route::resource('users', UserController::class);
@@ -60,14 +65,24 @@ Route::middleware([])->group(function () {
         Route::delete('delete-department/{id}', 'destroy')->name('departments.delete');
     });
 
-    // Elderly
+    //Elderly
     Route::controller(ElderlyController::class)->group(function() {
         Route::get('add-elderly', 'create')->name('add-elderly');
         Route::post('create-elderly', 'store')->name('elderlys.store');
+
         Route::get('all-elderly', 'index')->name('all-elderly');
-        Route::get('edit-elderly/{id}', 'edit')->name('edit-elderly');
-        Route::patch('update-elderly/{id}', 'update')->name('elderlys.update');
+        // Route::get('edit-elderly/{id}', 'edit')->name('edit-elderly');
+        // Route::patch('update-elderly/{id}', 'update')->name('elderlys.update');
+
+        // Route สำหรับแสดงฟอร์มแก้ไข
+        Route::get('/elderlys/{id}/edit','edit')->name('elderlys.edit');
+        // Route สำหรับอัปเดตข้อมูล
+        Route::put('/elderlys/{id}','update')->name('elderlys.update');
+
         Route::delete('delete-elderly/{id}', 'destroy')->name('elderlys.delete');
+
+        Route::get('/maps','showMap')->name('map');
+
     });
 
     // ScoreTAI

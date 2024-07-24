@@ -3,18 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\DB;
 use App\Models\Elderly;
 use App\Models\ScoreTAI;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
-use Illuminate\Support\Facades\Storage;
-
 
 class ElderlyController extends Controller
 {
-    public function create() //1.สร้างหน้า add
+    public function create()
     {
         return view('Elderlys.create');
     }
@@ -28,8 +23,8 @@ class ElderlyController extends Controller
             'Birthday' => 'required|date',
             'Age' => 'required|integer',
             'Address' => 'required|string',
-            'Latitude' => 'required|numeric',
-            'Longitude' => 'required|numeric',
+            'Latitude' => 'required|numeric|between:-90,90',
+            'Longitude' => 'required|numeric|between:-180,180',
             'Phone' => 'required|string'
         ]);
 
@@ -59,7 +54,7 @@ class ElderlyController extends Controller
             $qrImage = QrCode::format('png')->size(300)->generate($qrContent);
             $qrPath = 'qr-codes/score_tai_' . $scoreTai->id . '.png';
 
-            // ใช้ public disk
+            // Save QR code image to public path
             file_put_contents(public_path($qrPath), $qrImage);
 
             $scoreTai->qr_path = $qrPath;
@@ -71,70 +66,54 @@ class ElderlyController extends Controller
         }
     }
 
-    public function index() //3.หน้ารวมข้อมูล
+    public function index()
     {
         $elderly = Elderly::all();
-        return view('Elderlys.index',compact('elderly'));
+        return view('Elderlys.index', compact('elderly'));
     }
 
-    public function edit($id) //4.หน้าแก้ไข
+    public function edit($id)
     {
-        $elderly = Elderly::find($id);
-        if (!$elderly) {
-            return back()->with('fail', 'ไม่พบตำแหน่งที่ต้องการแก้ไข');
-        }
+        $elderly = Elderly::findOrFail($id);
         return view('Elderlys.edit', compact('elderly'));
     }
-    public function update(Request $request) //5.ฟังก์ชั่นแก้ไข
+
+    // Method สำหรับอัปเดตข้อมูล
+    public function update(Request $request, $id)
     {
         $request->validate([
-            'FirstName' => 'required|string',
-            'LastName' => 'required|string',
-            'NickName' => 'nullable|string',
+            'FirstName' => 'required|string|max:255',
+            'LastName' => 'required|string|max:255',
+            'NickName' => 'nullable|string|max:255',
             'Birthday' => 'required|date',
             'Age' => 'required|integer',
-            'Address' => 'required|string',
-            'Latitude' => 'required|numeric',
-            'Longitude' => 'required|numeric',
-            'Phone' => 'required|string'
+            'Address' => 'nullable|string|max:255',
+            'Latitude' => 'nullable|numeric',
+            'Longitude' => 'nullable|numeric',
+            'Phone' => 'nullable|string|max:20',
         ]);
 
-        // ค้นหาข้อมูลผู้สูงอายุที่ต้องการแก้ไข
-        $elderly = Elderly::find($request->id);
+        $elderly = Elderly::findOrFail($id);
+        $elderly->update($request->all());
 
-        // ตรวจสอบว่าพบข้อมูลหรือไม่
-        if (!$elderly) {
-            return back()->with('fail', 'ไม่พบข้อมูลผู้สูงอายุที่ต้องการแก้ไข');
-        }
-
-        // อัพเดตข้อมูลผู้สูงอายุ
-        $elderly->FirstName = $request->FirstName;
-        $elderly->LastName = $request->LastName;
-        $elderly->NickName = $request->NickName;
-        $elderly->Birthday = $request->Birthday;
-        $elderly->Age = $request->Age;
-        $elderly->Address = $request->Address;
-        $elderly->Latitude = $request->Latitude;
-        $elderly->Longitude = $request->Longitude;
-        $elderly->Phone = $request->Phone;
-
-        // บันทึกการเปลี่ยนแปลง
-        $saved = $elderly->save();
-
-        // ตรวจสอบการบันทึก
-        if ($saved) {
-            return back()->with('success', 'แก้ไขข้อมูลผู้สูงอายุเรียบร้อยแล้ว');
-        } else {
-            return back()->with('fail', 'มีบางอย่างผิดพลาด ไม่สามารถแก้ไขข้อมูลผู้สูงอายุได้');
-        }
+        return redirect()->route('elderlys.edit', $id)->with('success', 'Elderly details updated successfully.');
     }
 
-    public function destroy($id) //6.ฟังก์ชั่นลบข้อมูล
+    public function destroy($id)
     {
         $elderly = Elderly::find($id);
-        // unlink(public_path('images').'/'.$user->profileimage);///เป็นการลบรูปภาพ
-        $elderly->delete();
-
-        return back();
+        if ($elderly) {
+            $elderly->delete();
+            return redirect()->route('all-elderly')->with('success', 'ลบข้อมูลสำเร็จ');
+        } else {
+            return redirect()->route('all-elderly')->with('fail', 'ไม่พบข้อมูลที่ต้องการลบ');
+        }
     }
+
+    public function showMap()
+    {
+        $elderlies = Elderly::all(); // ดึงข้อมูลทั้งหมดของผู้สูงอายุ
+        return view('dashboard.map', ['elderlies' => $elderlies]);
+    }
+
 }

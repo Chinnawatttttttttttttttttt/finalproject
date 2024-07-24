@@ -3,40 +3,41 @@
 @section('content')
 <div class="container mt-5">
     <div class="card">
-        <div class="card-header">
-            <div class="d-flex justify-content-between">
-                <h3>ข้อมูลตำแหน่ง</h3>
+        <div class="card-header text-center">
+            <h3>ข้อมูลตำแหน่ง</h3>
+            <div class="d-flex justify-content-center mt-3">
                 <a href="{{ url('add-position') }}" class="btn btn-primary">
                     <i class="nc-icon nc-simple-add"></i> เพิ่มข้อมูลตำแหน่ง
                 </a>
             </div>
         </div>
+
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-hover table-striped">
+                <table id="table" class="table table-hover table-striped">
                     <thead>
-                        <tr>
-                            <th>#</th>
+                        <tr class="text-center">
+                            <th>ลำดับ</th>
                             <th>ชื่อตำแหน่ง</th>
                             <th>แก้ไขข้อมูล</th>
                             <th>ลบข้อมูล</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($position as $position)
-                        <tr>
+                        @foreach ($position as $pos)
+                        <tr class="text-center">
                             <td>{{ $loop->iteration }}</td>
-                            <td>{{ $position->position_name }}</td>
+                            <td>{{ $pos->position_name }}</td>
                             <td>
-                                <a href="{{ route('edit-position', $position->id) }}" class="btn btn-warning">
+                                <a href="{{ route('edit-position', $pos->id) }}" class="btn btn-warning btn-sm">
                                     <i class="fas fa-edit"></i> แก้ไข
                                 </a>
                             </td>
                             <td>
-                                <form action="{{ route('positions.delete', $position->id) }}" method="POST" style="display: inline;">
+                                <form action="{{ route('positions.delete', $pos->id) }}" method="POST" style="display: inline;">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger show_confirm" data-toggle="tooltip" title="Delete" data-name="{{ $position->position_name }}">
+                                    <button type="submit" class="btn btn-danger btn-sm show_confirm" data-name="{{ $pos->position_name }}" title="ลบ">
                                         <i class="fas fa-trash"></i> ลบ
                                     </button>
                                 </form>
@@ -51,7 +52,7 @@
 </div>
 @endsection
 
-@section('scripts')
+@push('scripts')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function() {
@@ -61,7 +62,7 @@
             var name = $(this).data("name");
 
             swal({
-                title: 'Are you sure?',
+                title: 'คุณแน่ใจหรือไม่?',
                 text: 'คุณต้องการลบ ' + name + ' ใช่หรือไม่?',
                 icon: 'warning',
                 buttons: ['ยกเลิก', 'ลบ'],
@@ -74,4 +75,4 @@
         });
     });
 </script>
-@endsection
+@endpush

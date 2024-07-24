@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <title>Light Bootstrap Dashboard - แดชบอร์ดดาชบอร์ดฟรีของ Bootstrap 4 โดย Creative Tim</title>
+    <title>Light Bootstrap Dashboard - แดชบอร์ดฟรีของ Bootstrap 4 โดย Creative Tim</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no" />
 
     <!-- Apple Touch Icon และ Favicon -->
@@ -20,6 +20,10 @@
 
     <!-- CSS เพื่อวัตถุประสงค์การสาธิตเท่านั้น อย่ารวมไปในโปรเจกต์ -->
     <link href="{{ asset('assets/css/demo.css') }}" rel="stylesheet" />
+
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="//cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="//cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
 </head>
 
 <body>
@@ -34,6 +38,7 @@
             <div class="content">
                 <!-- Yield เนื้อหา -->
                 @yield('content')
+                {{--  <button id="print-btn" class="btn btn-primary">พิมพ์</button>  --}}
             </div>
 
             <!-- รวมฟุตเตอร์ -->
@@ -49,8 +54,8 @@
     <!-- ปลั๊กอินสำหรับ Switches -->
     <script src="{{ asset('assets/js/plugins/bootstrap-switch.js') }}"></script>
 
-    <!-- ปลั๊กอิน Google Maps -->
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY"></script>
+    {{--  <!-- ปลั๊กอิน Google Maps -->
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY"></script>  --}}
 
     <!-- ปลั๊กอิน Chartist -->
     <script src="https://cdn.jsdelivr.net/npm/chartist/dist/chartist.min.js"></script>
@@ -64,7 +69,58 @@
     <!-- แม้กระทั่ง DEMO ของ Light Bootstrap Dashboard อย่านำมาใช้ในโปรเจกต์! -->
     <script src="{{ asset('assets/js/demo.js') }}"></script>
 
+    <!-- DataTables JS -->
+    <script src="//cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="//cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
+
     <!-- สคริปต์เพิ่มเติม -->
     @stack('scripts')
+
+    <script>
+        $(document).ready(function() {
+            $('#table').DataTable({
+                "paging": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "lengthMenu": [5, 10, 25, 50, 100],
+                "language": {
+                    "lengthMenu": "แสดง _MENU_ รายการต่อหน้า",
+                    "zeroRecords": "ไม่พบข้อมูล",
+                    "info": "กำลังแสดงหน้าที่ _PAGE_ ของ _PAGES_",
+                    "infoEmpty": "ไม่มีข้อมูล",
+                    "infoFiltered": "(กรองจากทั้งหมด _MAX_ รายการ)",
+                    "search": "ค้นหา:"
+                }
+            });
+
+            // ฟังก์ชันการพิมพ์
+            $('#print-btn').click(function() {
+                // ซ่อนคอลัมน์ที่ไม่ต้องการ
+                $('#table th:contains("แบบทดสอบ"), #table td:contains("แบบทดสอบ")').addClass('print-hidden');
+                $('#table th:contains("Qr-Code"), #table td:contains("QR Code")').addClass('print-hidden');
+
+                var printWindow = window.open('', '', 'height=800,width=1000');
+                var content = document.getElementById('table').outerHTML;
+
+                printWindow.document.write('<html><head><title>รายงานการพิมพ์</title>');
+                printWindow.document.write('<link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet" />');
+                printWindow.document.write('<link href="{{ asset('assets/css/light-bootstrap-dashboard.css?v=2.0.0') }}" rel="stylesheet" />');
+                printWindow.document.write('<style>body { font-family: Arial, sans-serif; } table { width: 100%; border-collapse: collapse; } th, td { border: 1px solid #ddd; padding: 8px; } th { background-color: #f2f2f2; } .print-hidden { display: none; }</style>');
+                printWindow.document.write('</head><body>');
+                printWindow.document.write('<h1>รายงาน PDF </h1>');
+                printWindow.document.write(content);
+                printWindow.document.write('</body></html>');
+
+                printWindow.document.close();
+                printWindow.focus();
+                printWindow.print();
+
+                // แสดงคอลัมน์ที่ซ่อนไว้หลังจากพิมพ์เสร็จ
+                $('#table th.print-hidden, #table td.print-hidden').removeClass('print-hidden');
+            });
+
+        });
+    </script>
 </body>
 </html>

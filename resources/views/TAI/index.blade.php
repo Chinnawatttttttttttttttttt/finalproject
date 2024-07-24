@@ -13,12 +13,24 @@
     </div>
 @endif
 
+<style>
+    /* CSS สำหรับการพิมพ์ */
+    @media print {
+        .print-hidden {
+            display: none;
+        }
+    }
+</style>
+
 <div class="container mt-5">
     <h1 class="mb-4">รายชื่อผู้สูงอายุและคะแนนการประเมิน</h1>
-
-    <div class="form-group">
-        <label for="user_name">ชื่อ-ผู้ประเมิน:</label><br>
-        <p id="user_name">{{ $user->FirstName . ' ' . $user->LastName }}</p>
+    <div class="form-group" style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <label for="user_name">ชื่อ-ผู้ประเมิน:</label>
+            <span id="user_name">{{ $user->FirstName . $user->LastName }}</span>
+        </div>
+        <a href="{{ route('print.pdf-score') }}" class="btn btn-primary">PDF</a>
+        <button id="print-btn" class="btn btn-primary">Print</button>
     </div>
 
     @if ($scores->isEmpty())
@@ -27,7 +39,7 @@
             <a href="{{ route('score.create', ['id' => $elderly->id]) }}" class="btn btn-primary">ไปที่หน้าแบบทดสอบ</a>
         </div>
     @else
-        <table class="table table-hover table-striped">
+        <table id="table" class="table table-hover table-striped">
             <thead>
                 <tr>
                     <th>#</th>
@@ -38,13 +50,14 @@
                     <th>การใช้ห้องน้ำ</th>
                     <th>กลุ่มคะแนน</th>
                     <th>แบบทดสอบ</th>
+                    <th>Qr-Code</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($scores as $score)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
-                    <td>{{ $score->elderly->FirstName }}{{ $score->elderly->LastName }}</td>
+                    <td>{{ $score->elderly->FirstName }} {{ $score->elderly->LastName }}</td>
                     <td>{{ $score->mobility ?? 'N/A' }}</td>
                     <td>{{ $score->confuse ?? 'N/A' }}</td>
                     <td>{{ $score->feed ?? 'N/A' }}</td>
@@ -52,6 +65,13 @@
                     <td>{{ isset($score->group) ? $score->group->name : 'N/A' }}</td>
                     <td>
                         <a href="{{ route('score.create', ['id' => $score->id]) }}" class="btn btn-primary">ไปที่หน้าแบบทดสอบ</a>
+                    </td>
+                    <td>
+                        @if($score->qr_path)
+                            <img src="{{ asset($score->qr_path) }}" alt="QR Code" style="width: 100px; height: 100px;">
+                        @else
+                            ไม่มี QR Code
+                        @endif
                     </td>
                 </tr>
                 @endforeach

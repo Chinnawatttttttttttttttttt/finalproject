@@ -1,6 +1,6 @@
 <footer class="footer">
     <div class="container-fluid">
-        <nav>
+        {{--  <nav>
             <ul class="footer-menu">
                 <li>
                     <a href="#">
@@ -30,6 +30,6 @@
                 </script>
                 <a href="http://www.creative-tim.com">Creative Tim</a>, made with love for a better web
             </p>
-        </nav>
+        </nav>  --}}
     </div>
 </footer>

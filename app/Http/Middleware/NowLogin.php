@@ -12,9 +12,9 @@ class NowLogin
     public function handle(Request $request, Closure $next): Response
     {
         if (Auth::check() && $request->is('login')){
-            return redirect()->route('home');
+            return redirect()->route('/');
         }
-        
+
         return $next($request);
     }
 }
