@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <title>Light Bootstrap Dashboard - แดชบอร์ดดาชบอร์ดฟรีของ Bootstrap 4 โดย Creative Tim</title>
+    <title>Light Bootstrap Dashboard - แดชบอร์ดฟรีของ Bootstrap 4 โดย Creative Tim</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no" />
 
     <!-- Apple Touch Icon และ Favicon -->
@@ -20,6 +20,10 @@
 
     <!-- CSS เพื่อวัตถุประสงค์การสาธิตเท่านั้น อย่ารวมไปในโปรเจกต์ -->
     <link href="{{ asset('assets/css/demo.css') }}" rel="stylesheet" />
+
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="//cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="//cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
 </head>
 
 <body>
@@ -49,8 +53,8 @@
     <!-- ปลั๊กอินสำหรับ Switches -->
     <script src="{{ asset('assets/js/plugins/bootstrap-switch.js') }}"></script>
 
-    <!-- ปลั๊กอิน Google Maps -->
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY"></script>
+    {{--  <!-- ปลั๊กอิน Google Maps -->
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY"></script>  --}}
 
     <!-- ปลั๊กอิน Chartist -->
     <script src="https://cdn.jsdelivr.net/npm/chartist/dist/chartist.min.js"></script>
@@ -64,7 +68,32 @@
     <!-- แม้กระทั่ง DEMO ของ Light Bootstrap Dashboard อย่านำมาใช้ในโปรเจกต์! -->
     <script src="{{ asset('assets/js/demo.js') }}"></script>
 
+    <!-- DataTables JS -->
+    <script src="//cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="//cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
+
     <!-- สคริปต์เพิ่มเติม -->
     @stack('scripts')
+
+    <script>
+        $(document).ready(function() {
+            // เริ่มต้น DataTables สำหรับตารางที่มี ID เป็น 'scores_table'
+            $('#table').DataTable({
+                "paging": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "lengthMenu": [5, 10, 25, 50, 100],
+                "language": {
+                    "lengthMenu": "แสดง _MENU_ รายการต่อหน้า",
+                    "zeroRecords": "ไม่พบข้อมูล",
+                    "info": "กำลังแสดงหน้าที่ _PAGE_ ของ _PAGES_",
+                    "infoEmpty": "ไม่มีข้อมูล",
+                    "infoFiltered": "(กรองจากทั้งหมด _MAX_ รายการ)",
+                    "search": "ค้นหา:"
+                }
+            });
+        });
+    </script>
 </body>
 </html>

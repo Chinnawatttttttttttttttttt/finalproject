@@ -11,48 +11,46 @@
                 </a>
             </div>
         </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-hover table-striped">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>ชื่อตำแหน่ง</th>
-                            <th>แก้ไขข้อมูล</th>
-                            <th>ลบข้อมูล</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($position as $position)
-                        <tr>
-                            <td>{{ $loop->iteration }}</td>
-                            <td>{{ $position->position_name }}</td>
-                            <td>
-                                <a href="{{ route('edit-position', $position->id) }}" class="btn btn-warning">
-                                    <i class="fas fa-edit"></i> แก้ไข
-                                </a>
-                            </td>
-                            <td>
-                                <form action="{{ route('positions.delete', $position->id) }}" method="POST" style="display: inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger show_confirm" data-toggle="tooltip" title="Delete" data-name="{{ $position->position_name }}">
-                                        <i class="fas fa-trash"></i> ลบ
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+
+    <div class="card-body">
+        <div class="table-responsive">
+            <table id="table" class="table table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>ลำดับ</th>
+                        <th>ชื่อตำแหน่ง</th>
+                        <th>แก้ไขข้อมูล</th>
+                        <th>ลบข้อมูล</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($position as $pos)
+                    <tr>
+                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $pos->position_name }}</td>
+                        <td>
+                            <a href="{{ route('edit-position', $pos->id) }}" class="btn btn-warning">
+                                <i class="fas fa-edit"></i> แก้ไข
+                            </a>
+                        </td>
+                        <td>
+                            <form action="{{ route('positions.delete', $pos->id) }}" method="POST" style="display: inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger show_confirm" data-toggle="tooltip" title="Delete" data-name="{{ $pos->position_name }}">
+                                    <i class="fas fa-trash"></i> ลบ
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
 @endsection
-
-@section('scripts')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+{{--  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script type="text/javascript">
     $(document).ready(function() {
         $('.show_confirm').click(function(event) {
@@ -72,6 +70,5 @@
                 }
             });
         });
-    });
+    });  --}}
 </script>
-@endsection

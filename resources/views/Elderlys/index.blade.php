@@ -13,14 +13,14 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-hover table-striped">
+                <table id="table" class="table table-hover table-striped">
                     <thead>
                         <tr>
-                            <th>#</th>
+                            <th>ลำดับ</th>
                             <th>ชื่อ</th>
                             <th>นามสกุล</th>
                             <th>ชื่อเล่น</th>
-                            <th>วันเกิด</th>
+                            <th style="width: 150px">วันเกิด</th>
                             <th>อายุ</th>
                             <th>ที่อยู่</th>
                             <th>ละติจูด</th>
