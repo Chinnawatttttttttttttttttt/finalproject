@@ -35,7 +35,7 @@
 
         th, td {
             padding: 5px;
-            text-align: left;
+            text-align: center;
         }
 
         .charts {
@@ -66,6 +66,7 @@
                     <th>คะแนนการให้อาหาร</th>
                     <th>คะแนนการใช้ห้องน้ำ</th>
                     <th>กลุ่ม</th>
+                    {{--  <th>QR-Code</th>  --}}
                 </tr>
             </thead>
             <tbody>
@@ -78,184 +79,16 @@
                     <td>{{ $score->feed }}</td>
                     <td>{{ $score->toilet }}</td>
                     <td>{{ isset($score->group) ? $score->group->name : 'N/A' }}</td>
+                    {{--  <td>
+                        @if($score->qr_path)
+                        <img src="{{ asset($score->qr_path) }}" alt="QR Code" style="width: 100px; height: 100px;">
+                    @else
+                        ไม่มี QR Code
+                    @endif
+                    </td>  --}}
                 </tr>
                 @endforeach
             </tbody>
         </table>
-
-        <div class="charts">
-            <div class="chart-container">
-                <canvas id="mobilityBarChart"></canvas>
-            </div>
-            <div class="chart-container">
-                <canvas id="confusePieChart"></canvas>
-            </div>
-            <div class="chart-container">
-                <canvas id="toiletDoughnutChart"></canvas>
-            </div>
-            <!-- แผนภูมิรวมคะแนนทั้งหมด (Pie Chart) -->
-            <div class="chart-container">
-                <canvas id="allScoresPieChart"></canvas>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var scores = @json($scores);
-
-            // ฟังก์ชันเพื่อสรุปคะแนนตามกลุ่ม
-            function summarizeByGroup(scores, scoreType) {
-                return scores.reduce((acc, score) => {
-                    const groupName = score.group ? score.group.name : 'Unknown';
-                    if (!acc[groupName]) {
-                        acc[groupName] = 0;
-                    }
-                    acc[groupName] += score[scoreType];
-                    return acc;
-                }, {});
-            }
-
-            // สรุปข้อมูล
-            var mobilityGroupTotals = summarizeByGroup(scores, 'mobility');
-            var confuseGroupTotals = summarizeByGroup(scores, 'confuse');
-            var feedGroupTotals = summarizeByGroup(scores, 'feed');
-            var toiletGroupTotals = summarizeByGroup(scores, 'toilet');
-
-            // แผนภูมิสำหรับคะแนนการเคลื่อนไหว (Bar Chart)
-            var mobilityBarChartCtx = document.getElementById('mobilityBarChart').getContext('2d');
-            new Chart(mobilityBarChartCtx, {
-                type: 'bar',
-                data: {
-                    labels: Object.keys(mobilityGroupTotals),
-                    datasets: [{
-                        label: 'คะแนนการเคลื่อนไหว',
-                        data: Object.values(mobilityGroupTotals),
-                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                        borderColor: 'rgba(54, 162, 235, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
-                }
-            });
-
-            // แผนภูมิวงกลมสำหรับคะแนนการสับสน (Pie Chart)
-            var confusePieChartCtx = document.getElementById('confusePieChart').getContext('2d');
-            new Chart(confusePieChartCtx, {
-                type: 'pie',
-                data: {
-                    labels: Object.keys(confuseGroupTotals),
-                    datasets: [{
-                        label: 'คะแนนการสับสน',
-                        data: Object.values(confuseGroupTotals),
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 0.2)',
-                            'rgba(54, 162, 235, 0.2)',
-                            'rgba(255, 206, 86, 0.2)',
-                            'rgba(75, 192, 192, 0.2)'
-                        ],
-                        borderColor: [
-                            'rgba(255, 99, 132, 1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 206, 86, 1)',
-                            'rgba(75, 192, 192, 1)'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                        },
-                    }
-                }
-            });
-
-            // แผนภูมิสำหรับคะแนนการใช้ห้องน้ำ (Doughnut Chart)
-            var toiletDoughnutChartCtx = document.getElementById('toiletDoughnutChart').getContext('2d');
-            new Chart(toiletDoughnutChartCtx, {
-                type: 'doughnut',
-                data: {
-                    labels: Object.keys(toiletGroupTotals),
-                    datasets: [{
-                        label: 'คะแนนการใช้ห้องน้ำ',
-                        data: Object.values(toiletGroupTotals),
-                        backgroundColor: [
-                            'rgba(153, 102, 255, 0.2)',
-                            'rgba(255, 159, 64, 0.2)',
-                            'rgba(54, 162, 235, 0.2)',
-                            'rgba(255, 99, 132, 0.2)'
-                        ],
-                        borderColor: [
-                            'rgba(153, 102, 255, 1)',
-                            'rgba(255, 159, 64, 1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 99, 132, 1)'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                        },
-                    }
-                }
-            });
-
-            // แผนภูมิวงกลมสำหรับคะแนนทั้งหมด (Pie Chart)
-            var allScoresPieChartCtx = document.getElementById('allScoresPieChart').getContext('2d');
-            new Chart(allScoresPieChartCtx, {
-                type: 'pie',
-                data: {
-                    labels: ['การเคลื่อนไหว', 'การสับสน', 'การให้อาหาร', 'การใช้ห้องน้ำ'],
-                    datasets: [{
-                        label: 'คะแนนทั้งหมด',
-                        data: [
-                            Object.values(mobilityGroupTotals).reduce((a, b) => a + b, 0),
-                            Object.values(confuseGroupTotals).reduce((a, b) => a + b, 0),
-                            Object.values(feedGroupTotals).reduce((a, b) => a + b, 0),
-                            Object.values(toiletGroupTotals).reduce((a, b) => a + b, 0)
-                        ],
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 0.2)',
-                            'rgba(54, 162, 235, 0.2)',
-                            'rgba(255, 206, 86, 0.2)',
-                            'rgba(75, 192, 192, 0.2)'
-                        ],
-                        borderColor: [
-                            'rgba(255, 99, 132, 1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 206, 86, 1)',
-                            'rgba(75, 192, 192, 1)'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                        },
-                    }
-                }
-            });
-
-            setTimeout(function() {
-                window.print();
-            }, 100); // เพิ่มการหน่วงเวลาเพื่อให้แน่ใจว่าข้อมูลโหลดเสร็จ
-        });
-    </script>
 </body>
 </html>

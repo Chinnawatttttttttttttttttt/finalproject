@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class AuthController extends Controller
 {
@@ -39,7 +40,12 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         Auth::logout();
+        Session::flush();
+
+        // Invalidate the session to prevent session fixation attacks
         $request->session()->invalidate();
+
+        // Regenerate the CSRF token to ensure that old tokens are invalidated
         $request->session()->regenerateToken();
 
         return redirect('/login');

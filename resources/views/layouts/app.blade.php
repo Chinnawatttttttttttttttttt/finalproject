@@ -38,6 +38,7 @@
             <div class="content">
                 <!-- Yield เนื้อหา -->
                 @yield('content')
+                {{--  <button id="print-btn" class="btn btn-primary">พิมพ์</button>  --}}
             </div>
 
             <!-- รวมฟุตเตอร์ -->
@@ -77,13 +78,12 @@
 
     <script>
         $(document).ready(function() {
-            // เริ่มต้น DataTables สำหรับตารางที่มี ID เป็น 'scores_table'
             $('#table').DataTable({
                 "paging": true,
                 "searching": true,
                 "ordering": true,
                 "info": true,
-                "lengthMenu": [05, 10, 25, 50, 100],
+                "lengthMenu": [5, 10, 25, 50, 100],
                 "language": {
                     "lengthMenu": "แสดง _MENU_ รายการต่อหน้า",
                     "zeroRecords": "ไม่พบข้อมูล",
@@ -93,6 +93,33 @@
                     "search": "ค้นหา:"
                 }
             });
+
+            // ฟังก์ชันการพิมพ์
+            $('#print-btn').click(function() {
+                // ซ่อนคอลัมน์ที่ไม่ต้องการ
+                $('#table th:contains("แบบทดสอบ"), #table td:contains("แบบทดสอบ")').addClass('print-hidden');
+                $('#table th:contains("Qr-Code"), #table td:contains("QR Code")').addClass('print-hidden');
+
+                var printWindow = window.open('', '', 'height=800,width=1000');
+                var content = document.getElementById('table').outerHTML;
+
+                printWindow.document.write('<html><head><title>รายงานการพิมพ์</title>');
+                printWindow.document.write('<link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet" />');
+                printWindow.document.write('<link href="{{ asset('assets/css/light-bootstrap-dashboard.css?v=2.0.0') }}" rel="stylesheet" />');
+                printWindow.document.write('<style>body { font-family: Arial, sans-serif; } table { width: 100%; border-collapse: collapse; } th, td { border: 1px solid #ddd; padding: 8px; } th { background-color: #f2f2f2; } .print-hidden { display: none; }</style>');
+                printWindow.document.write('</head><body>');
+                printWindow.document.write('<h1>รายงาน PDF </h1>');
+                printWindow.document.write(content);
+                printWindow.document.write('</body></html>');
+
+                printWindow.document.close();
+                printWindow.focus();
+                printWindow.print();
+
+                // แสดงคอลัมน์ที่ซ่อนไว้หลังจากพิมพ์เสร็จ
+                $('#table th.print-hidden, #table td.print-hidden').removeClass('print-hidden');
+            });
+
         });
     </script>
 </body>

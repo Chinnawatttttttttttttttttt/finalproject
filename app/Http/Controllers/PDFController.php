@@ -15,8 +15,6 @@ class PDFController extends Controller
         $scores = ScoreTAI::with('elderly')->get(); // ดึงข้อมูลคะแนนและผู้สูงอายุ
         $elderly = Elderly::find($scores->first()->elderly_id);
         // $pdf = PDF::loadView('pdf.report-score', compact('user', 'scores'));
-
-        // ใช้ stream() แทน download() เพื่อแสดง PDF ในเบราว์เซอร์
         return view('pdf.report-score',compact('user','scores'));
     }
 }
