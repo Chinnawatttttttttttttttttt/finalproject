@@ -22,6 +22,7 @@ Route::get('error', function() {
 });
 
 Route::get('/print-pdf-score', [PDFController::class, 'printPDF'])->name('print.pdf-score');
+Route::get('/print-pdf-qr', [PDFController::class, 'printQR'])->name('print.pdf-qr');
 
 Route::group(['middleware' => 'web'], function () {
     Route::get('home', [AuthController::class, 'home']);

@@ -17,4 +17,13 @@ class PDFController extends Controller
         // $pdf = PDF::loadView('pdf.report-score', compact('user', 'scores'));
         return view('pdf.report-score',compact('user','scores'));
     }
+
+    public function printQR()
+    {
+        $user = Auth::user(); // หรือดึงข้อมูลผู้ใช้งานตามที่ต้องการ
+        $scores = ScoreTAI::with('elderly')->get(); // ดึงข้อมูลคะแนนและผู้สูงอายุ
+        $elderly = Elderly::find($scores->first()->elderly_id);
+        // $pdf = PDF::loadView('pdf.report-score', compact('user', 'scores'));
+        return view('pdf.report-qr',compact('user','scores'));
+    }
 }
