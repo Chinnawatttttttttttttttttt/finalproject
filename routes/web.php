@@ -9,6 +9,8 @@ use App\Http\Controllers\ScoreTAIController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PDFController;
+use App\Http\Controllers\ExportController;
+
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 
@@ -22,6 +24,9 @@ Route::get('error', function() {
 });
 
 Route::get('/print-pdf-score', [PDFController::class, 'printPDF'])->name('print.pdf-score');
+Route::get('/print-pdf-qr', [PDFController::class, 'printQR'])->name('print.pdf-qr');
+
+Route::get('/export-scores', [ExportController::class, 'exportScores'])->name('export.scores');
 
 Route::group(['middleware' => 'web'], function () {
     Route::get('home', [AuthController::class, 'home']);

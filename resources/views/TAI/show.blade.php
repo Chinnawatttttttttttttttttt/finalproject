@@ -16,13 +16,17 @@
 
 <div class="container mt-5">
     <h1 class="mb-4">รายชื่อผู้สูงอายุและคะแนนการประเมิน</h1>
-
     <div class="form-group" style="display: flex; justify-content: space-between; align-items: center;">
         <div>
             <label for="user_name">ชื่อ-ผู้ประเมิน:</label>
             <span id="user_name">{{ $user->FirstName . $user->LastName }}</span>
+            {{--  <a href="{{ route('print.pdf-qr') }}" class="btn btn-primary" style= "float: right;">PDF</a>  --}}
+            {{--  <button id="print-btn" class="btn btn-primary">Print</button>  --}}
         </div>
-        {{--  <a href="{{ route('print.pdf-score') }}" class="btn btn-primary">PDF</a>  --}}
+        <div class="text-right">
+            <a href="{{ route('print.pdf-qr') }}" class="btn btn-primary float-right">PDF</a>
+        </div>
+
     </div>
 
     @if ($scores->isEmpty())

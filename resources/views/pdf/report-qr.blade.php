@@ -66,12 +66,12 @@
                 <tr>
                     <th>รหัส</th>
                     <th>ชื่อผู้สูงอายุ</th>
-                    <th>คะแนนการเคลื่อนไหว</th>
+                    {{--  <th>คะแนนการเคลื่อนไหว</th>
                     <th>คะแนนการสับสน</th>
                     <th>คะแนนการให้อาหาร</th>
                     <th>คะแนนการใช้ห้องน้ำ</th>
-                    <th>กลุ่ม</th>
-                    {{--  <th>QR-Code</th>  --}}
+                    <th>กลุ่ม</th>  --}}
+                    <th>QR-Code</th>
                 </tr>
             </thead>
             <tbody>
@@ -79,23 +79,21 @@
                 <tr>
                     <td>{{ $score->id }}</td>
                     <td>{{ $score->elderly->FirstName }} {{ $score->elderly->LastName }}</td>
-                    <td>{{ $score->mobility }}</td>
+                    {{--  <td>{{ $score->mobility }}</td>
                     <td>{{ $score->confuse }}</td>
                     <td>{{ $score->feed }}</td>
                     <td>{{ $score->toilet }}</td>
-                    <td>{{ isset($score->group) ? $score->group->name : 'N/A' }}</td>
-                    {{--  <td>
+                    <td>{{ isset($score->group) ? $score->group->name : 'N/A' }}</td>  --}}
+                    <td>
                         @if($score->qr_path)
                         <img src="{{ asset($score->qr_path) }}" alt="QR Code" style="width: 100px; height: 100px;">
                     @else
                         ไม่มี QR Code
                     @endif
-                    </td>  --}}
+                    </td>
                 </tr>
                 @endforeach
             </tbody>
         </table>
-    </div>
-
 </body>
 </html>
