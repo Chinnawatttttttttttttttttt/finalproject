@@ -4,23 +4,71 @@
 
 <style>
     .profile-image {
-        width: 150px; /* กำหนดความกว้างของรูปภาพ */
-        height: 150px; /* กำหนดความสูงของรูปภาพ */
-        object-fit: cover; /* ปรับขนาดรูปให้พอดีกับตำแหน่งที่กำหนด */
-        border-radius: 50%; /* ทำให้มีรูปร่างวงกลม */
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 50%;
     }
 
     .card-user .card-body {
         padding: 20px;
-        text-align: center; /* จัดให้ข้อความและรูปภาพอยู่ตรงกลาง */
+        text-align: center;
     }
 
     .card-user .author {
-        margin-bottom: 20px; /* ปรับระยะห่างของข้อมูลผู้ใช้ */
+        margin-bottom: 20px;
+    }
+
+    /* Modal Styles */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-content {
+        background-color: #fff;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 500px;
+    }
+
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
     }
 </style>
 
+@if(session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
 
+@if($errors->any())
+    <div class="alert alert-danger">
+        @foreach($errors->all() as $error)
+            <div>{{ $error }}</div>
+        @endforeach
+    </div>
+@endif
 
 <div class="content">
     <div class="container-fluid">
@@ -76,10 +124,11 @@
                                     <div class="form-group">
                                         <label>รูปภาพ</label>
                                         <input type="file" class="form-control-file" name="profile_image">
+                                        <button type="submit" class="btn btn-info btn-fill pull-right">อัพโหลด</button>
+                                        <button type="button" id="change-password-btn" class="btn btn-warning btn-fill pull-right">เปลี่ยนรหัสผ่าน</button>
                                     </div>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-info btn-fill pull-right">อัพโหลด</button>
                             <div class="clearfix"></div>
                         </form>
                     </div>
@@ -123,4 +172,65 @@
         </div>
     </div>
 </div>
+
+<!-- Password Change Modal -->
+<div id="passwordModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <form action="{{ route('change-password') }}" method="POST">
+            @csrf
+            @method('PATCH')
+            <h4>เปลี่ยนรหัสผ่าน</h4>
+            <div class="form-group">
+                <label>รหัสผ่านปัจจุบัน</label>
+                <input type="password" class="form-control" name="current_password" required>
+            </div>
+            <div class="form-group">
+                <label>รหัสผ่านใหม่</label>
+                <input type="password" class="form-control" name="new_password" required>
+            </div>
+            <div class="form-group">
+                <label>ยืนยันรหัสผ่านใหม่</label>
+                <input type="password" class="form-control" name="new_password_confirmation" required>
+            </div>
+            <button type="submit" class="btn btn-success btn-fill">เปลี่ยนรหัสผ่าน</button>
+            <button type="button" id="close-modal-btn" class="btn btn-danger btn-fill">ปิด</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    // Get the modal
+    var modal = document.getElementById("passwordModal");
+
+    // Get the button that opens the modal
+    var btn = document.getElementById("change-password-btn");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // Get the button that closes the modal
+    var closeModalBtn = document.getElementById("close-modal-btn");
+
+    // When the user clicks the button, open the modal
+    btn.onclick = function() {
+        modal.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x) or the close button, close the modal
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+    closeModalBtn.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
+
 @endsection

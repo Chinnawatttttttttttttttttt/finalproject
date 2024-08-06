@@ -43,6 +43,7 @@ Route::middleware(['auth', 'IsAdmin', 'CheckLogin', 'NowLogin'])->group(function
         Route::get('add-user', 'create')->name('add-user');
         Route::get('profile', 'profile')->name('profile');
         Route::post('/update-profile','updateProfile')->name('update-profile');
+        Route::patch('/change-password','changePassword')->name('change-password');
         Route::post('create-user', 'store')->name('users.store');
         Route::get('all-user', 'index')->name('all-user');
         Route::get('edit-user/{id}', 'edit')->name('users.edit');

@@ -200,4 +200,23 @@ class UserController extends Controller
         // เปลี่ยนเส้นทางกลับไปยังหน้าที่ต้องการพร้อมแสดงข้อความสำเร็จ
         return redirect()->back()->with('success', 'Profile updated successfully!');
     }
+
+    public function changePassword(Request $request)
+    {
+        $request->validate([
+            'current_password' => 'required',
+            'new_password' => 'required|min:6|confirmed',
+        ]);
+
+        $user = Auth::user();
+
+        if (!Hash::check($request->current_password, $user->Password)) {
+            return back()->withErrors(['current_password' => 'รหัสผ่านปัจจุบันไม่ถูกต้อง']);
+        }
+
+        $user->password = Hash::make($request->new_password);
+        $user->save();
+
+        return back()->with('success', 'รหัสผ่านถูกเปลี่ยนเรียบร้อยแล้ว');
+    }
 }
