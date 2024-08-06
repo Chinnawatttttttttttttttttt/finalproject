@@ -31,15 +31,15 @@ class ScoreExports implements FromCollection, WithHeadings, WithEvents
     public function headings(): array
     {
         return [
-            'ID',
-            'Elderly Name',
+            'ลำดับ',
+            'ผู้สูงอายุ',
             'Mobility',
             'Confuse',
             'Feed',
             'Toilet',
             'Group',
             'QR Code',
-            'User',
+            'ผู้ใช้งาน',
         ];
     }
 

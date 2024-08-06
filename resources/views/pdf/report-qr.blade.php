@@ -51,6 +51,11 @@
             margin-bottom: 10mm;
         }
     </style>
+    <script>
+        window.onload = function() {
+            window.print();
+        }
+    </script>
 </head>
 <body>
 
