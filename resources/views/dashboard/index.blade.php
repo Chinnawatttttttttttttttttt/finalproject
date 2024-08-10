@@ -111,7 +111,7 @@
             ['B3', {{ $scoreCounts['B3'] }}],
             ['C4', {{ $scoreCounts['C4'] }}],
             ['C3', {{ $scoreCounts['C3'] }}],
-            ['C2', {{ $scoreCounts['C2'] }}],
+            ['C2', {{ $scoreCounts['C2'] }}], 
             ['I3', {{ $scoreCounts['I3'] }}],
             ['I2', {{ $scoreCounts['I2'] }}],
             ['I1', {{ $scoreCounts['I1'] }}]
