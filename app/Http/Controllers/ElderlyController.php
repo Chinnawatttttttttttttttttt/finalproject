@@ -16,6 +16,8 @@ class ElderlyController extends Controller
 
     public function store(Request $request)
     {
+        // dd($request->all());
+
         $request->validate([
             'FirstName' => 'required|string',
             'LastName' => 'required|string',
@@ -54,7 +56,7 @@ class ElderlyController extends Controller
             $qrImage = QrCode::format('png')->size(300)->generate($qrContent);
             $qrPath = 'qr-codes/score_tai_' . $scoreTai->id . '.png';
 
-            // Save QR code image to public path
+            // บันทึกภาพ QR code ลงใน path สาธารณะ
             file_put_contents(public_path($qrPath), $qrImage);
 
             $scoreTai->qr_path = $qrPath;
@@ -78,7 +80,6 @@ class ElderlyController extends Controller
         return view('Elderlys.edit', compact('elderly'));
     }
 
-    // Method สำหรับอัปเดตข้อมูล
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -96,7 +97,7 @@ class ElderlyController extends Controller
         $elderly = Elderly::findOrFail($id);
         $elderly->update($request->all());
 
-        return redirect()->route('elderlys.edit', $id)->with('success', 'Elderly details updated successfully.');
+        return redirect()->route('elderlys.edit', $id)->with('success', 'ข้อมูลผู้สูงอายุถูกอัปเดตสำเร็จ');
     }
 
     public function destroy($id)
@@ -115,5 +116,4 @@ class ElderlyController extends Controller
         $elderlies = Elderly::all(); // ดึงข้อมูลทั้งหมดของผู้สูงอายุ
         return view('dashboard.map', ['elderlies' => $elderlies]);
     }
-
 }
