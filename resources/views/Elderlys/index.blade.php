@@ -17,8 +17,7 @@
                     <thead>
                         <tr class="text-center">
                             <th>ลำดับ</th>
-                            <th style="width: 85px">ชื่อ</th>
-                            <th style="width: 85px">นามสกุล</th>
+                            <th style="width: 85px">ชื่อ - นามสกุล</th>
                             <th>ชื่อเล่น</th>
                             <th>วันเกิด</th>
                             <th>อายุ</th>
@@ -33,8 +32,7 @@
                         @foreach ($elderly as $elderly)
                         <tr class="text-center">
                             <td>{{ $loop->iteration }}</td>
-                            <td style="width: 85px">{{ $elderly->FirstName }}</td>
-                            <td style="width: 85px">{{ $elderly->LastName }}</td>
+                            <td style="width: 85px">{{ $elderly->Title }} {{ $elderly->FirstName }} {{ $elderly->LastName }}</td>
                             <td>{{ $elderly->NickName }}</td>
                             <td>{{ $elderly->Birthday }}</td>
                             <td>{{ $elderly->Age }} ปี</td>

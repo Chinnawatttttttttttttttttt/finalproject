@@ -23,6 +23,7 @@
         <div class="form-group">
             <label for="Title">คำนำหน้า:</label>
             <select class="form-control" id="Title" name="Title" required>
+                <option value="">เลือกคำนำหน้า</option>
                 <option value="นาย" {{ old('Title') == 'นาย' ? 'selected' : '' }}>นาย</option>
                 <option value="นาง" {{ old('Title') == 'นาง' ? 'selected' : '' }}>นาง</option>
                 <option value="นางสาว" {{ old('Title') == 'นางสาว' ? 'selected' : '' }}>นางสาว</option>
@@ -198,14 +199,6 @@
 
      // Function to combine title, first name, and address
      function combineNameAndAddress() {
-        var title = document.getElementById('Title').value;
-        var firstName = document.getElementById('FirstName').value;
-
-        // Combine title and first name
-        if (firstName) {
-            var combinedName = title + firstName;
-            document.getElementById('FirstName').value = combinedName;
-        }
 
         // Get values from individual address fields
         var houseNumber = document.getElementById('houseNumber').value;

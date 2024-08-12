@@ -19,6 +19,7 @@ class ElderlyController extends Controller
         // dd($request->all());
 
         $request->validate([
+            'Title' =>'required|string',
             'FirstName' => 'required|string',
             'LastName' => 'required|string',
             'NickName' => 'nullable|string',
@@ -31,6 +32,7 @@ class ElderlyController extends Controller
         ]);
 
         $elderly = new Elderly();
+        $elderly->Title = $request->Title;
         $elderly->FirstName = $request->FirstName;
         $elderly->LastName = $request->LastName;
         $elderly->NickName = $request->NickName;
@@ -77,25 +79,62 @@ class ElderlyController extends Controller
     public function edit($id)
     {
         $elderly = Elderly::findOrFail($id);
-        return view('Elderlys.edit', compact('elderly'));
+
+        // Split address
+        $address = $elderly->Address;
+        $addressParts = preg_split('/\s+/', $address); // Split by whitespace
+
+        // Assuming the address structure is defined:
+        $houseNumber = $addressParts[0] ?? '';
+        $village = $addressParts[1] ?? '';
+        $subdistrict = $addressParts[2] ?? '';
+        $district = $addressParts[3] ?? '';
+        $province = $addressParts[4] ?? '';
+        $postalCode = $addressParts[5] ?? '';
+
+        // Calculate age
+        $age = (new \Carbon\Carbon($elderly->Birthday))->diffInYears();
+
+        return view('Elderlys.edit', compact('elderly', 'houseNumber', 'village', 'subdistrict', 'district', 'province', 'postalCode', 'age'));
     }
 
     public function update(Request $request, $id)
     {
+        // dd($request->all());
+
         $request->validate([
+            'Title' => 'required|string',
             'FirstName' => 'required|string|max:255',
             'LastName' => 'required|string|max:255',
             'NickName' => 'nullable|string|max:255',
             'Birthday' => 'required|date',
             'Age' => 'required|integer',
-            'Address' => 'nullable|string|max:255',
+            'houseNumber' => 'nullable|string|max:255',
+            'village' => 'nullable|string|max:255',
+            'subdistrict' => 'nullable|string|max:255',
+            'district' => 'nullable|string|max:255',
+            'province' => 'nullable|string|max:255',
+            'postalCode' => 'nullable|string|max:20',
             'Latitude' => 'nullable|numeric',
             'Longitude' => 'nullable|numeric',
             'Phone' => 'nullable|string|max:20',
         ]);
 
         $elderly = Elderly::findOrFail($id);
-        $elderly->update($request->all());
+        $elderly->Title = $request->Title;
+        $elderly->FirstName = $request->FirstName;
+        $elderly->LastName = $request->LastName;
+        $elderly->NickName = $request->NickName;
+        $elderly->Birthday = $request->Birthday;
+        $elderly->Age = $request->Age; // Make sure the age is correctly set
+        $elderly->Address = $request->Address; // Save the combined address
+        $elderly->Latitude = $request->Latitude;
+        $elderly->Longitude = $request->Longitude;
+        $elderly->Phone = $request->Phone;
+
+        // Add other necessary fields...
+
+        $elderly->save();
 
         return redirect()->route('elderlys.edit', $id)->with('success', 'ข้อมูลผู้สูงอายุถูกอัปเดตสำเร็จ');
     }

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('elderlies', function (Blueprint $table) {
             $table->id();
+            // $table->string('Title'); // คอลัมน์สำหรับคำนำหน้า
             $table->string('FirstName');
             $table->string('LastName');
             $table->string('NickName')->nullable();
