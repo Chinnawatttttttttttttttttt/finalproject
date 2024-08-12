@@ -109,7 +109,7 @@
         </div>
 
         <!-- Hidden field to store combined address -->
-        <input type="text" id="Address" name="Address">
+        <input type="hidden" id="Address" name="Address">
 
         <!-- Phone -->
         <div class="form-group">
