@@ -209,7 +209,8 @@
         const postalCode = document.getElementById('postalCode').value;
 
         // Combine address
-        const address = `${houseNumber} ${village} ${subdistrict} ${district} ${province} ${postalCode}`;
+        {{--  const address = `บ้านเลขที่ ${houseNumber} หมู่บ้าน ${village} ตำบล ${subdistrict} อำเภอ ${district} จังหวัด ${province} รหัสไปรษณีย์ ${postalCode}`;  --}}
+        const address = 'บ้านเลขที่ ' + houseNumber + ' หมู่บ้าน ' + village + ' ตำบล ' + subdistrict + ' อำเภอ ' + district + ' จังหวัด ' + province + ' รหัสไปรษณีย์ ' + postalCode;
         document.getElementById('Address').value = address;
 
         // Update the age input field
