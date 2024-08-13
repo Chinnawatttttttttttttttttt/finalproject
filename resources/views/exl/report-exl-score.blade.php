@@ -59,7 +59,7 @@
                 @foreach ($scores as $score)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
-                    <td>{{ $score->elderly->FirstName }} {{ $score->elderly->LastName }}</td>
+                    <td>{{ $score->elderly->Title.$score->elderly->FirstName }} {{ $score->elderly->LastName }}</td>
                     <td>{{ $score->mobility ?? 'N/A' }}</td>
                     <td>{{ $score->confuse ?? 'N/A' }}</td>
                     <td>{{ $score->feed ?? 'N/A' }}</td>

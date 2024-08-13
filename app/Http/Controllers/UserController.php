@@ -25,14 +25,17 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
+        //  dd($request->all());
+
         $request->validate([
+            'Title' => 'required|string|max:255',
             'FirstName' => 'required|string|max:255',
             'LastName' => 'required|string|max:255',
             'NickName' => 'nullable|string|max:255',
             'Username' => 'required|digits:13|unique:users',
             'Password' => 'required|string|min:6',
             'Email' => 'required|string|email|max:255|unique:users',
-            'Address' => 'required|string|max:255',
+            'Address' => 'required|string',
             'Phone' => 'required|string|max:20',
             'department_id' => 'required|exists:departments,id',
             'position_id' => 'required|exists:positions,id',
@@ -48,6 +51,7 @@ class UserController extends Controller
         }
 
         $user = new User();
+        $user->Title = $request->Title;
         $user->FirstName = $request->FirstName;
         $user->LastName = $request->LastName;
         $user->NickName = $request->NickName;
@@ -83,16 +87,31 @@ class UserController extends Controller
         $dpt = Department::pluck('department_name','id');
         $position = Position::pluck('position_name', 'id');
 
+        // Split address
+        $address = $user->Address;
+        $addressParts = preg_split('/\s+/', $address); // Split by whitespace
+
+        // Assuming the address structure is defined:
+        $houseNumber = $addressParts[1] ?? '';
+        $village = $addressParts[3] ?? '';
+        $subdistrict = $addressParts[5] ?? '';
+        $district = $addressParts[7] ?? '';
+        $province = $addressParts[9] ?? '';
+        $postalCode = $addressParts[11] ?? '';
+
         if (!$user) {
             return back()->with('fail', 'ไม่พบผู้ใช้งานที่ต้องการแก้ไข');
         }
 
-        return view('Users.edit', compact('user', 'dpt', 'position'));
+        return view('Users.edit', compact('user', 'dpt', 'position','houseNumber', 'village', 'subdistrict', 'district', 'province', 'postalCode'));
     }
 
     public function update(Request $request, $id)
     {
+        //  dd($request->all());
+
         $request->validate([
+            'Title' => 'required|string|max:255',
             'FirstName' => 'required|string|max:255',
             'LastName' => 'required|string|max:255',
             'NickName' => 'nullable|string|max:255',
@@ -117,6 +136,7 @@ class UserController extends Controller
             $user->image_Profile = $imagePath;
         }
 
+        $user->Title = $request->input('Title');
         $user->FirstName = $request->input('FirstName');
         $user->LastName = $request->input('LastName');
         $user->NickName = $request->input('NickName');
@@ -150,13 +170,28 @@ class UserController extends Controller
 
     public function profile()
     {
+        $user = Auth::user();
+
+        // Split address
+        $address = $user->Address;
+        $addressParts = preg_split('/\s+/', $address); // Split by whitespace
+
+        // Assuming the address structure is defined:
+        $houseNumber = $addressParts[1] ?? '';
+        $village = $addressParts[3] ?? '';
+        $subdistrict = $addressParts[5] ?? '';
+        $district = $addressParts[7] ?? '';
+        $province = $addressParts[9] ?? '';
+        $postalCode = $addressParts[11] ?? '';
+
         if (Auth::check()) {
             $user = Auth::user();
-            return view('Users.profile', ['user' => $user]);
+            return view('Users.profile', ['user' => $user],compact('user', 'houseNumber', 'village', 'subdistrict', 'district', 'province', 'postalCode'));
         } else {
             // Handle case when user is not logged in
             return redirect()->route('login')->with('error', 'Please login to view your profile.');
         }
+
     }
 
     public function updateProfile(Request $request)

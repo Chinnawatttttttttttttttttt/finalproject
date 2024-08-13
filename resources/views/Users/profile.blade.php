@@ -76,7 +76,8 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title">Edit Profile</h4>
+                        <h4 class="card-title">แก้ไข โปรไฟล์</h4>
+                        <h5  class="card-title">สามารถแก้ไขข้อมูลโปรไฟล์ได้</h5>
                     </div>
                     <div class="card-body">
                         <form action="{{ route('update-profile') }}" method="POST" enctype="multipart/form-data">
@@ -98,21 +99,58 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label>Email</label>
+                                        <label>อีเมลล์</label>
                                         <input type="email" class="form-control" name="Email" value="{{ old('Email', $user->Email) }}" required>
                                     </div>
                                 </div>
                             </div>
+
                             <div class="row">
-                                <div class="col-md-12">
+                                <!-- Address Fields -->
+                                <div class="col-md-3">
                                     <div class="form-group">
-                                        <label>ที่อยู่</label>
-                                        <input type="text" class="form-control" name="Address" value="{{ old('Address', $user->Address) }}" required>
+                                        <label for="houseNumber">บ้านเลขที่:</label>
+                                        <input type="text" class="form-control" id="houseNumber" name="houseNumber" value="{{ old('houseNumber', $houseNumber) }}">
                                     </div>
                                 </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="village">หมู่:</label>
+                                        <input type="text" class="form-control" id="village" name="village" value="{{ old('village', $village) }}">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="subdistrict">ตำบล:</label>
+                                        <input type="text" class="form-control" id="subdistrict" name="subdistrict" value="{{ old('subdistrict', $subdistrict) }}">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="district">อำเภอ:</label>
+                                        <input type="text" class="form-control" id="district" name="district" value="{{ old('district', $district) }}">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="province">จังหวัด:</label>
+                                        <input type="text" class="form-control" id="province" name="province" value="{{ old('province', $province) }}">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="postalCode">รหัสไปรษณีย์:</label>
+                                        <input type="text" class="form-control" id="postalCode" name="postalCode" value="{{ old('postalCode', $postalCode) }}">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <!-- Hidden field to store combined address -->
+                                    <input type="hidden" id="Address" name="Address" value="{{ old('Address', $user->Address) }}">
+                                </div>
                             </div>
+
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label>เบอร์โทรศัพท์</label>
                                         <input type="text" class="form-control" name="Phone" value="{{ old('Phone', $user->Phone) }}" required>
@@ -124,7 +162,7 @@
                                     <div class="form-group">
                                         <label>รูปภาพ</label>
                                         <input type="file" class="form-control-file" name="profile_image">
-                                        <button type="submit" class="btn btn-info btn-fill pull-right">อัพโหลด</button>
+                                        <button type="submit" class="btn btn-info btn-fill pull-right" onclick="combineNameAndAddress()">อัพโหลด</button>
                                         <button type="button" id="change-password-btn" class="btn btn-warning btn-fill pull-right">เปลี่ยนรหัสผ่าน</button>
                                     </div>
                                 </div>
@@ -137,7 +175,7 @@
             <div class="col-md-4">
                 <div class="card card-user">
                     <div class="card-header">
-                        <h4 class="card-title">Profile</h4>
+                        <h4 class="card-title">โปรไฟล์</h4>
                     </div>
                     <div class="card-body text-center">
                         <div class="author">
@@ -148,7 +186,7 @@
                             @endif
                             <p class="description">
                                 Username: {{ $user->Username }} <br>
-                                ชื่อ-นามกุล : {{ $user->FirstName }} {{ $user->LastName }} <br>
+                                ชื่อ-นามกุล :{{ $user->Title }}{{ $user->FirstName }} {{ $user->LastName }} <br>
                                 ชื่อเล่น : {{ $user->NickName }} <br>
                                 Email: {{ $user->Email }} <br>
                                 เบอร์โทรศัพท์ : {{ $user->Phone }}
@@ -231,6 +269,23 @@
             modal.style.display = "none";
         }
     }
+
+    function combineNameAndAddress() {
+        const houseNumber = document.getElementById('houseNumber').value;
+        const village = document.getElementById('village').value;
+        const subdistrict = document.getElementById('subdistrict').value;
+        const district = document.getElementById('district').value;
+        const province = document.getElementById('province').value;
+        const postalCode = document.getElementById('postalCode').value;
+
+        // Combine address
+        {{--  const address = `บ้านเลขที่ ${houseNumber} หมู่บ้าน ${village} ตำบล ${subdistrict} อำเภอ ${district} จังหวัด ${province} รหัสไปรษณีย์ ${postalCode}`;  --}}
+        const address = 'บ้านเลขที่ ' + houseNumber + ' หมู่บ้าน ' + village + ' ตำบล ' + subdistrict + ' อำเภอ ' + district + ' จังหวัด ' + province + ' รหัสไปรษณีย์ ' + postalCode;
+        document.getElementById('Address').value = address;
+
+        console.log('Combined Address:', address); // For debugging
+    }
+
 </script>
 
 @endsection

@@ -17,8 +17,7 @@
                     <thead>
                         <tr class="text-center">
                             <th>ลำดับ</th>
-                            <th>ชื่อ</th>
-                            <th>นามสกุล</th>
+                            <th>ชื่อ-นามสกุล</th>
                             <th>อีเมล</th>
                             <th>แผนก</th>
                             <th>ตำแหน่ง</th>
@@ -30,8 +29,7 @@
                         @foreach($users as $user)
                         <tr class="text-center">
                             <td>{{ $loop->iteration }}</td>
-                            <td>{{ $user->FirstName }}</td>
-                            <td>{{ $user->LastName }}</td>
+                            <td>{{ $user->Title }}{{ $user->FirstName }} {{ $user->LastName }}</td>
                             <td>{{ $user->Email }}</td>
                             <td>{{ $user->department->department_name }}</td>
                             <td>{{ $user->position->position_name }}</td>

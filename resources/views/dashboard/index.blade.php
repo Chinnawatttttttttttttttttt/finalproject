@@ -111,22 +111,22 @@
             ['B3', {{ $scoreCounts['B3'] }}],
             ['C4', {{ $scoreCounts['C4'] }}],
             ['C3', {{ $scoreCounts['C3'] }}],
-            ['C2', {{ $scoreCounts['C2'] }}], 
+            ['C2', {{ $scoreCounts['C2'] }}],
             ['I3', {{ $scoreCounts['I3'] }}],
             ['I2', {{ $scoreCounts['I2'] }}],
             ['I1', {{ $scoreCounts['I1'] }}]
         ]);
 
         var options = {
-            title: 'จำนวนผู้สูงอายุตามคะแนน',
+            title: 'จำนวนผู้สูงอายุตามกลุ่มคะแนน TAI ',
             chartArea: { width: '70%' },
             hAxis: {
-                title: 'จำนวนผู้สูงอายุ',
+                title: 'จำนวนผู้สูงอายุตามกลุ่ม',
                 minValue: 0,
                 gridlines: { count: 5 } // Add gridlines
             },
             vAxis: {
-                title: 'คะแนน',
+                title: 'กลุ่ม',
                 textStyle: { fontSize: 14 }, // Adjust font size
                 titleTextStyle: { fontSize: 16 } // Title font size
             },

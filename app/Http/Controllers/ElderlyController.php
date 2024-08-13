@@ -85,12 +85,12 @@ class ElderlyController extends Controller
         $addressParts = preg_split('/\s+/', $address); // Split by whitespace
 
         // Assuming the address structure is defined:
-        $houseNumber = $addressParts[0] ?? '';
-        $village = $addressParts[1] ?? '';
-        $subdistrict = $addressParts[2] ?? '';
-        $district = $addressParts[3] ?? '';
-        $province = $addressParts[4] ?? '';
-        $postalCode = $addressParts[5] ?? '';
+        $houseNumber = $addressParts[1] ?? '';
+        $village = $addressParts[3] ?? '';
+        $subdistrict = $addressParts[5] ?? '';
+        $district = $addressParts[7] ?? '';
+        $province = $addressParts[9] ?? '';
+        $postalCode = $addressParts[11] ?? '';
 
         // Calculate age
         $age = (new \Carbon\Carbon($elderly->Birthday))->diffInYears();

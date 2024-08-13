@@ -27,7 +27,7 @@
     <div class="form-group" style="display: flex; justify-content: space-between; align-items: center;">
         <div>
             <label for="user_name">ชื่อ-ผู้ประเมิน:</label>
-            <span id="user_name">{{ $user->FirstName . $user->LastName }}</span>
+            <span id="user_name">{{ $user->Title.$user->FirstName}} {{$user->LastName }}</span>
             {{--  <a href="{{ route('print.pdf-score') }}" class="btn btn-primary">PDF</a>  --}}
             {{--  <button id="print-btn" class="btn btn-primary">Print</button>  --}}
         </div>
@@ -61,7 +61,7 @@
                 @foreach ($scores as $score)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
-                    <td>{{ $score->elderly->FirstName }} {{ $score->elderly->LastName }}</td>
+                    <td>{{ $score->elderly->Title }}{{ $score->elderly->FirstName }} {{ $score->elderly->LastName }}</td>
                     <td>{{ $score->mobility ?? 'N/A' }}</td>
                     <td>{{ $score->confuse ?? 'N/A' }}</td>
                     <td>{{ $score->feed ?? 'N/A' }}</td>

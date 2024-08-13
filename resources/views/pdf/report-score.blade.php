@@ -78,7 +78,7 @@
                 @foreach($scores as $score)
                 <tr>
                     <td>{{ $score->id }}</td>
-                    <td>{{ $score->elderly->FirstName }} {{ $score->elderly->LastName }}</td>
+                    <td>{{ $score->elderly->Title.$score->elderly->FirstName }} {{ $score->elderly->LastName }}</td>
                     <td>{{ $score->mobility }}</td>
                     <td>{{ $score->confuse }}</td>
                     <td>{{ $score->feed }}</td>
