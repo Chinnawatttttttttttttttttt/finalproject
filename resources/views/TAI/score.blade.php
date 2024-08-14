@@ -30,7 +30,7 @@
         padding: 10px 20px;
         border: 1px solid #ccc;
         border-radius: 5px;
-        cursor: pointer;
+        cursor: pointerc;
     }
     .radio-group label:hover {
         background-color: #f0f0f0;
@@ -38,6 +38,14 @@
     .radio-group input[type="radio"]:checked + label {
         background-color: #007bff;
         color: #fff;
+    }
+    .summary-container {
+        text-align: center; /* จัดให้อยู่กลาง */
+        margin-top: 20px;
+        border: 1px solid #ccc; /* เพิ่มกรอบให้กับสรุป */
+        border-radius: 5px;
+        padding: 10px;
+        background-color: #f9f9f9; /* พื้นหลังให้กับสรุป */
     }
     .question {
         display: none;
@@ -51,7 +59,16 @@
     }
     .user-section {
         display: flex;
-        {{--  align-items: center;  --}}
+    }
+    .image-upload {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .image-preview {
+        margin-top: 10px;
+        max-width: 100%;
+        height: auto;
     }
 </style>
 
@@ -62,7 +79,7 @@
 @endif
 
 <div class="form-container">
-    <form id="score_form" action="{{ route('score.store') }}" method="POST">
+    <form id="score_form" action="{{ route('score.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <input type="hidden" name="id" value="{{ $score->id }}">
         <input type="hidden" name="elderly_id" value="{{ $elderly->id }}">
@@ -74,7 +91,7 @@
                     <label for="elderly_name">ชื่อ-ผู้สูงอายุ:</label>
                     <span>{{ $elderly->Title.$elderly->FirstName }} {{ $elderly->LastName }}</span><br>
                     <input type="hidden" name="elderly_id" value="{{ $elderly->id }}">
-                </div>  
+                </div>
                 <div class="user-section">
                     <label for="user_name">ผู้ประเมิน:</label>
                     <span>{{ $user->Title.$user->FirstName }} {{ $user->LastName }}</span>
@@ -83,6 +100,7 @@
 
             <div class="form-group">
                 <label for="mobility">Mobility (0-5):</label><br>
+                <img src="{{ asset('assets/img/Mobility.png') }}" alt="Mobility" style="max-width: 100%; height: auto;">
                 <div class="radio-group">
                     @for ($i = 0; $i <= 5; $i++)
                     <input type="radio" id="mobility{{ $i }}" name="mobility" value="{{ $i }}" @if ($score->mobility == $i) checked @endif required>
@@ -95,9 +113,11 @@
                 <button type="button" onclick="showQuestion(1, 2)">ถัดไป</button>
             </div>
         </div>
+
         <div id="question2" class="question">
             <div class="form-group">
                 <label for="confuse">Confuse (0-5):</label><br>
+                <img src="{{ asset('assets/img/MentalStatus.png') }}" alt="Mental Status" style="max-width: 100%; height: auto;">
                 <div class="radio-group">
                     @for ($i = 0; $i <= 5; $i++)
                     <input type="radio" id="confuse{{ $i }}" name="confuse" value="{{ $i }}" @if ($score->confuse == $i) checked @endif required>
@@ -115,6 +135,7 @@
         <div id="question3" class="question">
             <div class="form-group">
                 <label for="feed">Feed (0-5):</label><br>
+                <img src="{{ asset('assets/img/Eating.png') }}" alt="Eating" style="max-width: 100%; height: auto;">
                 <div class="radio-group">
                     @for ($i = 0; $i <= 5; $i++)
                     <input type="radio" id="feed{{ $i }}" name="feed" value="{{ $i }}" @if ($score->feed == $i) checked @endif required>
@@ -132,6 +153,7 @@
         <div id="question4" class="question">
             <div class="form-group">
                 <label for="toilet">Toilet (0-5):</label><br>
+                <img src="{{ asset('assets/img/Toilet.png') }}" alt="Toilet" style="max-width: 100%; height: auto;">
                 <div class="radio-group">
                     @for ($i = 0; $i <= 5; $i++)
                     <input type="radio" id="toilet{{ $i }}" name="toilet" value="{{ $i }}" @if ($score->toilet == $i) checked @endif required>
@@ -177,49 +199,40 @@
 </div>
 
 <script>
+    function previewImage(event) {
+        const imagePreview = document.getElementById('image_preview');
+        imagePreview.src = URL.createObjectURL(event.target.files[0]);
+        imagePreview.style.display = 'block';
+    }
+
     function showQuestion(current, target) {
         document.getElementById('question' + current).classList.remove('active');
         document.getElementById('question' + target).classList.add('active');
-        summarizeAnswers();
-    }
 
-    function summarizeAnswers() {
-        const summary = [];
-        const fields = ['mobility', 'confuse', 'feed', 'toilet'];
+        if (target === 5) {
+            const mobility = document.querySelector('input[name="mobility"]:checked').value;
+            const confuse = document.querySelector('input[name="confuse"]:checked').value;
+            const feed = document.querySelector('input[name="feed"]:checked').value;
+            const toilet = document.querySelector('input[name="toilet"]:checked').value;
 
-        fields.forEach(field => {
-            const radios = document.getElementsByName(field);
-            for (const radio of radios) {
-                if (radio.checked) {
-                    summary.push(`${field} = ${radio.value}`);
-                    break;
-                }
+            const summary = `Mobility: ${mobility}, Confuse: ${confuse}, Feed: ${feed}, Toilet: ${toilet}`;
+            document.getElementById('score_summary').innerText = summary;
+
+            // Additional logic to determine group summary based on scores
+            let group = '';
+            if (mobility >= 4 && confuse <= 1) {
+                group = 'ปกติ (B5, B4)';
+            } else if (mobility >= 2) {
+                group = 'ติดบ้าน (B3, C4, C3, C2)';
+            } else {
+                group = 'ติดเตียง (I1, I2, I3)';
             }
-        });
-
-        document.getElementById('summary').textContent = summary.join(', ');
-
-        // Update summary section with evaluation details
-        document.getElementById('score_summary').textContent = summary.join(', ');
-
-        // Determine and display group
-        const scoreData = {
-            mobility: parseInt(document.querySelector('input[name="mobility"]:checked').value),
-            confuse: parseInt(document.querySelector('input[name="confuse"]:checked').value),
-            feed: parseInt(document.querySelector('input[name="feed"]:checked').value),
-            toilet: parseInt(document.querySelector('input[name="toilet"]:checked').value),
-        };
-
-        const group = determineGroup(scoreData);
-        document.getElementById('group_summary').textContent = `กลุ่ม: ${group}`;
+            document.getElementById('group_summary').innerText = 'กลุ่ม: ' + group;
+        }
     }
 
     function submitForm() {
         document.getElementById('score_form').submit();
     }
-
-    document.addEventListener('DOMContentLoaded', () => {
-        summarizeAnswers(); // Initialize summary when page loads
-    });
 </script>
 @endsection
