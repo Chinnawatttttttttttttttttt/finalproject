@@ -5,164 +5,150 @@
     <div class="row">
         <div class="col-md-12">
             <h1>แดชบอร์ด</h1>
-        </div>
-    </div>
-
-    <!-- แผนภูมิ TAI -->
-    <div class="row mt-4">
-        <div class="col-md-6">
-            <!-- แผนภูมิ Pie Chart TAI -->
-            <div class="card">
-                <div class="card-header bg-white-purple">
-                    <h4 class="card-title ">แผนภูมิ Pie Chart TAI</h4>
-                    <p class="card-category ">คะแนนรวมเป็นเปอร์เซ็นต์ (0-5)</p>
-                </div>
-                <div class="card-body">
-                    <div id="chartPreferences" class="ct-chart ct-perfect-fourth"></div>
-                </div>
-                <div class="card-footer bg-white">
-                    <div class="legend">
-                        <i class="fa fa-circle text-info"></i> การเคลื่อนไหว: {{ $mobilityPercentage }}%
-                        <i class="fa fa-circle text-danger"></i> สับสน: {{ $confusePercentage }}%
-                        <i class="fa fa-circle text-warning"></i> การให้อาหาร: {{ $feedPercentage }}%
-                        <i class="fa fa-circle" style="color: {{ $groupColors['C2'] }};"></i> การใช้ห้องน้ำ: {{ $toiletPercentage }}%
-                    </div>
-                    <hr class="mt-2 mb-2">
-                    <div class="stats">
-                        <i class="fa fa-clock-o"></i> อัปเดตล่าสุด: {{ $lastUpdate }}
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <!-- แผนภูมิ Bar Chart TAI -->
-            <div class="card">
-                <div class="card-header bg-white-purple">
-                    <h4 class="card-title ">แผนภูมิ Bar Chart TAI</h4>
-                    <p class="card-category ">คะแนนรวมเป็นเปอร์เซ็นต์ (0-5)</p>
-                </div>
-                <div class="card-body">
-                    <div id="chartHours" class="ct-chart"></div>
-                </div>
-                <div class="card-footer bg-white">
-                    <div class="legend">
-                        <i class="fa fa-circle text-info"></i> การเคลื่อนไหว: {{ $mobilityPercentage }}%
-                        <i class="fa fa-circle text-danger"></i> สับสน: {{ $confusePercentage }}%
-                        <i class="fa fa-circle text-warning"></i> การให้อาหาร: {{ $feedPercentage }}%
-                        <i class="fa fa-circle" style="color: {{ $groupColors['C2'] }};"></i> การใช้ห้องน้ำ: {{ $toiletPercentage }}%
-                    </div>
-                    <hr class="mt-2 mb-2">
-                    <div class="stats">
-                        <i class="fa fa-clock-o"></i> อัปเดตล่าสุด: {{ $lastUpdate }}
-                    </div>
-                </div>
-            </div>
+            <p>อัปเดตล่าสุด: {{ $lastUpdate }}</p>
         </div>
     </div>
 
     <!-- แผนภูมิ Group Counts -->
     <div class="row mt-4">
-        <div class="col-md-6">
-            <!-- แผนภูมิ Pie Chart จำนวนกลุ่ม -->
+        <div class="col-md-8">
             <div class="card">
                 <div class="card-header bg-white-purple">
-                    <h4 class="card-title ">แผนภูมิ Pie Chart จำนวนกลุ่ม</h4>
-                    <p class="card-category ">เปอร์เซ็นต์ของบุคคลในแต่ละกลุ่ม</p>
+                    <h4 class="card-title">จำนวนผู้สูงอายุในแต่ละกลุ่ม</h4>
                 </div>
                 <div class="card-body">
-                    <div id="chartGroupPie" class="ct-chart ct-perfect-fourth"></div>
+                    <div id="groupChart" style="height: 300px;"></div>
                 </div>
                 <div class="card-footer bg-white">
                     <div class="legend">
-                        @foreach($groupAverages as $groupName => $groupAverage)
-                            <i class="fa fa-circle" style="color: {{ $groupColors[$groupName] }};"></i> {{ $groupName }}: {{ $groupAverage }}%
-                        @endforeach
-                    </div>
-                    <hr class="mt-2 mb-2">
-                    <div class="stats">
-                        <i class="fa fa-clock-o"></i> อัปเดตล่าสุด: {{ $lastUpdate }}
+                        <i class="fa fa-circle" style="color: {{ $groupColors['Group 1'] }};"></i> กลุ่มปกติ : {{ $groupCounts['Group 1'] }} คน<br>
+                        <i class="fa fa-circle" style="color: {{ $groupColors['Group 2'] }};"></i> กลุ่มติดบ้าน : {{ $groupCounts['Group 2'] }} คน<br>
+                        <i class="fa fa-circle" style="color: {{ $groupColors['Group 3'] }};"></i> กลุ่มติดเตียง : {{ $groupCounts['Group 3'] }} คน<br>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
-            <!-- แผนภูมิ Bar Chart จำนวนกลุ่ม -->
+
+        <!-- ตารางแสดงจำนวนผู้สูงอายุในแต่ละกลุ่ม -->
+        <div class="col-md-4">
             <div class="card">
                 <div class="card-header bg-white-purple">
-                    <h4 class="card-title ">แผนภูมิ Bar Chart จำนวนกลุ่ม</h4>
-                    <p class="card-category ">เปอร์เซ็นต์ของบุคคลในแต่ละกลุ่ม</p>
+                    <h4 class="card-title">รายละเอียดจำนวนผู้สูงอายุ</h4>
                 </div>
                 <div class="card-body">
-                    <div id="chartGroupBar" class="ct-chart"></div>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>กลุ่ม</th>
+                                <th>จำนวน</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>กลุ่มปกติ</td>
+                                <td>{{ $groupCounts['Group 1'] }}</td>
+                            </tr>
+                            <tr>
+                                <td>กลุ่มติดบ้าน</td>
+                                <td>{{ $groupCounts['Group 2'] }}</td>
+                            </tr>
+                            <tr>
+                                <td>กลุ่มติดเตียง</td>
+                                <td>{{ $groupCounts['Group 3'] }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-                <div class="card-footer bg-white">
-                    <div class="legend">
-                        @foreach($groupAverages as $groupName => $groupAverage)
-                            <i class="fa fa-circle" style="color: {{ $groupColors[$groupName] }};"></i> {{ $groupName }}: {{ $groupAverage }}%
-                        @endforeach
-                    </div>
-                    <hr class="mt-2 mb-2">
-                    <div class="stats">
-                        <i class="fa fa-clock-o"></i> อัปเดตล่าสุด: {{ $lastUpdate }}
-                    </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- แผนภูมิ Score Counts -->
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header bg-white-purple">
+                    <h4 class="card-title">จำนวนผู้สูงอายุตามคะแนน</h4>
+                </div>
+                <div class="card-body">
+                    <div id="scoreChart" style="height: 300px;"></div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Include jQuery -->
-<script src="{{ asset('js/jquery.min.js') }}"></script>
-<!-- Include Bootstrap JS -->
-<script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
-<!-- Include Chartist JS -->
-<script src="{{ asset('js/chartist.min.js') }}"></script>
-<!-- Your custom scripts -->
+<!-- Include Google Charts -->
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script>
-    $(document).ready(function() {
-        // Data for TAI pie chart
-        var mobility = {{ $mobilityPercentage }};
-        var confuse = {{ $confusePercentage }};
-        var feed = {{ $feedPercentage }};
-        var toilet = {{ $toiletPercentage }};
+    google.charts.load('current', {'packages':['corechart', 'bar']});
+    google.charts.setOnLoadCallback(drawGroupChart);
+    google.charts.setOnLoadCallback(drawScoreChart);
 
-        new Chartist.Pie('#chartPreferences', {
-            labels: ['การเคลื่อนไหว', 'สับสน', 'การให้อาหาร', 'การใช้ห้องน้ำ'],
-            series: [mobility, confuse, feed, toilet]
-        });
-
-        // Data for TAI bar chart
-        var data = {
-            labels: ['การเคลื่อนไหว', 'สับสน', 'การให้อาหาร', 'การใช้ห้องน้ำ'],
-            series: [
-                [{{ $mobilityPercentage }}, {{ $confusePercentage }}, {{ $feedPercentage }}, {{ $toiletPercentage }}]
-            ]
-        };
+    function drawGroupChart() {
+        var groupData = google.visualization.arrayToDataTable([
+            ['Group', 'Number of Elderly'],
+            ['กลุ่มปกติ', {{ $groupCounts['Group 1'] }}],
+            ['กลุ่มติดบ้าน', {{ $groupCounts['Group 2'] }}],
+            ['กลุ่มติดเตียง', {{ $groupCounts['Group 3'] }}]
+        ]);
 
         var options = {
-            seriesBarDistance: 10,
-            axisX: {
-                showGrid: false
-            },
-            height: "245px"
+            title: 'จำนวนผู้สูงอายุในแต่ละกลุ่ม',
+            pieHole: 0.4,
+            colors: ['{{ $groupColors['Group 1'] }}', '{{ $groupColors['Group 2'] }}', '{{ $groupColors['Group 3'] }}']
         };
 
-        new Chartist.Bar('#chartHours', data, options);
+        var groupChart = new google.visualization.PieChart(document.getElementById('groupChart'));
+        groupChart.draw(groupData, options);
+    }
 
-        // Data for Group Counts pie chart
-        var groupLabels = {!! json_encode(array_keys($groupCounts)) !!};
-        var groupPercentages = {!! json_encode(array_values($groupCounts)) !!};
+    function drawScoreChart() {
+        var scoreData = google.visualization.arrayToDataTable([
+            ['Score', 'จำนวนผู้สูงอายุ'],
+            ['B5', {{ $scoreCounts['B5'] }}],
+            ['B4', {{ $scoreCounts['B4'] }}],
+            ['B3', {{ $scoreCounts['B3'] }}],
+            ['C4', {{ $scoreCounts['C4'] }}],
+            ['C3', {{ $scoreCounts['C3'] }}],
+            ['C2', {{ $scoreCounts['C2'] }}],
+            ['I3', {{ $scoreCounts['I3'] }}],
+            ['I2', {{ $scoreCounts['I2'] }}],
+            ['I1', {{ $scoreCounts['I1'] }}]
+        ]);
 
-        new Chartist.Pie('#chartGroupPie', {
-            labels: groupLabels,
-            series: groupPercentages
-        });
+        var options = {
+            title: 'จำนวนผู้สูงอายุตามกลุ่มคะแนน TAI ',
+            chartArea: { width: '70%' },
+            hAxis: {
+                title: 'จำนวนผู้สูงอายุตามกลุ่ม',
+                minValue: 0,
+                gridlines: { count: 5 } // Add gridlines
+            },
+            vAxis: {
+                title: 'กลุ่ม',
+                textStyle: { fontSize: 14 }, // Adjust font size
+                titleTextStyle: { fontSize: 16 } // Title font size
+            },
+            legend: { position: 'none' }, // Hide the legend
+            annotations: {
+                alwaysOutside: true,
+                textStyle: {
+                    fontSize: 12,
+                    color: '#000',
+                    auraColor: 'none'
+                }
+            },
+            colors: ['#4caf50', '#2196F3', '#FFC107', '#FF5722', '#9C27B0', '#00BCD4', '#FF9800', '#673AB7', '#E91E63'], // Different colors for each bar
+            animation: {
+                duration: 500,
+                easing: 'out',
+                startup: true // Animate on chart load
+            }
+        };
 
-        // Data for Group Counts bar chart
-        new Chartist.Bar('#chartGroupBar', {
-            labels: groupLabels,
-            series: [groupPercentages]
-        }, options);
-    });
+        var scoreChart = new google.visualization.BarChart(document.getElementById('scoreChart'));
+        scoreChart.draw(scoreData, options);
+    }
 </script>
 @endsection

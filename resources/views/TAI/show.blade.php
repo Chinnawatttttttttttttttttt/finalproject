@@ -19,7 +19,7 @@
     <div class="form-group" style="display: flex; justify-content: space-between; align-items: center;">
         <div>
             <label for="user_name">ชื่อ-ผู้ประเมิน:</label>
-            <span id="user_name">{{ $user->FirstName . $user->LastName }}</span>
+            <span id="user_name">{{ $user->Title.$user->FirstName}} {{$user->LastName }}</span>
             {{--  <a href="{{ route('print.pdf-qr') }}" class="btn btn-primary" style= "float: right;">PDF</a>  --}}
             {{--  <button id="print-btn" class="btn btn-primary">Print</button>  --}}
         </div>
@@ -49,7 +49,7 @@
                     @if (is_null($score->mobility) && is_null($score->confuse) && is_null($score->feed) && is_null($score->toilet))
                         <tr>
                             <td>{{ $loop->iteration }}</td>
-                            <td>{{ $score->elderly->FirstName }} {{ $score->elderly->LastName }}</td>
+                            <td>{{ $score->elderly->Title.$score->elderly->FirstName }} {{ $score->elderly->LastName }}</td>
                             <td>
                                 <a href="{{ route('score.create', ['id' => $score->id]) }}" class="btn btn-primary">ไปที่หน้าแบบทดสอบ</a>
                             </td>

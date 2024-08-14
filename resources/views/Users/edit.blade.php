@@ -6,6 +6,21 @@
     <form action="{{ route('users.update', $user->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PATCH')
+
+        <!-- Title -->
+        <div class="form-group">
+            <label for="Title">คำนำหน้า:</label>
+            <select class="form-control" id="Title" name="Title" required>
+                <option value="">เลือกคำนำหน้า</option>
+                <option value="นาย" {{ old('Title', $user->Title) == 'นาย' ? 'selected' : '' }}>นาย</option>
+                <option value="นาง" {{ old('Title', $user->Title) == 'นาง' ? 'selected' : '' }}>นาง</option>
+                <option value="นางสาว" {{ old('Title', $user->Title) == 'นางสาว' ? 'selected' : '' }}>นางสาว</option>
+            </select>
+            @error('Title')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
+        </div>
+
         <div class="form-group">
             <label for="FirstName">ชื่อ</label>
             <input type="text" name="FirstName" class="form-control" value="{{ $user->FirstName }}">
@@ -30,10 +45,41 @@
             <label for="Email">อีเมล</label>
             <input type="email" name="Email" class="form-control" value="{{ $user->Email }}">
         </div>
+
+        <!-- Address -->
         <div class="form-group">
-            <label for="Address">ที่อยู่</label>
-            <input type="text" name="Address" class="form-control" value="{{ $user->Address }}">
+            <label for="houseNumber">บ้านเลขที่:</label>
+            <input type="text" class="form-control" id="houseNumber" name="houseNumber" value="{{ old('houseNumber', $houseNumber) }}">
         </div>
+
+        <div class="form-group">
+            <label for="village">หมู่:</label>
+            <input type="text" class="form-control" id="village" name="village" value="{{ old('village', $village) }}">
+        </div>
+
+        <div class="form-group">
+            <label for="subdistrict">ตำบล:</label>
+            <input type="text" class="form-control" id="subdistrict" name="subdistrict" value="{{ old('subdistrict', $subdistrict) }}">
+        </div>
+
+        <div class="form-group">
+            <label for="district">อำเภอ:</label>
+            <input type="text" class="form-control" id="district" name="district" value="{{ old('district', $district) }}">
+        </div>
+
+        <div class="form-group">
+            <label for="province">จังหวัด:</label>
+            <input type="text" class="form-control" id="province" name="province" value="{{ old('province', $province) }}">
+        </div>
+
+        <div class="form-group">
+            <label for="postalCode">รหัสไปรษณีย์:</label>
+            <input type="text" class="form-control" id="postalCode" name="postalCode" value="{{ old('postalCode', $postalCode) }}">
+        </div>
+
+        <!-- Hidden field to store combined address -->
+        <input type="hidden" id="Address" name="Address">
+
         <div class="form-group">
             <label for="Phone">เบอร์โทร</label>
             <input type="text" name="Phone" class="form-control" value="{{ $user->Phone }}">
@@ -58,10 +104,29 @@
             <label for="image_Profile">รูปภาพ</label>
             <input type="file" name="image_Profile" class="form-control">
             @if($user->image_Profile)
-                <img src="{{ asset('storage/' . $user->image_Profile) }}" alt="Profile Image" width="100">
+                <img src="{{ asset('images/'.$user->image_Profile) }}" alt="Profile Image" class="profile-image">
             @endif
         </div>
-        <button type="submit" class="btn btn-primary">บันทึก</button>
+        <button type="submit" class="btn btn-primary" onclick="combineNameAndAddress()">บันทึก</button>
     </form>
 </div>
+
+<script>
+    function combineNameAndAddress() {
+        const houseNumber = document.getElementById('houseNumber').value;
+        const village = document.getElementById('village').value;
+        const subdistrict = document.getElementById('subdistrict').value;
+        const district = document.getElementById('district').value;
+        const province = document.getElementById('province').value;
+        const postalCode = document.getElementById('postalCode').value;
+
+        // Combine address
+        {{--  const address = `บ้านเลขที่ ${houseNumber} หมู่บ้าน ${village} ตำบล ${subdistrict} อำเภอ ${district} จังหวัด ${province} รหัสไปรษณีย์ ${postalCode}`;  --}}
+        const address = 'บ้านเลขที่ ' + houseNumber + ' หมู่บ้าน ' + village + ' ตำบล ' + subdistrict + ' อำเภอ ' + district + ' จังหวัด ' + province + ' รหัสไปรษณีย์ ' + postalCode;
+        document.getElementById('Address').value = address;
+
+        console.log('Combined Address:', address); // For debugging
+    }
+</script>
+
 @endsection

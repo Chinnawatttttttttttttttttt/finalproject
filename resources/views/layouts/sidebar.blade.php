@@ -18,6 +18,12 @@
                     <p>User Profile</p>
                 </a>
             </li>
+            <li class="{{ Request::is('all-elderly') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ url('all-elderly') }}">
+                    <i class="nc-icon nc-paper-2"></i>
+                    <p>ผู้สูงอายุ</p>
+                </a>
+            </li>
             <li class="{{ Request::is('tai') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ url('tai') }}">
                     <i class="nc-icon nc-paper-2"></i>

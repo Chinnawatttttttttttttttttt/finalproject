@@ -16,7 +16,10 @@ class ElderlyController extends Controller
 
     public function store(Request $request)
     {
+        // dd($request->all());
+
         $request->validate([
+            'Title' =>'required|string',
             'FirstName' => 'required|string',
             'LastName' => 'required|string',
             'NickName' => 'nullable|string',
@@ -29,6 +32,7 @@ class ElderlyController extends Controller
         ]);
 
         $elderly = new Elderly();
+        $elderly->Title = $request->Title;
         $elderly->FirstName = $request->FirstName;
         $elderly->LastName = $request->LastName;
         $elderly->NickName = $request->NickName;
@@ -54,7 +58,7 @@ class ElderlyController extends Controller
             $qrImage = QrCode::format('png')->size(300)->generate($qrContent);
             $qrPath = 'qr-codes/score_tai_' . $scoreTai->id . '.png';
 
-            // Save QR code image to public path
+            // บันทึกภาพ QR code ลงใน path สาธารณะ
             file_put_contents(public_path($qrPath), $qrImage);
 
             $scoreTai->qr_path = $qrPath;
@@ -75,28 +79,64 @@ class ElderlyController extends Controller
     public function edit($id)
     {
         $elderly = Elderly::findOrFail($id);
-        return view('Elderlys.edit', compact('elderly'));
+
+        // Split address
+        $address = $elderly->Address;
+        $addressParts = preg_split('/\s+/', $address); // Split by whitespace
+
+        // Assuming the address structure is defined:
+        $houseNumber = $addressParts[1] ?? '';
+        $village = $addressParts[3] ?? '';
+        $subdistrict = $addressParts[5] ?? '';
+        $district = $addressParts[7] ?? '';
+        $province = $addressParts[9] ?? '';
+        $postalCode = $addressParts[11] ?? '';
+
+        // Calculate age
+        $age = (new \Carbon\Carbon($elderly->Birthday))->diffInYears();
+
+        return view('Elderlys.edit', compact('elderly', 'houseNumber', 'village', 'subdistrict', 'district', 'province', 'postalCode', 'age'));
     }
 
-    // Method สำหรับอัปเดตข้อมูล
     public function update(Request $request, $id)
     {
+        // dd($request->all());
+
         $request->validate([
+            'Title' => 'required|string',
             'FirstName' => 'required|string|max:255',
             'LastName' => 'required|string|max:255',
             'NickName' => 'nullable|string|max:255',
             'Birthday' => 'required|date',
             'Age' => 'required|integer',
-            'Address' => 'nullable|string|max:255',
+            'houseNumber' => 'nullable|string|max:255',
+            'village' => 'nullable|string|max:255',
+            'subdistrict' => 'nullable|string|max:255',
+            'district' => 'nullable|string|max:255',
+            'province' => 'nullable|string|max:255',
+            'postalCode' => 'nullable|string|max:20',
             'Latitude' => 'nullable|numeric',
             'Longitude' => 'nullable|numeric',
             'Phone' => 'nullable|string|max:20',
         ]);
 
         $elderly = Elderly::findOrFail($id);
-        $elderly->update($request->all());
+        $elderly->Title = $request->Title;
+        $elderly->FirstName = $request->FirstName;
+        $elderly->LastName = $request->LastName;
+        $elderly->NickName = $request->NickName;
+        $elderly->Birthday = $request->Birthday;
+        $elderly->Age = $request->Age; // Make sure the age is correctly set
+        $elderly->Address = $request->Address; // Save the combined address
+        $elderly->Latitude = $request->Latitude;
+        $elderly->Longitude = $request->Longitude;
+        $elderly->Phone = $request->Phone;
 
-        return redirect()->route('elderlys.edit', $id)->with('success', 'Elderly details updated successfully.');
+        // Add other necessary fields...
+
+        $elderly->save();
+
+        return redirect()->route('elderlys.edit', $id)->with('success', 'ข้อมูลผู้สูงอายุถูกอัปเดตสำเร็จ');
     }
 
     public function destroy($id)
@@ -115,5 +155,4 @@ class ElderlyController extends Controller
         $elderlies = Elderly::all(); // ดึงข้อมูลทั้งหมดของผู้สูงอายุ
         return view('dashboard.map', ['elderlies' => $elderlies]);
     }
-
 }

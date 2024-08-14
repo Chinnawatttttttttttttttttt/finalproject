@@ -16,7 +16,7 @@ class ScoreExports implements FromCollection, WithHeadings, WithEvents
         return ScoreTAI::with(['elderly', 'group', 'user'])->get()->map(function ($score) {
             return [
                 'ID' => $score->id,
-                'Elderly Name' => $score->elderly ? $score->elderly->FirstName . ' ' . $score->elderly->LastName : 'N/A',
+                'Elderly Name' => $score->elderly ? $score->elderly->Title .''. $score->elderly->FirstName . ' ' . $score->elderly->LastName : 'N/A',
                 'Mobility' => $score->mobility,
                 'Confuse' => $score->confuse,
                 'Feed' => $score->feed,

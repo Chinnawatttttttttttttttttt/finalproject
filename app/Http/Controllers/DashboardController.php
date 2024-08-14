@@ -4,95 +4,66 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\ScoreTAI;
+use App\Models\Group; // Import Group model
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
     public function index()
     {
+        // Retrieve scores from ScoreTAI
         $scores = ScoreTAI::all();
-        $mobilityPercentage = $scores->avg('mobility');
-        $confusePercentage = $scores->avg('confuse');
-        $feedPercentage = $scores->avg('feed');
-        $toiletPercentage = $scores->avg('toilet');
 
-        // Calculate group averages and counts
-        $groupAverages = $this->calculateGroupAverages($scores);
+        // Calculate group counts from scores
         $groupCounts = $this->calculateGroupCounts($scores);
 
-        // Define colors for each group
-        $groupColors = [
-            'B5' => '#ff0000',   // Red
-            'B4' => '#ff6600',   // Orange
-            'B3' => '#ffff00',   // Yellow
-            'C4' => '#00ff00',   // Green
-            'C3' => '#0000ff',   // Blue
-            'C2' => '#6600ff',   // Purple
-            'I3' => '#ff00ff',   // Magenta
-            'I2' => '#00ffff',   // Cyan
-            'I1' => '#f5f5f5',   // Light Gray
-            'Unknown' => '#cccccc'  // Gray
+        // Retrieve group data from Group model
+        $groupData = Group::select('name', DB::raw('count(*) as count'))
+            ->groupBy('name')
+            ->pluck('count', 'name');
+
+        // Prepare score counts based on group data
+        $scoreCounts = [
+            'B5' => $groupData['B5'] ?? 0,
+            'B4' => $groupData['B4'] ?? 0,
+            'B3' => $groupData['B3'] ?? 0,
+            'C4' => $groupData['C4'] ?? 0,
+            'C3' => $groupData['C3'] ?? 0,
+            'C2' => $groupData['C2'] ?? 0,
+            'I3' => $groupData['I3'] ?? 0,
+            'I2' => $groupData['I2'] ?? 0,
+            'I1' => $groupData['I1'] ?? 0,
         ];
 
+        // Get colors for each group from config
+        $groupColors = config('group_colors');
         $lastUpdate = Carbon::now()->toDateTimeString();
 
-        // Pass data to view
-        return view('dashboard.index', compact('lastUpdate','mobilityPercentage', 'confusePercentage', 'feedPercentage', 'toiletPercentage', 'groupAverages', 'groupCounts', 'groupColors'));
-    }
-
-    private function calculateGroupAverages($scores)
-    {
-        $groupCounts = [
-            'B5' => 0,
-            'B4' => 0,
-            'B3' => 0,
-            'C4' => 0,
-            'C3' => 0,
-            'C2' => 0,
-            'I3' => 0,
-            'I2' => 0,
-            'I1' => 0,
-            'Unknown' => 0,
-        ];
-
-        foreach ($scores as $score) {
-            $group = $this->determineGroup($score);
-            $groupCounts[$group]++;
-        }
-
-        $groupAverages = [];
-        $totalScores = count($scores);
-
-        foreach ($groupCounts as $group => $count) {
-            if ($totalScores > 0) {
-                $average = round(($count / $totalScores) * 100, 2);
-            } else {
-                $average = 0;
-            }
-            $groupAverages[$group] = $average;
-        }
-
-        return $groupAverages;
+        // Send data to the View
+        return view('dashboard.index', compact(
+            'lastUpdate',
+            'groupCounts',
+            'groupColors',
+            'scoreCounts' // Include the score counts in the view data
+        ));
     }
 
     private function calculateGroupCounts($scores)
     {
         $groupCounts = [
-            'B5' => 0,
-            'B4' => 0,
-            'B3' => 0,
-            'C4' => 0,
-            'C3' => 0,
-            'C2' => 0,
-            'I3' => 0,
-            'I2' => 0,
-            'I1' => 0,
-            'Unknown' => 0,
+            'Group 1' => 0, // ปกติ
+            'Group 2' => 0, // ติดบ้าน
+            'Group 3' => 0, // ติดเตียง
         ];
 
         foreach ($scores as $score) {
             $group = $this->determineGroup($score);
-            $groupCounts[$group]++;
+
+            // ตรวจสอบว่ากลุ่มที่คืนค่ามีอยู่ใน $groupCounts หรือไม่
+            if (array_key_exists($group, $groupCounts)) {
+                $groupCounts[$group]++;
+            }
         }
 
         return $groupCounts;
@@ -101,30 +72,15 @@ class DashboardController extends Controller
     private function determineGroup($score)
     {
         $mobility = $score->mobility;
-        $confuse = $score->confuse;
-        $feed = $score->feed;
-        $toilet = $score->toilet;
 
-        if ($mobility == 5 && $confuse == 5 && $feed == 5 && $toilet == 5) {
-            return 'B5';
-        } elseif ($mobility >= 4 && $confuse >= 4 && $feed >= 4 && $toilet >= 4) {
-            return 'B4';
-        } elseif ($mobility >= 3 && $confuse >= 4 && $feed <= 3 && $toilet <= 3) {
-            return 'B3';
-        } elseif ($mobility >= 3 && $confuse <= 3 && $feed >= 4 && $toilet >= 4) {
-            return 'C4';
-        } elseif ($mobility >= 3 && $confuse <= 3 && $feed == 3 && $toilet == 4) {
-            return 'C3';
-        } elseif ($mobility >= 3 && $confuse <= 3 && $feed <= 3 && $toilet <= 3) {
-            return 'C2';
-        } elseif ($mobility <= 2 && $feed >= 4) {
-            return 'I3';
-        } elseif ($mobility <= 2 && $feed == 3) {
-            return 'I2';
-        } elseif ($mobility <= 2 && $feed <= 2) {
-            return 'I1';
-        } else {
-            return 'Unknown';
+        if (in_array($mobility, [5, 4])) {
+            return 'Group 1'; // ปกติ
+        } elseif (in_array($mobility, [3]) || in_array($score->confuse, [4, 3, 2])) {
+            return 'Group 2'; // ติดบ้าน
+        } elseif (in_array($mobility, [1, 2])) {
+            return 'Group 3'; // ติดเตียง
         }
+
+        return 'Unknown'; // ถ้าไม่อยู่ในกลุ่มใด
     }
 }

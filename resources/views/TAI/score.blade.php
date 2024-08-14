@@ -72,12 +72,12 @@
             <div class="form-group" style="display: flex; justify-content: space-between; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
                 <div>
                     <label for="elderly_name">ชื่อ-ผู้สูงอายุ:</label>
-                    <span>{{ $elderly->FirstName }} {{ $elderly->LastName }}</span><br>
+                    <span>{{ $elderly->Title.$elderly->FirstName }} {{ $elderly->LastName }}</span><br>
                     <input type="hidden" name="elderly_id" value="{{ $elderly->id }}">
-                </div>
+                </div>  
                 <div class="user-section">
                     <label for="user_name">ผู้ประเมิน:</label>
-                    <span>{{ $user->FirstName }} {{ $user->LastName }}</span>
+                    <span>{{ $user->Title.$user->FirstName }} {{ $user->LastName }}</span>
                 </div>
             </div>
 
