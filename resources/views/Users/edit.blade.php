@@ -104,7 +104,7 @@
             <label for="image_Profile">รูปภาพ</label>
             <input type="file" name="image_Profile" class="form-control">
             @if($user->image_Profile)
-                <img src="{{ asset('storage/' . $user->image_Profile) }}" alt="Profile Image" width="100">
+                <img src="{{ asset('images/'.$user->image_Profile) }}" alt="Profile Image" class="profile-image">
             @endif
         </div>
         <button type="submit" class="btn btn-primary" onclick="combineNameAndAddress()">บันทึก</button>
@@ -124,7 +124,7 @@
         {{--  const address = `บ้านเลขที่ ${houseNumber} หมู่บ้าน ${village} ตำบล ${subdistrict} อำเภอ ${district} จังหวัด ${province} รหัสไปรษณีย์ ${postalCode}`;  --}}
         const address = 'บ้านเลขที่ ' + houseNumber + ' หมู่บ้าน ' + village + ' ตำบล ' + subdistrict + ' อำเภอ ' + district + ' จังหวัด ' + province + ' รหัสไปรษณีย์ ' + postalCode;
         document.getElementById('Address').value = address;
-        
+
         console.log('Combined Address:', address); // For debugging
     }
 </script>
