@@ -21,6 +21,7 @@
                 </div>
                 <div class="card-footer bg-white">
                     <div class="legend">
+                        <i class="fa fa-circle" style="color: {{ $groupColors['Group 0'] }};"></i> ยังไม่ได้ประเมิน : {{ $groupCounts['Group 0'] }} คน<br>
                         <i class="fa fa-circle" style="color: {{ $groupColors['Group 1'] }};"></i> กลุ่มปกติ : {{ $groupCounts['Group 1'] }} คน<br>
                         <i class="fa fa-circle" style="color: {{ $groupColors['Group 2'] }};"></i> กลุ่มติดบ้าน : {{ $groupCounts['Group 2'] }} คน<br>
                         <i class="fa fa-circle" style="color: {{ $groupColors['Group 3'] }};"></i> กลุ่มติดเตียง : {{ $groupCounts['Group 3'] }} คน<br>
@@ -55,6 +56,10 @@
                             <tr>
                                 <td>กลุ่มติดเตียง</td>
                                 <td>{{ $groupCounts['Group 3'] }}</td>
+                            </tr>
+                            <tr>
+                                <td>ยังไม่ได้ประเมิน</td>
+                                <td>{{ $groupCounts['Group 0'] }}</td>
                             </tr>
                         </tbody>
                     </table>
