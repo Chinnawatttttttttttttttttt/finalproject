@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Elderly;
 use App\Models\ScoreTAI;
+use App\Models\Group;
+use Illuminate\Support\Facades\DB;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class ElderlyController extends Controller
@@ -143,7 +145,33 @@ class ElderlyController extends Controller
     {
         $elderly = Elderly::find($id);
         if ($elderly) {
-            $elderly->delete();
+            // เริ่มการทำงานในทรานแซกชันเพื่อให้มั่นใจว่าทุกตารางถูกลบครบถ้วน
+            DB::transaction(function () use ($elderly) {
+                // ลบข้อมูลในตาราง ScoreTAI ที่มี elderly_id เท่ากับ $elderly->id
+                $scores = ScoreTAI::where('elderly_id', $elderly->id)->get();
+
+                // ลบ QR code ตาม ID ใน ScoreTAI
+                foreach ($scores as $score) {
+                    $fileName = "score_tai_{$score->id}.png"; // สร้างชื่อไฟล์ตาม ID
+                    $filePath = public_path('qr-codes/' . $fileName); // สร้างเส้นทางไปยังไฟล์
+                    if (file_exists($filePath)) {
+                        unlink($filePath); // ลบไฟล์ QR code
+                    }
+                }
+
+                // ลบข้อมูลในตาราง ScoreTAI
+                ScoreTAI::where('elderly_id', $elderly->id)->delete();
+
+                // ลบรูปภาพโปรไฟล์ (หากมี)
+                // unlink(public_path('images') . '/' . $elderly->image_Profile); // ใช้ $elderly แทน $user
+
+                // ลบข้อมูลในตาราง Group
+                Group::where('elderly_id', $elderly->id)->delete();
+
+                // ลบข้อมูลในตาราง Elderly
+                $elderly->delete();
+            });
+
             return redirect()->route('all-elderly')->with('success', 'ลบข้อมูลสำเร็จ');
         } else {
             return redirect()->route('all-elderly')->with('fail', 'ไม่พบข้อมูลที่ต้องการลบ');
