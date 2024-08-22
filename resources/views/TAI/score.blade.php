@@ -170,24 +170,16 @@
 
         <div id="question5" class="question">
             <div class="form-group">
+                <h3>สรุปข้อมูลการประเมิน</h3>
+                <p id="user_id_summary">ผู้ประเมิน: {{ $user->FirstName }} {{ $user->LastName }}</p>
+                <p id="elderly_name_summary">ผู้สูงอายุ: {{ $elderly->FirstName }} {{ $elderly->LastName }}</p>
                 <label for="summary">สรุปคำตอบ:</label><br>
                 <p id="summary"></p>
-            </div>
-
-            <div class="question-buttons">
-                <button type="button" onclick="showQuestion(5, 4)">กลับ</button>
-                <button type="button" onclick="submitForm()">บันทึก</button>
-            </div>
-        </div>
-
-        <div id="summary_section" class="question">
-            <div class="form-group">
-                <h3>สรุปข้อมูลการประเมิน</h3>
-                <p id="elderly_name_summary">ผู้สูงอายุ: {{ $elderly->FirstName }} {{ $elderly->LastName }}</p>
-                <p id="user_id_summary">ผู้ประเมิน: {{ $user->FirstName }} {{ $user->LastName }}</p>
-                <p id="score_summary"></p>
+                {{--  <p id="score_summary"></p>  --}}
                 <p id="group_summary"></p>
             </div>
+
+            <!-- สิ้นสุดการเพิ่มเนื้อหาจาก div ที่สอง -->
 
             <div class="question-buttons">
                 <button type="button" onclick="showQuestion(5, 4)">กลับ</button>
@@ -216,23 +208,40 @@
             const toilet = document.querySelector('input[name="toilet"]:checked').value;
 
             const summary = `Mobility: ${mobility}, Confuse: ${confuse}, Feed: ${feed}, Toilet: ${toilet}`;
-            document.getElementById('score_summary').innerText = summary;
+            document.getElementById('summary').innerText = summary;
+            {{--  document.getElementById('score_summary').innerText = summary;  --}}
+            console.log(summary);
 
             // Additional logic to determine group summary based on scores
             let group = '';
-            if (mobility >= 4 && confuse <= 1) {
-                group = 'ปกติ (B5, B4)';
-            } else if (mobility >= 2) {
-                group = 'ติดบ้าน (B3, C4, C3, C2)';
-            } else {
-                group = 'ติดเตียง (I1, I2, I3)';
+            if (mobility === 5 && confuse === 5 && feed === 5 && toilet === 5) {
+                group = 'B5 เป็นกลุ่มปกติ';
+            } else if (mobility >= 4 && confuse >= 4 && feed >= 4 && toilet >= 4) {
+                group = 'B4 เป็นกลุ่มปกติ';
+            } else if (mobility >= 3 && confuse >= 4 && feed <= 3 && toilet <= 3) {
+                group = 'B3 เป็นกลุ่มติดบ้าน';
+            } else if (mobility >= 3 && confuse <= 3 && feed >= 4 && toilet >= 4) {
+                group = 'C4 เป็นกลุ่มติดบ้าน';
+            } else if (mobility >= 3 && confuse <= 3 && feed === 3 && toilet === 4) {
+                group = 'C3 เป็นกลุ่มติดบ้าน';
+            } else if (mobility >= 3 && confuse <= 3 && feed <= 3 && toilet <= 3) {
+                group = 'C2 เป็นกลุ่มติดบ้าน';
+            } else if (mobility <= 2 && feed >= 4) {
+                group = 'I3 เป็นกลุ่มติดเตียง';
+            } else if (mobility <= 2 && feed === 3) {
+                group = 'I2 เป็นกลุ่มติดเตียง';
+            } else if (mobility <= 2 && feed <= 2) {
+                group = 'I1 เป็นกลุ่มติดเตียง';
             }
+
             document.getElementById('group_summary').innerText = 'กลุ่ม: ' + group;
+
         }
     }
 
     function submitForm() {
         document.getElementById('score_form').submit();
     }
+
 </script>
 @endsection
