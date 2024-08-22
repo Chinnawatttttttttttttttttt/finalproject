@@ -183,4 +183,5 @@ class ElderlyController extends Controller
         $elderlies = Elderly::all(); // ดึงข้อมูลทั้งหมดของผู้สูงอายุ
         return view('dashboard.map', ['elderlies' => $elderlies]);
     }
+    
 }

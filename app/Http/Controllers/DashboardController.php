@@ -69,14 +69,14 @@ class DashboardController extends Controller
 
         $group = $this->determineGroup($score);
 
-        \Log::info('Determined group:', ['group' => $group]);
+        // \Log::info('Determined group:', ['group' => $group]);
 
         if (array_key_exists($group, $groupCounts)) {
             $groupCounts[$group]++;
         }
     }
 
-    \Log::info('Final group counts:', $groupCounts);
+    // \Log::info('Final group counts:', $groupCounts);
 
     return $groupCounts;
 }
