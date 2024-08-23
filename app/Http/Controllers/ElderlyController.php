@@ -183,5 +183,27 @@ class ElderlyController extends Controller
         $elderlies = Elderly::all(); // ดึงข้อมูลทั้งหมดของผู้สูงอายุ
         return view('dashboard.map', ['elderlies' => $elderlies]);
     }
-    
+
+    public function profile($id){
+
+        $elderly = Elderly::findOrFail($id);
+
+        // Split address
+        $address = $elderly->Address;
+        $addressParts = preg_split('/\s+/', $address); // Split by whitespace
+
+        // Assuming the address structure is defined:
+        $houseNumber = $addressParts[1] ?? '';
+        $village = $addressParts[3] ?? '';
+        $subdistrict = $addressParts[5] ?? '';
+        $district = $addressParts[7] ?? '';
+        $province = $addressParts[9] ?? '';
+        $postalCode = $addressParts[11] ?? '';
+
+        // Calculate age
+        $age = (new \Carbon\Carbon($elderly->Birthday))->diffInYears();
+
+        return view('Elderlys.profile', compact('elderly', 'houseNumber', 'village', 'subdistrict', 'district', 'province', 'postalCode', 'age'));
+    }
+
 }

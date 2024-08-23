@@ -90,6 +90,7 @@ Route::middleware(['auth', 'IsAdmin', 'CheckLogin', 'NowLogin'])->group(function
 
         Route::get('/maps','showMap')->name('map');
 
+        Route::get('/profile-elderlys/{id}','profile')->name('elderlys.profile');
     });
 
     // ScoreTAI

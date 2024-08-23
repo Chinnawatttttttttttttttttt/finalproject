@@ -23,7 +23,7 @@
                             {{--  <th>อายุ</th>  --}}
                             <th>ที่อยู่</th>
                             <th>โทรศัพท์</th>
-                            {{--  <th>โปรไฟล์</th>  --}}
+                            <th>โปรไฟล์</th>
                             <th>แผนที่</th>
                             <th>แก้ไขข้อมูล</th>
                             <th>ลบข้อมูล</th>
@@ -43,6 +43,11 @@
                             <td style="width: 400px;">{{ $elderly->Address }}</td>
                             <td>{{ $elderly->Phone }}</td>
                             <td>
+                                <a href="{{ route('elderlys.profile', $elderly->id) }}" class="btn btn-success btn-sm">
+                                    <i class="nc-icon nc-single-02"></i> โปรไฟล์
+                                </a>
+                            </td>
+                            <td>
                                 <a href="https://www.google.com/maps/search/?api=1&query={{ $elderly->Latitude }},{{ $elderly->Longitude }}" target="_blank" class="btn btn-info btn-sm">
                                     <i class="nc-icon nc-square-pin"></i> แผนที่
                                 </a>
@@ -57,7 +62,7 @@
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger btn-sm show_confirm" data-name="{{ $elderly->FirstName }} {{ $elderly->LastName }}" data-toggle="tooltip" title="Delete">
-                                        <i class="fas fa-trash"></i> ลบข้อมูล
+                                        <i class="nc-icon nc-simple-remove"></i> ลบข้อมูล
                                     </button>
                                 </form>
                             </td>
