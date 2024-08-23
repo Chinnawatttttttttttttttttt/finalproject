@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <title>Light Bootstrap Dashboard - แดชบอร์ดฟรีของ Bootstrap 4 โดย Creative Tim</title>
+    <title>ระบบการคัดกรองข้อมูลและประเมินสภาวะของผู้สูงอายุผ่านคิวอาร์โค้ดของสำนักงานสาธารณสุขจังหวัดบุรีรัมย์ Screening System and Typology of Aged with Illustration Assessment of the Elderly via the QR code of the Public Health Office Buriram Procince</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no" />
 
     <!-- Apple Touch Icon และ Favicon -->
@@ -76,6 +76,15 @@
     <!-- สคริปต์เพิ่มเติม -->
     @stack('scripts')
 
+    <style>
+        /* ปรับขนาดช่อง lengthMenu */
+        .dataTables_length select {
+            width: 100px; /* กำหนดความกว้างที่ต้องการ */
+            height: 35px; /* กำหนดความสูงที่ต้องการ */
+            font-size: 16px; /* กำหนดขนาดตัวอักษร */
+        }
+    </style>
+
     <script>
         $(document).ready(function() {
             $('#table').DataTable({
@@ -90,10 +99,18 @@
                     "info": "กำลังแสดงหน้าที่ _PAGE_ ของ _PAGES_",
                     "infoEmpty": "ไม่มีข้อมูล",
                     "infoFiltered": "(กรองจากทั้งหมด _MAX_ รายการ)",
-                    "search": "ค้นหา:"
-                }
+                    "search": "ค้นหา:",
+                    "paginate": {
+                        "first": "หน้าแรก",
+                        "last": "หน้าสุดท้าย",
+                        "next": "หน้าถัดไป",
+                        "previous": "หน้าก่อนหน้า"
+                    }
+                },
+                "columnDefs": [
+                    { "className": "dt-center", "targets": "_all" }  // ทำให้ข้อความทุกคอลัมน์อยู่ตรงกลาง
+                ]
             });
-
             // ฟังก์ชันการพิมพ์
             $('#print-btn').click(function() {
                 // ซ่อนคอลัมน์ที่ไม่ต้องการ

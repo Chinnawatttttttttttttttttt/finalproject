@@ -30,7 +30,7 @@
                             <td>{{ $pos->position_name }}</td>
                             <td>
                                 <a href="{{ route('edit-position', $pos->id) }}" class="btn btn-warning btn-sm">
-                                    <i class="fas fa-edit"></i> แก้ไข
+                                    <i class="nc-icon nc-preferences-circle-rotate"></i> แก้ไข
                                 </a>
                             </td>
                             <td>
@@ -38,7 +38,7 @@
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger btn-sm show_confirm" data-name="{{ $pos->position_name }}" title="ลบ">
-                                        <i class="fas fa-trash"></i> ลบ
+                                        <i class="nc-icon nc-simple-remove"></i> ลบ
                                     </button>
                                 </form>
                             </td>

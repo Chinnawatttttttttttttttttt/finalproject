@@ -2,7 +2,7 @@
     <div class="sidebar-wrapper">
         <div class="logo">
             <a href="http://www.creative-tim.com" class="simple-text">
-                Creative Tim
+                TAI
             </a>
         </div>
         <ul class="nav">
@@ -48,12 +48,12 @@
                     <p>Maps</p>
                 </a>
             </li>
-            <li class="{{ Request::is('notifications') ? 'active' : '' }}">
+            {{--  <li class="{{ Request::is('notifications') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ url('notifications') }}">
                     <i class="nc-icon nc-bell-55"></i>
                     <p>Notifications</p>
                 </a>
-            </li>
+            </li>  --}}
             {{--  <li class="nav-item active active-pro {{ Request::is('upgrade') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ url('upgrade') }}">
                     <i class="nc-icon nc-alien-33"></i>

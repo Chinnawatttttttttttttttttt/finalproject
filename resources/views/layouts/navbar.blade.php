@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg " color-on-scroll="500">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#pablo">ระบบการประเมินผู้สูงอายุ TAI </a>
+        <a class="navbar-brand" href="#pablo">ระบบการคัดกรองข้อมูลและประเมินสภาวะของผู้สูงอายุผ่านคิวอาร์โค้ดของสำนักงานสาธารณสุขจังหวัดบุรีรัมย์</a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-bar burger-lines"></span>
             <span class="navbar-toggler-bar burger-lines"></span>
@@ -8,13 +8,13 @@
         </button>
         <div class="collapse navbar-collapse justify-content-end" id="navigation">
             <ul class="nav navbar-nav mr-auto">
-                <li class="nav-item">
+                {{--  <li class="nav-item">
                     <a href="#" class="nav-link" data-toggle="dropdown">
                         <i class="nc-icon nc-palette"></i>
                         <span class="d-lg-none">Dashboard</span>
                     </a>
-                </li>
-                <li class="dropdown nav-item">
+                </li>  --}}
+                {{--  <li class="dropdown nav-item">
                     <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
                         <i class="nc-icon nc-cloud-download-93"></i>
                         <span class="notification">5</span>
@@ -27,13 +27,13 @@
                         <a class="dropdown-item" href="#">Notification 4</a>
                         <a class="dropdown-item" href="#">Another notification</a>
                     </ul>
-                </li>
-                <li class="nav-item">
+                </li>  --}}
+                {{--  <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nc-icon nc-zoom-split"></i>
                         <span class="d-lg-block">&nbsp;Search</span>
                     </a>
-                </li>
+                </li>  --}}
             </ul>
             <ul class="navbar-nav ml-auto">
                 {{--  <li class="nav-item">
@@ -51,8 +51,8 @@
                         <a class="dropdown-item" href="{{ route('all-department') }}">ข้อมูลแผนก</a>
                         <a class="dropdown-item" href="{{ route('all-position') }}">ข้อมูลตำแหน่ง</a>
                         {{--  <a class="dropdown-item" href="#">Something else here</a>  --}}
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Separated link</a>
+                        {{--  <div class="dropdown-divider"></div>  --}}
+                        {{--  <a class="dropdown-item" href="#">Separated link</a>  --}}
                     </div>
                 </li>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -60,7 +60,7 @@
                 </form>
                 <li class="nav-item">
                     <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                        <span class="no-icon">Log out</span>
+                        <span class="no-icon">ออกจากระบบ</span>
                     </a>
                 </li>
             </ul>

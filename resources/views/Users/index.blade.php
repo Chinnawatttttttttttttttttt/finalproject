@@ -43,7 +43,7 @@
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger btn-sm show_confirm" data-name="{{ $user->FirstName }} {{ $user->LastName }}" data-toggle="tooltip" title="Delete">
-                                        <i class="fas fa-trash"></i> ลบข้อมูล
+                                        <i class="nc-icon nc-simple-remove"></i> ลบข้อมูล
                                     </button>
                                 </form>
                             </td>
