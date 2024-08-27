@@ -48,12 +48,12 @@
                     <p>Maps</p>
                 </a>
             </li>
-            {{--  <li class="{{ Request::is('notifications') ? 'active' : '' }}">
+            <li class="{{ Request::is('notifications') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ url('notifications') }}">
                     <i class="nc-icon nc-bell-55"></i>
                     <p>Notifications</p>
                 </a>
-            </li>  --}}
+            </li>
             {{--  <li class="nav-item active active-pro {{ Request::is('upgrade') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ url('upgrade') }}">
                     <i class="nc-icon nc-alien-33"></i>

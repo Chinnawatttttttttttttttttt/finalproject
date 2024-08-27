@@ -3,101 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elderly Individuals in Buriram</title>
+    <title>ระบบการประเมินสภาวะของผู้สูงอายุ</title>
     <style>
-        /* CSS styles for layout */
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
+            margin: 0;
             padding: 0;
-            background-color: #f0f0f0;
+            height: 100vh;
+            background-image: url('./assets/img/blackgroupjpg.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        header {
+            position: absolute;
+            top: 20px;
+            text-align: center;
         }
-        .info-box {
-            margin-bottom: 20px;
-            padding: 15px;
-            background-color: #f9f9f9;
-            border-radius: 6px;
-            border: 1px solid #ccc;
+        header h1 {
+            font-size: 50px;
+            color: #000000;
         }
-        .info-box h2 {
-            margin-top: 0;
+        .login-container {
+            position: absolute;
+            top: 20px;
+            right: 20px; /* เปลี่ยนเป็น right */
         }
-        .district-list {
-            list-style-type: none;
-            padding: 0;
-        }
-        .district-item {
-            margin-bottom: 10px;
-        }
-        .login-button {
-            display: inline-block;
+        .login-container button {
             padding: 10px 20px;
-            background-color: #4CAF50;
+            font-size: 18px;
             color: white;
-            text-decoration: none;
-            border-radius: 4px;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 5px;
             cursor: pointer;
+            transition: background-color 0.3s;
         }
-        .login-button:hover {
-            background-color: #45a049;
+        .login-container button:hover {
+            background-color: #0056b3;
+        }
+        footer {
+            position: absolute;
+            bottom: 20px;
+            text-align: center;
+            color: #ffffff;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Elderly Individuals in Buriram</h1>
+    <header>
+        <h1>ระบบการประเมินสภาวะของผู้สูงอายุ</h1>
+    </header>
 
-        <!-- ปุ่มล็อคอิน -->
-        <a href="/login" class="login-button">Login</a>
-
-        <div class="info-box" id="total-elderly-info">
-            <h2>Total Elderly Individuals in Buriram</h2>
-            <p id="total-elderly-count">Loading...</p>
-        </div>
-
-        <div class="info-box" id="district-info">
-            <h2>Elderly Individuals per District</h2>
-            <ul class="district-list" id="district-list">
-                <li class="district-item">Loading...</li>
-            </ul>
-        </div>
+    <div class="login-container">
+        <button onclick="location.href='login'">ล็อคอิน</button>
     </div>
-
-    <script>
-        // JavaScript to fetch and display elderly data
-        document.addEventListener('DOMContentLoaded', () => {
-            // Fetch total elderly count
-            fetch('/api/elderly/count/buriram')
-                .then(response => response.json())
-                .then(data => {
-                    const totalElderlyCount = document.getElementById('total-elderly-count');
-                    totalElderlyCount.textContent = data.count;
-                })
-                .catch(error => console.error('Error fetching total elderly count:', error));
-
-            // Fetch elderly count per district
-            fetch('/api/elderly/per-district/buriram')
-                .then(response => response.json())
-                .then(data => {
-                    const districtList = document.getElementById('district-list');
-                    districtList.innerHTML = '';
-                    data.forEach(district => {
-                        const listItem = document.createElement('li');
-                        listItem.classList.add('district-item');
-                        listItem.textContent = `${district.district}: ${district.count}`;
-                        districtList.appendChild(listItem);
-                    });
-                })
-                .catch(error => console.error('Error fetching elderly per district:', error));
-        });
-    </script>
+    
+    //จำนวนผู้เข้าชม
+    //ข่าวสาร
+    <footer>
+        <p>&copy; ระบบการประเมินสภาวะของผู้สูงอายุ (Typology of Aged with Illustration :TAI) ผ่าน QR-Code ในพื้นที่จังหวัดบุรีรัมย์.</p>
+    </footer>
 </body>
 </html>
