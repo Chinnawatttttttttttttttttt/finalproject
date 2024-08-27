@@ -10,15 +10,16 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\ExportController;
+use App\Http\Controllers\HomeController;
 use PharIo\Manifest\Author;
 use PharIo\Manifest\AuthorCollection;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
+use App\Http\Controllers\NewsVisitorController;
+use App\Models\NewsVisitor;
+use App\Http\Controllers\VisitController;
 
+Route::get('/', [HomeController::class, 'index']);
 
-
-Route::get('/', function () {
-    return view('welcome');
-});
 
 Route::get('error', function() {
     return view('error.error');
@@ -111,4 +112,19 @@ Route::middleware(['auth', 'IsAdmin', 'CheckLogin', 'NowLogin'])->group(function
         Route::get('/dashboard','index')->name('dashboard');
         Route::post('/dashboard/save_colors', 'saveGroupColors')->name('dashboard.save_colors');
     });
+
+    Route::controller(NewsVisitorController::class)->group(function(){
+        Route::get('news/create', [NewsVisitorController::class, 'create'])->name('news.create');
+        Route::post('news', [NewsVisitorController::class, 'store'])->name('news.store');
+        Route::get('news', [NewsVisitorController::class, 'index'])->name('news.index');
+        Route::get('news/{id}', [NewsVisitorController::class, 'show'])->name('news.show');
+        Route::get('news/{id}/edit', [NewsVisitorController::class, 'edit'])->name('news.edit');
+        Route::put('news/{id}', [NewsVisitorController::class, 'update'])->name('news.update');
+    });
+
+    Route::controller(VisitController::class)->group(function(){
+        Route::get('/visits', [VisitController::class, 'index'])->name('visits.index');
+        Route::get('/logins', [VisitController::class, 'logins'])->name('logins.index');
+    });
+
 });

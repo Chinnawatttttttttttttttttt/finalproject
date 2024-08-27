@@ -10,6 +10,11 @@
                     <i class="nc-icon nc-simple-add"></i> เพิ่มข้อมูลผู้ใช้
                 </a>
             </div>
+            <div class="d-flex justify-content-center mt-3">
+                <a href="{{ route('visits.index')}}" class="btn btn-primary btn center">
+                    <i class="nc-icon nc-simple-add"></i> จำนวนการเข้าสู่ระบบ
+                </a>
+            </div>
         </div>
         <div class="card-body">
             <div class="table-responsive">

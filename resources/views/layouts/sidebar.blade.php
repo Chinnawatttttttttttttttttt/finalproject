@@ -49,7 +49,7 @@
                 </a>
             </li>
             <li class="{{ Request::is('notifications') ? 'active' : '' }}">
-                <a class="nav-link" href="{{ url('notifications') }}">
+                <a class="nav-link" href="{{ url('news') }}">
                     <i class="nc-icon nc-bell-55"></i>
                     <p>Notifications</p>
                 </a>
