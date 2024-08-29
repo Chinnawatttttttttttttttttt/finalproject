@@ -41,6 +41,7 @@
                         <span class="no-icon">โปรไฟล์</span>
                     </a>
                 </li>  --}}
+                @if (session('position_id') == 1 ) {{-- การเช็คสิทธิ์ --}}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="no-icon">ข้อมูล</span>
@@ -55,6 +56,7 @@
                         {{--  <a class="dropdown-item" href="#">Separated link</a>  --}}
                     </div>
                 </li>
+                @endif
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     @csrf
                 </form>

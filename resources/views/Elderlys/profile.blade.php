@@ -89,10 +89,10 @@
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
         }
         .actions {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
+            display: flex; /* ทำให้เป็นคอนเทนเนอร์แบบ Flexbox */
+            flex-direction: row; /* เรียงไอเท็มในแนวนอน */
+            align-items: center; /* จัดไอเท็มให้อยู่ตรงกลางในแนวตั้ง */
+            gap: 10px; /* ช่องว่างระหว่างไอเท็มแต่ละตัว */
         }
         .btn {
             display: inline-flex;
@@ -136,6 +136,7 @@
                 <a href="{{ route('elderlys.edit', $elderly->id) }}" class="btn btn-warning">
                     <i class="fas fa-edit"></i> แก้ไข
                 </a>
+                <a href="{{ route('score.create', ['id' => $score->id]) }}" class="btn btn-primary">ไปที่หน้าแบบทดสอบ</a>
             </div>
         </div>
 
@@ -265,6 +266,20 @@
                 <div class="form-group">
                     <label for="Longitude">ลองจิจูด:</label>
                     <input type="number" class="form-control" id="Longitude" name="Longitude" value="{{ old('Longitude', $elderly->Longitude) }}" step="0.0000001" readonly>
+                </div>
+            </div>
+        </div>
+
+        <!-- Score || Group -->
+        <div class="row">
+            <div class="col-md-3">
+                <label for="Score"> คะแนน และ กลุ่ม</label>
+                <div class="form-grou">
+                    <label for="mobility">คะแนน:</label>
+                    <input type="text" class="form-control" id="mobility" name="mobility" value="{{ old('mobility', $score->mobility) }}" readonly>
+                    <input type="text" class="form-control" id="confuse" name="confuse" value="{{ old('confuse', $score->confuse) }}" readonly>
+                    <input type="text" class="form-control" id="feed" name="feed" value="{{ old('feed', $score->feed) }}" readonly>
+                    <input type="text" class="form-control" id="toilet" name="toilet" value="{{ old('toilet', $score->toilet) }}" readonly>
                 </div>
             </div>
         </div>

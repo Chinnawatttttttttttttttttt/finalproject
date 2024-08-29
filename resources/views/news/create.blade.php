@@ -24,10 +24,6 @@
                     <textarea class="form-control content-textarea" id="content" name="content" rows="10" required></textarea>
                 </div>
                 <div class="mb-3">
-                    <label for="images" class="form-label d-flex align-items-center">
-                        <i class="bi bi-plus-circle" style="font-size: 1.5rem; margin-right: 10px;"></i>
-                        รูปภาพ (เลือกหลายรูปได้)
-                    </label>
                     <input type="file" class="form-control" id="images" name="images[]" multiple onchange="previewImages()">
                     <div id="image-preview" class="image-preview mt-3"></div>
                 </div>

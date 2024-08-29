@@ -46,7 +46,7 @@ class PositionController extends Controller
 
     public function edit($id) // 4. แสดงหน้าแก้ไขตาม ID
     {
-        $position = Position::find($id);
+        $position = Position::findOrFail($id);
         if (!$position) {
             return back()->with('fail', 'ไม่พบตำแหน่งที่ต้องการแก้ไข');
         }

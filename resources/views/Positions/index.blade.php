@@ -11,22 +11,21 @@
                 </a>
             </div>
         </div>
-
         <div class="card-body">
-            <div class="table-responsive">
-                <table id="table" class="table table-hover table-striped">
+            <div class="table">
+                <table id="table" class="table-hover table-striped table-reposive">
                     <thead>
                         <tr class="text-center">
-                            <th>ลำดับ</th>
-                            <th>ชื่อตำแหน่ง</th>
-                            <th>แก้ไขข้อมูล</th>
-                            <th>ลบข้อมูล</th>
+                            <th style="width: 25%">ลำดับ</th>
+                            <th style="width: 25%">ชื่อตำแหน่ง</th>
+                            <th style="width: 25%">แก้ไขข้อมูล</th>
+                            <th style="width: 100%">ลบข้อมูล</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($position as $pos)
                         <tr class="text-center">
-                            <td>{{ $loop->iteration }}</td>
+                            <td >{{ $loop->iteration }}</td>
                             <td>{{ $pos->position_name }}</td>
                             <td>
                                 <a href="{{ route('edit-position', $pos->id) }}" class="btn btn-warning btn-sm">

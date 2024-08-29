@@ -12,14 +12,14 @@
             </div>
         </div>
         <div class="card-body">
-            <div class="table-responsive">
-                <table id="table" class="table table-hover table-striped">
+            <div class="table">
+                <table id="table" class="table-hover table-striped">
                     <thead>
                         <tr class="text-center">
-                            <th>ลำดับ</th>
-                            <th>ชื่อแผนก</th>
-                            <th>แก้ไข</th>
-                            <th>ลบ</th>
+                            <th style="width: 25%">ลำดับ</th>
+                            <th style="width: 25%">ชื่อแผนก</th>
+                            <th style="width: 25%">แก้ไข</th>
+                            <th style="width: 100%">ลบข้อมูล</th>
                         </tr>
                     </thead>
                     <tbody>

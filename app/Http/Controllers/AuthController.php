@@ -33,6 +33,8 @@ class AuthController extends Controller
 
         Auth::login($user);
 
+        session(['position_id' => $user->position_id]);
+
         // Redirect to all-user page
         return redirect()->route('dashboard');
     }
