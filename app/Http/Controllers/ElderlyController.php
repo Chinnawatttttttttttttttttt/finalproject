@@ -188,6 +188,7 @@ class ElderlyController extends Controller
 
         $elderly = Elderly::findOrFail($id);
         $score = ScoreTAI::findOrFail($id);
+        $group = Group::findOrFail($id);
 
         // Split address
         $address = $elderly->Address;
@@ -204,7 +205,7 @@ class ElderlyController extends Controller
         // Calculate age
         $age = (new \Carbon\Carbon($elderly->Birthday))->diffInYears();
 
-        return view('Elderlys.profile', compact('elderly', 'houseNumber', 'village', 'subdistrict', 'district', 'province', 'postalCode', 'age', 'score'));
+        return view('Elderlys.profile', compact('elderly', 'houseNumber', 'village', 'subdistrict', 'district', 'province', 'postalCode', 'age', 'score', 'group'));
     }
 
 }

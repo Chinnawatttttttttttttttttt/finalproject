@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>รายงานคะแนน</title>
+    <title>รายงาน</title>
     <link href="{{ asset('assets/css/argon-dashboard.css') }}" rel="stylesheet"/>
     <link href="{{ asset('assets/css/nucleo-icons.css') }}" rel="stylesheet"/>
     <link href="{{ asset('assets/css/nucleo-svg.css') }}" rel="stylesheet"/>
@@ -64,7 +64,7 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>รหัส</th>
+                    <th>ลำดับ</th>
                     <th>ชื่อผู้สูงอายุ</th>
                     {{--  <th>คะแนนการเคลื่อนไหว</th>
                     <th>คะแนนการสับสน</th>
