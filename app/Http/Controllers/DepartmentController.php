@@ -3,22 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\DB;
 use App\Models\Department;
 
 class DepartmentController extends Controller
 {
-    public function create() //1.สร้างหน้า add
+    public function create() //1. สร้างหน้า add
     {
         return view('Department.create');
     }
 
-    public function store(Request $request) //2.ฟังก์ชั่นการเพิ่ม
+    public function store(Request $request) //2. ฟังก์ชันการเพิ่ม
     {
         $request->validate([
-            'department_name' => 'required|regex:/^[\p{Thai}]+[a-zA-Z\p{Thai}]*$/u'
+            'department_name' => 'required|regex:/^[\p{Thai}a-zA-Z]+$/u'
         ], [
             'department_name.regex' => 'ชื่อต้องเป็นตัวอักษรไทยหรือภาษาอังกฤษ และต้องมีอย่างน้อย 1 ตัวอักษรไทย'
         ]);
@@ -35,49 +32,41 @@ class DepartmentController extends Controller
         }
     }
 
-    public function index() //3.หน้ารวมข้อมูล
+    public function index() //3. หน้ารวมข้อมูล
     {
         $dpt = Department::all();
-        return view('Department.index',compact('dpt'));
+        return view('Department.index', compact('dpt'));
     }
 
-    public function edit($id) // 4. แสดงหน้าแก้ไขตาม ID
+    public function edit($id) //4. แสดงหน้าแก้ไขตาม ID
     {
-        $dpt = Department::find($id);
-        if (!$dpt) {
-            return back()->with('fail', 'ไม่พบตำแหน่งที่ต้องการแก้ไข');
-        }
+        $dpt = Department::findOrFail($id);
         return view('Department.edit', compact('dpt'));
     }
-    public function update(Request $request) // 5. ฟังก์ชั่นการแก้ไข
+
+    public function update(Request $request, $id) //5. ฟังก์ชันการแก้ไข
     {
-        // การตรวจสอบค่าที่ส่งมา
         $request->validate([
-            'department_name' => 'required|regex:/^[\p{Thai}]+[a-zA-Z\p{Thai}]*$/u'
+            'department_name' => 'required|regex:/^[\p{Thai}a-zA-Z]+$/u'
+        ], [
+            'department_name.regex' => 'ชื่อต้องเป็นตัวอักษรไทยหรือภาษาอังกฤษ และต้องมีอย่างน้อย 1 ตัวอักษรไทย'
         ]);
-        // ค้นหาตำแหน่งที่ต้องการแก้ไข
-        $dpt = Department::find($request->id);
-        if ($dpt) {
-            // อัพเดตข้อมูลตำแหน่ง
-            $dpt->department_name = $request->department_name;
-            $answer = $dpt->save();
-            if ($answer) {
-                return back()->with('success', 'แก้ไขสำเร็จ');
-            } else {
-                return back()->with('fail', 'แก้ไขไม่สำเร็จ');
-            }
+
+        $dpt = Department::findOrFail($id);
+        $dpt->department_name = $request->department_name;
+
+        if ($dpt->save()) {
+            return back()->with('success', 'แก้ไขสำเร็จ');
         } else {
-            return back()->with('fail', 'ไม่พบตำแหน่งที่ต้องการแก้ไข');
+            return back()->with('fail', 'แก้ไขไม่สำเร็จ');
         }
     }
 
     public function destroy($id)
     {
-        $dpt = Department::find($id);
-        // unlink(public_path('images').'/'.$user->profileimage);///เป็นการลบรูปภาพ
+        $dpt = Department::findOrFail($id);
         $dpt->delete();
 
-        return back();
+        return back()->with('success', 'ลบข้อมูลสำเร็จ');
     }
-
 }

@@ -1,103 +1,181 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elderly Individuals in Buriram</title>
+    <title>ระบบการประเมินสภาวะของผู้สูงอายุ</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        /* CSS styles for layout */
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
             padding: 0;
-            background-color: #f0f0f0;
+            background-color: #ffffff;
         }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        .info-box {
-            margin-bottom: 20px;
-            padding: 15px;
-            background-color: #f9f9f9;
-            border-radius: 6px;
-            border: 1px solid #ccc;
-        }
-        .info-box h2 {
-            margin-top: 0;
-        }
-        .district-list {
-            list-style-type: none;
-            padding: 0;
-        }
-        .district-item {
-            margin-bottom: 10px;
-        }
-        .login-button {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #4CAF50;
+
+        .header {
+            background-color: #6f42c1;
             color: white;
+            padding: 15px;
+            text-align: start;
+            position: relative;
+        }
+
+        .header img {
+            width: 80px;
+            position: absolute;
+            left: 50px;
+            top: 10px;
+        }
+
+        .nav-links {
+            position: absolute;
+            right: 20px;
+            top: 10px;
+        }
+
+        .nav-links a {
+            color: white;
+            margin: 0 10px;
             text-decoration: none;
-            border-radius: 4px;
-            cursor: pointer;
         }
-        .login-button:hover {
-            background-color: #45a049;
+
+        .main-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex: 1; /* Expand the content */
         }
+
+        .news-slider {
+            border: 1px solid #ddd;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 60%;
+            text-align: center;
+            margin: auto;
+        }
+
+        .news-img {
+            width: 100%;
+            height: 150px; /* Set same height */
+            object-fit: cover; /* Cover the area and crop excess */
+            border-radius: 5px; /* Rounded corners */
+        }
+
+        .footer {
+            margin-top: auto; /* Push footer to the bottom */
+            text-align: center;
+            padding: 20px;
+            background-color: #f8f9fa;
+            font-size: 14px;
+            color: #6c757d;
+        }
+
     </style>
 </head>
+
 <body>
-    <div class="container">
-        <h1>Elderly Individuals in Buriram</h1>
-
-        <!-- ปุ่มล็อคอิน -->
-        <a href="/login" class="login-button">Login</a>
-
-        <div class="info-box" id="total-elderly-info">
-            <h2>Total Elderly Individuals in Buriram</h2>
-            <p id="total-elderly-count">Loading...</p>
-        </div>
-
-        <div class="info-box" id="district-info">
-            <h2>Elderly Individuals per District</h2>
-            <ul class="district-list" id="district-list">
-                <li class="district-item">Loading...</li>
-            </ul>
+    <div class="header">
+        <img src="{{ asset('assets/img/ตรากระทรวงสาธารณสุขใหม่.png') }}" alt="Logo">
+        <h4 style="padding-left: 125px">สำนักงานสาธารณสุขจังหวัดบุรีรัมย์</h4>
+        <h6 style="padding-left: 125px">BURIRAM PROVINCIAL HEALTH OFFICE</h6>
+        <div class="nav-links">
+            <a href="{{ route('home') }}">หน้าแรก</a>
+            {{--  <a href="#">ติดต่อ</a>  --}}
+            {{--  <span>จำนวนผู้ใช้งานทั้งหมด: <strong></strong></span>  --}}
         </div>
     </div>
 
-    <script>
-        // JavaScript to fetch and display elderly data
-        document.addEventListener('DOMContentLoaded', () => {
-            // Fetch total elderly count
-            fetch('/api/elderly/count/buriram')
-                .then(response => response.json())
-                .then(data => {
-                    const totalElderlyCount = document.getElementById('total-elderly-count');
-                    totalElderlyCount.textContent = data.count;
-                })
-                .catch(error => console.error('Error fetching total elderly count:', error));
+    <div class="main-content">
+        <div class="news-slider">
+            <h4>ข่าวสารล่าสุด</h4>
+            <!-- Column for Latest News with Carousel -->
+            <div id="newsCarousel" class="carousel slide mb-3" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <!-- Sample Loop for News Carousel -->
+                    @forelse($latestNews as $index => $news)
+                        <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+                            <div class="card bg-light mb-3">
+                                <div class="card-body news">
+                                    <div class="news-content">
+                                        <h5>หัวข้อ : {{ $news->title }}</h5><br>
+                                        <p>เนื้อหา : {{ $news->content }}</p>
+                                    </div>
+                                    <div class="news-images">
+                                        <div class="row">
+                                            @if ($news->images)
+                                                @foreach (array_slice($news->images, 0, 4) as $image)
+                                                    <div class="col-6 col-md-3 mb-2">
+                                                        <img src="{{ asset('image/' . $image) }}" alt="Image" class="img-fluid news-img">
+                                                    </div>
+                                                @endforeach
+                                                @if (count($news->images) > 4)
+                                                    <div class="col-12">
+                                                        <span class="view-more btn btn-link" onclick="showMoreImages('{{ json_encode($news->images) }}')">ดูเพิ่มเติม</span>
+                                                    </div>
+                                                @endif
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @empty
+                        <div class="carousel-item active">
+                            <div class="card bg-light mb-3">
+                                <div class="card-body">
+                                    <p>ไม่มีข่าวสารล่าสุด.</p>
+                                </div>
+                            </div>
+                        </div>
+                    @endforelse
+                </div>
+                <!-- Carousel Controls -->
+                <a class="carousel-control-prev" href="#newsCarousel" role="button" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#newsCarousel" role="button" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </a>
+            </div>
+        </div>
+    </div>
 
-            // Fetch elderly count per district
-            fetch('/api/elderly/per-district/buriram')
-                .then(response => response.json())
-                .then(data => {
-                    const districtList = document.getElementById('district-list');
-                    districtList.innerHTML = '';
-                    data.forEach(district => {
-                        const listItem = document.createElement('li');
-                        listItem.classList.add('district-item');
-                        listItem.textContent = `${district.district}: ${district.count}`;
-                        districtList.appendChild(listItem);
-                    });
-                })
-                .catch(error => console.error('Error fetching elderly per district:', error));
-        });
+    <div class="text-center my-4">
+        <a href="{{ route('login') }}" class="btn btn-success sm">เข้าสู่ระบบ</a>
+    </div>
+
+    <div class="footer">
+        <p>2024 Screening System and Typology of Aged with Illustration Assessment of the Elderly via the QR code</p>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function showMoreImages(images) {
+            const imageArray = JSON.parse(images);
+            let modalContent = '<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true"><div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="imageModalLabel">ดูภาพเพิ่มเติม</h5><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div><div class="modal-body"><div class="row">';
+
+            imageArray.forEach(image => {
+                modalContent += `<div class="col-4 mb-3"><img src="{{ asset('image/') }}/${image}" class="img-fluid rounded"></div>`;
+            });
+
+            modalContent += '</div></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button></div></div></div></div>';
+
+            document.body.insertAdjacentHTML('beforeend', modalContent);
+            const imageModal = new bootstrap.Modal(document.getElementById('imageModal'));
+            imageModal.show();
+        }
     </script>
 </body>
+
 </html>

@@ -36,4 +36,11 @@ class User extends AuthenticatableUser implements Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // ในไฟล์ User.php
+    public function visitsAndLogins()
+    {
+        return $this->hasMany(VisitsAndLogins::class);
+    }
+    
 }

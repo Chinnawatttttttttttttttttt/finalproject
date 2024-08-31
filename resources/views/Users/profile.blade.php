@@ -192,7 +192,7 @@
                                 เบอร์โทรศัพท์ : {{ $user->Phone }}
                             </p>
                         </div>
-                        <hr>
+                        {{--  <hr>
                         <div class="button-container mr-auto ml-auto">
                             <button href="#" class="btn btn-simple btn-link btn-icon">
                                 <i class="fa fa-facebook-square"></i>
@@ -203,7 +203,7 @@
                             <button href="#" class="btn btn-simple btn-link btn-icon">
                                 <i class="fa fa-google-plus-square"></i>
                             </button>
-                        </div>
+                        </div>  --}}
                     </div>
                 </div>
             </div>

@@ -18,7 +18,7 @@
             <input type="text" class="form-control" id="department_name" name="department_name" pattern="[\p{Thai}a-zA-Z]+" title="ชื่อต้องเป็นตัวอักษรไทยหรือภาษาอังกฤษและต้องมีอย่างน้อย 1 ตัวอักษรไทย" required>
         </div>
         <button type="submit" class="btn btn-primary">บันทึก</button>
-        <a href="{{ url('all-department') }}" class="btn btn-success btn-sm"><i class="fas fa-user-plus"></i> กลับ </a>
+        <a href="{{ url('all-department') }}" class="btn btn-success btn-sm" style="height: 40px; wight: 100%;"> กลับ </a>
     </form>
 </div>
 @endsection

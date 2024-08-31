@@ -68,6 +68,7 @@
         </div>
     </div>
 
+
     <!-- แผนภูมิ Score Counts -->
     <div class="row mt-4">
         <div class="col-md-12">
@@ -101,7 +102,8 @@
         var options = {
             title: 'จำนวนผู้สูงอายุในแต่ละกลุ่ม',
             pieHole: 0.4,
-            colors: ['{{ $groupColors['Group 1'] }}', '{{ $groupColors['Group 2'] }}', '{{ $groupColors['Group 3'] }}']
+            colors: ['{{ $groupColors['Group 1'] }}', '{{ $groupColors['Group 2'] }}', '{{ $groupColors['Group 3'] }}'],
+            is3D: true
         };
 
         var groupChart = new google.visualization.PieChart(document.getElementById('groupChart'));

@@ -115,6 +115,18 @@
         </div>
 
         <div id="question2" class="question">
+            <div class="form-group" style="display: flex; justify-content: space-between; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                <div>
+                    <label for="elderly_name">ชื่อ-ผู้สูงอายุ:</label>
+                    <span>{{ $elderly->Title.$elderly->FirstName }} {{ $elderly->LastName }}</span><br>
+                    <input type="hidden" name="elderly_id" value="{{ $elderly->id }}">
+                </div>
+                <div class="user-section">
+                    <label for="user_name">ผู้ประเมิน:</label>
+                    <span>{{ $user->Title.$user->FirstName }} {{ $user->LastName }}</span>
+                </div>
+            </div>
+
             <div class="form-group">
                 <label for="confuse">Confuse (0-5):</label><br>
                 <img src="{{ asset('assets/img/MentalStatus.png') }}" alt="Mental Status" style="max-width: 100%; height: auto;">
@@ -133,6 +145,18 @@
         </div>
 
         <div id="question3" class="question">
+            <div class="form-group" style="display: flex; justify-content: space-between; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                <div>
+                    <label for="elderly_name">ชื่อ-ผู้สูงอายุ:</label>
+                    <span>{{ $elderly->Title.$elderly->FirstName }} {{ $elderly->LastName }}</span><br>
+                    <input type="hidden" name="elderly_id" value="{{ $elderly->id }}">
+                </div>
+                <div class="user-section">
+                    <label for="user_name">ผู้ประเมิน:</label>
+                    <span>{{ $user->Title.$user->FirstName }} {{ $user->LastName }}</span>
+                </div>
+            </div>
+
             <div class="form-group">
                 <label for="feed">Feed (0-5):</label><br>
                 <img src="{{ asset('assets/img/Eating.png') }}" alt="Eating" style="max-width: 100%; height: auto;">
@@ -151,6 +175,18 @@
         </div>
 
         <div id="question4" class="question">
+            <div class="form-group" style="display: flex; justify-content: space-between; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                <div>
+                    <label for="elderly_name">ชื่อ-ผู้สูงอายุ:</label>
+                    <span>{{ $elderly->Title.$elderly->FirstName }} {{ $elderly->LastName }}</span><br>
+                    <input type="hidden" name="elderly_id" value="{{ $elderly->id }}">
+                </div>
+                <div class="user-section">
+                    <label for="user_name">ผู้ประเมิน:</label>
+                    <span>{{ $user->Title.$user->FirstName }} {{ $user->LastName }}</span>
+                </div>
+            </div>
+
             <div class="form-group">
                 <label for="toilet">Toilet (0-5):</label><br>
                 <img src="{{ asset('assets/img/Toilet.png') }}" alt="Toilet" style="max-width: 100%; height: auto;">
