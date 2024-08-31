@@ -6,9 +6,10 @@
         <div class="card-header text-center">
             <h3>รายชื่อแผนก</h3>
             <div class="d-flex justify-content-center mt-3">
-                <a href="{{ route('add-department') }}" class="btn btn-primary">
+                <!-- ปุ่มเปิด Modal สำหรับเพิ่มข้อมูลแผนก -->
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addDepartmentModal">
                     <i class="nc-icon nc-simple-add"></i> เพิ่มข้อมูลแผนก
-                </a>
+                </button>
             </div>
         </div>
         <div class="card-body">
@@ -28,9 +29,10 @@
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $department->department_name }}</td>
                             <td>
-                                <a href="{{ route('edit-department', $department->id) }}" class="btn btn-warning btn-sm">
+                                <!-- ปุ่มเปิด Modal สำหรับแก้ไขข้อมูลแผนก -->
+                                <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editDepartmentModal{{ $department->id }}">
                                     <i class="nc-icon nc-preferences-circle-rotate"></i> แก้ไข
-                                </a>
+                                </button>
                             </td>
                             <td>
                                 <form action="{{ route('departments.delete', $department->id) }}" method="POST" style="display: inline;">
@@ -42,9 +44,67 @@
                                 </form>
                             </td>
                         </tr>
+
+                        <!-- Modal สำหรับแก้ไขข้อมูลแผนก -->
+                        <div class="modal fade" id="editDepartmentModal{{ $department->id }}" tabindex="-1" aria-labelledby="editDepartmentModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="editDepartmentModalLabel">แก้ไขแผนก</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="{{ route('departments.update', $department->id) }}" enctype="multipart/form-data" method="POST">
+                                            @csrf
+                                            @method('PATCH')
+                                            <div class="mb-3">
+                                                <label for="department_name" class="form-label">ชื่อ</label>
+                                                <input type="text" name="department_name" class="form-control" placeholder="ชื่อแผนก" value="{{ $department->department_name }}" required>
+                                                @error('department_name')
+                                                    <div class="text-danger">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                            <div class="d-flex justify-content-between">
+                                                <button type="submit" class="btn btn-success"> บันทึก </button>
+                                                <button type="button" class="btn btn-danger" data-dismiss="modal">ยกเลิก</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         @endforeach
                     </tbody>
                 </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal สำหรับเพิ่มแผนก -->
+<div class="modal fade" id="addDepartmentModal" tabindex="-1" aria-labelledby="addDepartmentModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addDepartmentModalLabel">Create Department</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('departments.store') }}" method="POST">
+                    @csrf
+                    <div class="form-group">
+                        <label for="department_name">ชื่อตำแหน่ง:</label>
+                        <input type="text" class="form-control" id="department_name" name="department_name" pattern="[\p{Thai}a-zA-Z]+" title="ชื่อต้องเป็นตัวอักษรไทยหรือภาษาอังกฤษและต้องมีอย่างน้อย 1 ตัวอักษรไทย" required>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <button type="submit" class="btn btn-success">บันทึก</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">ยกเลิก</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

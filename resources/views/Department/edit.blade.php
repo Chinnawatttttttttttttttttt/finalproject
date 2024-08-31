@@ -29,7 +29,7 @@
 
                         <div class="d-flex justify-content-between">
                             <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> บันทึก </button>
-                            <a href="{{ url('all-department') }}" class="btn btn-success btn-sm"><i class="fas fa-user-plus"></i> กลับ </a>
+                            <a href="{{ url('all-department') }}" class="btn btn-danger btn-sm"><i class="fas fa-user-plus"></i> กลับ </a>
                         </div>
                     </form>
                 </div>

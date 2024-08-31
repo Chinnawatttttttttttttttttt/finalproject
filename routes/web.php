@@ -18,7 +18,7 @@ use App\Http\Controllers\NewsVisitorController;
 use App\Models\NewsVisitor;
 use App\Http\Controllers\VisitController;
 
-Route::get('/', [HomeController::class, 'index']);
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 
 Route::get('error', function() {

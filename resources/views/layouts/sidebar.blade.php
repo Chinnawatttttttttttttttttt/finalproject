@@ -1,21 +1,19 @@
-<div class="sidebar" data-image="{{ asset('assets/img/sidebar-5.jpg') }}">
+<div class="sidebar" > <!-- data-image="{{ asset('assets/img/sidebar-5.jpg') }}" -->
     <div class="sidebar-wrapper">
-        <div class="logo">
-            <a href="http://www.creative-tim.com" class="simple-text">
-                TAI
-            </a>
+        <div class="logo d-flex justify-content-center">
+            <img src="{{ asset('assets/img/ตรากระทรวงสาธารณสุขใหม่.png') }}" alt="Logo" style="width: 50%;" >
         </div>
         <ul class="nav">
             <li class="{{ Request::is('dashboard') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ url('dashboard') }}">
                     <i class="nc-icon nc-chart-pie-35"></i>
-                    <p>Dashboard</p>
+                    <p>แดชบอร์ด</p>
                 </a>
             </li>
             <li class="{{ Request::is('profile') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ url('profile') }}">
                     <i class="nc-icon nc-circle-09"></i>
-                    <p>User Profile</p>
+                    <p>โปรไฟล์ผู้ใช้งาน</p>
                 </a>
             </li>
             <li class="{{ Request::is('all-elderly') ? 'active' : '' }}">
@@ -27,13 +25,13 @@
             <li class="{{ Request::is('tai') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ url('tai') }}">
                     <i class="nc-icon nc-paper-2"></i>
-                    <p>Typography</p>
+                    <p>แบบทดสอบ</p>
                 </a>
             </li>
             <li class="{{ Request::is('all-score') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ url('all-score') }}">
                     <i class="nc-icon nc-notes"></i>
-                    <p>Table List</p>
+                    <p>รายงานแบบทดสอบ</p>
                 </a>
             </li>
             {{--  <li class="{{ Request::is('icons') ? 'active' : '' }}">
@@ -45,13 +43,13 @@
             <li class="{{ Request::is('maps') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ url('maps') }}">
                     <i class="nc-icon nc-pin-3"></i>
-                    <p>Maps</p>
+                    <p>แผนที่</p>
                 </a>
             </li>
             <li class="{{ Request::is('notifications') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ url('news') }}">
                     <i class="nc-icon nc-bell-55"></i>
-                    <p>Notifications</p>
+                    <p>ข่าวสารประชาสัมพันธ์</p>
                 </a>
             </li>
             {{--  <li class="nav-item active active-pro {{ Request::is('upgrade') ? 'active' : '' }}">

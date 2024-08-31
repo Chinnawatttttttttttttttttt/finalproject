@@ -26,6 +26,13 @@
     <link rel="stylesheet" href="//cdn.datatables.net/2.1.4/css/dataTables.bootstrap5.css">
 </head>
 
+<style>
+    .content{
+        background-color: #ffffff;
+    }
+
+</style>
+
 <body>
     <div class="wrapper">
         <!-- รวมไซด์บาร์ -->

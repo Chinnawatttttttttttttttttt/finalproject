@@ -48,7 +48,7 @@
                 </div>
                 <div class="text-end mt-4">
                     <button type="submit" class="btn btn-primary">อัปเดต</button>
-                    <a href="{{ route('news.show', $news->id) }}" class="btn btn-secondary">ยกเลิก</a>
+                    <a href="{{ route('news.show', $news->id) }}" class="btn btn-danger">ยกเลิก</a>
                 </div>
             </form>
         </div>

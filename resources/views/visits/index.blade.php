@@ -3,7 +3,7 @@
 @section('content')
 <div class="container mt-5">
     <h1>ข้อมูลการเข้าชมทั้งหมด</h1>
-    <table class="table table-striped">
+    <table id="table" class="table table-striped">
         <thead>
             <tr>
                 <th>IP Address</th>
