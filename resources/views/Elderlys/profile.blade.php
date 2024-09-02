@@ -318,25 +318,42 @@
                 <div class="col-md-2">
                     <div class="form-group">
                         <label for="mobility">การเคลื่อนไหว</label>
-                        <input type="text" class="form-control" id="mobility" name="mobility" value="{{ old('mobility', $score->mobility) }}" readonly>
-                        <label for="confuse">สับสน</label>
-                        <input type="text" class="form-control" id="confuse" name="confuse" value="{{ old('confuse', $score->confuse) }}" readonly>
+                        @if ($score)
+                            <input type="text" class="form-control" id="mobility" name="mobility"
+                                value="{{ old('mobility', $score->mobility) }}" readonly>
+                            <label for="confuse">สับสน</label>
+                            <input type="text" class="form-control" id="confuse" name="confuse"
+                                value="{{ old('confuse', $score->confuse) }}" readonly>
+                        @else
+                            <p>ยังไม่ได้ประเมิน</p>
+                        @endif
                     </div>
                 </div>
 
                 <div class="col-md-2">
                     <div class="form-group">
                         <label for="feed">การกินอาหาร</label>
-                        <input type="text" class="form-control" id="feed" name="feed" value="{{ old('feed', $score->feed) }}" readonly>
-                        <label for="toilet">การใช้ห้องน้ำ</label>
-                        <input type="text" class="form-control" id="toilet" name="toilet" value="{{ old('toilet', $score->toilet) }}" readonly>
+                        @if ($score)
+                            <input type="text" class="form-control" id="feed" name="feed"
+                                value="{{ old('feed', $score->feed) }}" readonly>
+                            <label for="toilet">การใช้ห้องน้ำ</label>
+                            <input type="text" class="form-control" id="toilet" name="toilet"
+                                value="{{ old('toilet', $score->toilet) }}" readonly>
+                        @else
+                            <p>ยังไม่ได้ประเมิน</p>
+                        @endif
                     </div>
                 </div>
 
                 <div class="col-md-2">
                     <div class="form-group">
                         <label for="group">กลุ่ม</label>
-                        <input type="text" class="form-control" id="group" name="group" value="{{ old('name', $group->name) }}" readonly>
+                        @if ($group)
+                            <input type="text" class="form-control" id="group" name="group"
+                                value="{{ old('name', $group->name) }}" readonly>
+                        @else
+                            <p>ยังไม่ได้ประเมิน</p>
+                        @endif
                     </div>
                 </div>
 

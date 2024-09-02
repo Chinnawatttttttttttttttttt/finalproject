@@ -198,7 +198,11 @@
                     </div>
                 </div>
 
-                <button type="submit" class="btn btn-primary">บันทึกข้อมูล</button>
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-primary">บันทึกข้อมูล</button>
+                    <a href="{{ route('all-elderly') }}" class="btn btn-danger">ย้อนกลับ</a>
+                </div>
+
             </form>
         </div>
     </div>
@@ -228,6 +232,25 @@
             document.getElementById('Latitude').value = latlng.lat;
             document.getElementById('Longitude').value = latlng.lng;
         });
+
+        // Calculate age based on the birthday
+        function calculateAge(birthday) {
+            var today = new Date();
+            var birthDate = new Date(birthday);
+            var age = today.getFullYear() - birthDate.getFullYear();
+            var monthDiff = today.getMonth() - birthDate.getMonth();
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            return age;
+        }
+
+        // Event listener to calculate age when the birthday field changes
+        document.getElementById('Birthday').addEventListener('change', function() {
+            var birthday = this.value;
+            var age = calculateAge(birthday);
+            document.getElementById('Age').value = age;
+        });
     });
 
     function combineNameAndAddress() {
@@ -235,14 +258,15 @@
         var firstName = document.getElementById('FirstName').value;
         var lastName = document.getElementById('LastName').value;
 
-        var address = [
-            document.getElementById('houseNumber').value,
-            document.getElementById('village').value,
-            document.getElementById('subdistrict').value,
-            document.getElementById('district').value,
-            document.getElementById('province').value,
-            document.getElementById('postalCode').value
-        ].join(' ');
+        var houseNumber = document.getElementById('houseNumber').value;
+        var village = document.getElementById('village').value;
+        var subdistrict = document.getElementById('subdistrict').value;
+        var district = document.getElementById('district').value;
+        var province = document.getElementById('province').value;
+        var postalCode = document.getElementById('postalCode').value;
+
+        var address = `บ้านเลขที่ ${houseNumber} หมู่ ${village} ตำบล ${subdistrict} อำเภอ ${district} จังหวัด ${province} รหัสไปรษณีย์ ${postalCode}`;
+        document.getElementById('Address').value = address;
 
         document.getElementById('Address').value = address;
 

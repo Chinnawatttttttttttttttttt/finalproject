@@ -198,11 +198,11 @@
                     </div>
                 </div>
 
-                <div class="form-group row">
-                    <div class="col-md-10 offset-md-2">
-                        <button type="submit" class="btn btn-primary" onclick="combineNameAndAddress()">บันทึก</button>
-                    </div>
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-primary" onclick="combineNameAndAddress()">บันทึกข้อมูล</button>
+                    <a href="{{ route('all-elderly') }}" class="btn btn-danger">ย้อนกลับ</a>
                 </div>
+
             </form>
         </div>
     </div>
@@ -230,6 +230,25 @@
             document.getElementById('Latitude').value = e.latlng.lat;
             document.getElementById('Longitude').value = e.latlng.lng;
         });
+
+        // Calculate age based on the birthday
+        function calculateAge(birthday) {
+            var today = new Date();
+            var birthDate = new Date(birthday);
+            var age = today.getFullYear() - birthDate.getFullYear();
+            var monthDiff = today.getMonth() - birthDate.getMonth();
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            return age;
+        }
+
+        // Event listener to calculate age when the birthday field changes
+        document.getElementById('Birthday').addEventListener('change', function() {
+            var birthday = this.value;
+            var age = calculateAge(birthday);
+            document.getElementById('Age').value = age;
+        });
     });
 
     function combineNameAndAddress() {
@@ -240,7 +259,7 @@
         var province = document.getElementById('province').value;
         var postalCode = document.getElementById('postalCode').value;
 
-        var address = `${houseNumber} หมู่ ${village} ตำบล ${subdistrict} อำเภอ ${district} จังหวัด ${province} รหัสไปรษณีย์ ${postalCode}`;
+        var address = `บ้านเลขที่ ${houseNumber} หมู่ ${village} ตำบล ${subdistrict} อำเภอ ${district} จังหวัด ${province} รหัสไปรษณีย์ ${postalCode}`;
         document.getElementById('Address').value = address;
     }
 </script>

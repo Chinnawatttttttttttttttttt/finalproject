@@ -47,7 +47,7 @@
                     </div>
                 </div>
 
-                <!-- Nick Name and Username -->
+                <!-- Nick Name -->
                 <div class="form-row">
                     <div class="form-group col-md-3">
                         <label for="NickName">ชื่อเล่น:</label>
@@ -55,7 +55,7 @@
                     </div>
                 </div>
 
-                <!-- Password and Email -->
+                <!-- Username and Password -->
                 <div class="form-row">
                     <div class="form-group col-md-3">
                         <label for="Username">ชื่อผู้ใช้:</label>
@@ -65,9 +65,16 @@
                         <label for="Password">รหัสผ่าน:</label>
                         <input type="password" class="form-control" id="Password" name="Password" required>
                     </div>
-                    <div class="form-group col-md-6">
+                </div>
+                <!-  ->
+                <div class="form-row">
+                    <div class="from-group col-md-6">
                         <label for="Email">อีเมล:</label>
                         <input type="email" class="form-control" id="Email" name="Email" required>
+                    </div>
+                    <div class="from-group col-md-3">
+                        <label for="Phone">เบอร์โทร:</label>
+                        <input type="phone" class="form-control" id="Phone" name="Phone" required>
                     </div>
                 </div>
 
@@ -133,9 +140,11 @@
                     </div>
                 </div>
 
-                <div>
-                    <button type="submit" class="btn btn-primary" onclick="combineNameAndAddress()">บันทึก</button>
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-primary" onclick="combineNameAndAddress()">บันทึกข้อมูล</button>
+                    <a href="{{ route('all-user') }}" class="btn btn-danger">ย้อนกลับ</a>
                 </div>
+
             </form>
         </div>
     </div>
