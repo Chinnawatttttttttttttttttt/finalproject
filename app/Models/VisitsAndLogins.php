@@ -35,4 +35,9 @@ class VisitsAndLogins extends Model
     {
         return $this->hasMany(NewsVisitor::class); // ปรับเป็นความสัมพันธ์ที่เหมาะสม
     }
+
+    protected $casts = [
+        'images' => 'array', // หรือ JSON
+    ];
+
 }

@@ -16,10 +16,13 @@ class NewsVisitorController extends Controller
     // จัดการการบันทึกข่าวสารใหม่
     public function store(Request $request)
     {
+
+        // dd($request->all());
+
         $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
-            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // ตรวจสอบไฟล์รูปภาพ
+            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         $newsData = [
@@ -27,32 +30,33 @@ class NewsVisitorController extends Controller
             'content' => $request->input('content'),
         ];
 
-        // ตรวจสอบว่ามีไฟล์รูปภาพที่อัปโหลดหรือไม่
         if ($request->hasFile('images')) {
             $images = $request->file('images');
             $imagePaths = [];
 
-            // อัปโหลดรูปภาพแต่ละไฟล์
             foreach ($images as $image) {
                 $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
                 $image->move(public_path('image'), $imageName);
-                $imagePaths[] = $imageName; // เก็บชื่อไฟล์ใน array
+                $imagePaths[] = $imageName;
             }
 
-            $newsData['images'] = implode(',', $imagePaths); // บันทึกชื่อไฟล์เป็นคอมม่าแยก
+            $newsData['images'] = implode(',', $imagePaths); // แปลงอาเรย์เป็นสตริงก่อนบันทึก
         }
 
-        // สร้างข่าวสารใหม่ในฐานข้อมูล
         NewsVisitor::create($newsData);
 
-        // รีไดเร็กต์ไปยังหน้า `create` พร้อมข้อความสำเร็จ
-        return redirect()->route('news.create')->with('success', 'News added successfully!');
+        return redirect()->route('news.create')->with('success', 'เพิ่มข่าวสารสำเร็จ');
     }
 
-    // แสดงรายการข่าวสารทั้งหมด
     public function index()
     {
-        $newsItems = NewsVisitor::all();
+        $newsItems = NewsVisitor::all()->map(function ($news) {
+            if (is_array($news->images)) {
+                // แปลงเป็นสตริงถ้าเป็นอาเรย์
+                $news->images = implode(',', $news->images);
+            }
+            return $news;
+        });
         return view('news.index', compact('newsItems'));
     }
 
@@ -96,12 +100,34 @@ class NewsVisitorController extends Controller
                 $imagePaths[] = $imageName;
             }
 
-            $newsData['images'] = implode(',', $imagePaths);
+            $newsData['images'] = implode(',', $imagePaths); // แปลงอาเรย์เป็นสตริงก่อนบันทึก
         }
 
         $news->update($newsData);
 
-        return redirect()->route('news.index')->with('success', 'News updated successfully!');
+        return redirect()->route('news.index')->with('success', 'แก้ไขสำเร็จ');
     }
 
+    public function destroy($id)
+    {
+        $news = NewsVisitor::find($id);
+
+        if ($news) {
+            // ตรวจสอบและแปลงเป็นสตริงหาก $news->images เป็นอาร์เรย์
+            $images = is_array($news->images) ? $news->images : explode(',', $news->images);
+
+            foreach ($images as $image) {
+                $imagePath = public_path('images') . '/' . $image;
+                if (file_exists($imagePath)) {
+                    unlink($imagePath); // ลบไฟล์
+                }
+            }
+
+            $news->delete(); // ลบรายการออกจากฐานข้อมูล
+
+            return redirect()->route('news.index')->with('success', 'ลบข้อมูลข่าวสารสำเร็จ');
+        }
+
+        return back()->with('error', 'ลบข้อมูลข่าวสารไม่สำเร็จ');
+    }
 }
