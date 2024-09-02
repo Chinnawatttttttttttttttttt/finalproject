@@ -70,6 +70,7 @@
                     <th>คะแนนการสับสน</th>
                     <th>คะแนนการให้อาหาร</th>
                     <th>คะแนนการใช้ห้องน้ำ</th>
+                    <th>กลุ่ม TAI</th>
                     <th>กลุ่ม</th>
                     {{--  <th>QR-Code</th>  --}}
                 </tr>
@@ -84,6 +85,22 @@
                     <td>{{ $score->feed }}</td>
                     <td>{{ $score->toilet }}</td>
                     <td>{{ isset($score->group) ? $score->group->name : 'N/A' }}</td>
+                    <td>
+                        @php
+                            $groupName = isset($score->group) ? $score->group->name : 'N/A';
+                            $displayText = 'ยังไม่ได้ประเมิน'; // Default text
+
+                            if (in_array($groupName, ['B5', 'B4'])) {
+                                $displayText = 'กลุ่มปกติ';
+                            } elseif (in_array($groupName, ['B3', 'C4', 'C3', 'C2'])) {
+                                $displayText = 'กลุ่มติดบ้าน';
+                            } elseif (in_array($groupName, ['I3', 'I2', 'I1'])) {
+                                $displayText = 'กลุ่มติดเตียง';
+                            }
+
+                        @endphp
+                        {{ $displayText }}
+                    </td>
                     {{--  <td>
                         @if($score->qr_path)
                         <img src="{{ asset($score->qr_path) }}" alt="QR Code" style="width: 100px; height: 100px;">

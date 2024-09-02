@@ -21,16 +21,23 @@ class ElderlyController extends Controller
         // dd($request->all());
 
         $request->validate([
-            'Title' =>'required|string',
-            'FirstName' => 'required|string',
-            'LastName' => 'required|string',
-            'NickName' => 'nullable|string',
+
+            'Title' => 'required|string',
+            'FirstName' => 'required|string|max:255',
+            'LastName' => 'required|string|max:255',
+            'NickName' => 'nullable|string|max:255',
             'Birthday' => 'required|date',
             'Age' => 'required|integer',
-            'Address' => 'required|string',
-            'Latitude' => 'required|numeric|between:-90,90',
-            'Longitude' => 'required|numeric|between:-180,180',
-            'Phone' => 'required|string'
+            'houseNumber' => 'nullable|string|max:255',
+            'village' => 'nullable|string|max:255',
+            'subdistrict' => 'nullable|string|max:255',
+            'district' => 'nullable|string|max:255',
+            'province' => 'nullable|string|max:255',
+            'postalCode' => 'nullable|string|max:20',
+            'Latitude' => 'nullable|numeric',
+            'Longitude' => 'nullable|numeric',
+            'Phone' => 'nullable|string|max:20',
+
         ]);
 
         $elderly = new Elderly();
@@ -184,11 +191,11 @@ class ElderlyController extends Controller
         return view('dashboard.map', ['elderlies' => $elderlies]);
     }
 
-    public function profile($id){
-
+    public function profile($id)
+    {
         $elderly = Elderly::findOrFail($id);
-        $score = ScoreTAI::findOrFail($id);
-        $group = Group::findOrFail($id);
+        $score = ScoreTAI::where('elderly_id', $id)->first(); // ใช้ where หรือ find
+        $group = Group::where('elderly_id', $id)->first(); // ใช้ where หรือ find
 
         // Split address
         $address = $elderly->Address;

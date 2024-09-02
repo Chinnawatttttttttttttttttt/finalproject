@@ -146,6 +146,22 @@
             .btn i {
                 margin-right: 8px;
             }
+
+            .modal-body {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+            }
+
+            .img-center {
+                margin: 0 auto;
+            }
+
+            .img-fluid {
+                max-width: 100%;
+                height: auto;
+            }
         </style>
     </head>
 
@@ -159,11 +175,25 @@
                         target="_blank" class="btn btn-info">
                         <i class="fas fa-map-marker-alt"></i> แผนที่
                     </a>
+
                     <a href="{{ route('elderlys.edit', $elderly->id) }}" class="btn btn-warning">
                         <i class="fas fa-edit"></i> แก้ไข
                     </a>
+
                     <a href="{{ route('score.create', ['id' => $score->id]) }}"
                         class="btn btn-primary">ไปที่หน้าแบบทดสอบ</a>
+
+                    @if ($score->qr_path)
+                        <button type="button" class="btn btn-success show-qr" data-toggle="modal" data-target="#qrModal"
+                            data-qr-url="{{ asset($score->qr_path) }}">
+                            แสดง QR Code
+                        </button>
+                    @else
+                        ไม่มี QR Code
+                    @endif
+
+                    <a href="{{ route('all-elderly') }}" class="btn btn-danger">ย้อนกลับ</a>
+
                 </div>
             </div>
 
@@ -318,25 +348,42 @@
                 <div class="col-md-2">
                     <div class="form-group">
                         <label for="mobility">การเคลื่อนไหว</label>
-                        <input type="text" class="form-control" id="mobility" name="mobility" value="{{ old('mobility', $score->mobility) }}" readonly>
-                        <label for="confuse">สับสน</label>
-                        <input type="text" class="form-control" id="confuse" name="confuse" value="{{ old('confuse', $score->confuse) }}" readonly>
+                        @if ($score)
+                            <input type="text" class="form-control" id="mobility" name="mobility"
+                                value="{{ old('mobility', $score->mobility) }}" readonly>
+                            <label for="confuse">สับสน</label>
+                            <input type="text" class="form-control" id="confuse" name="confuse"
+                                value="{{ old('confuse', $score->confuse) }}" readonly>
+                        @else
+                            <p>ยังไม่ได้ประเมิน</p>
+                        @endif
                     </div>
                 </div>
 
                 <div class="col-md-2">
                     <div class="form-group">
                         <label for="feed">การกินอาหาร</label>
-                        <input type="text" class="form-control" id="feed" name="feed" value="{{ old('feed', $score->feed) }}" readonly>
-                        <label for="toilet">การใช้ห้องน้ำ</label>
-                        <input type="text" class="form-control" id="toilet" name="toilet" value="{{ old('toilet', $score->toilet) }}" readonly>
+                        @if ($score)
+                            <input type="text" class="form-control" id="feed" name="feed"
+                                value="{{ old('feed', $score->feed) }}" readonly>
+                            <label for="toilet">การใช้ห้องน้ำ</label>
+                            <input type="text" class="form-control" id="toilet" name="toilet"
+                                value="{{ old('toilet', $score->toilet) }}" readonly>
+                        @else
+                            <p>ยังไม่ได้ประเมิน</p>
+                        @endif
                     </div>
                 </div>
 
                 <div class="col-md-2">
                     <div class="form-group">
                         <label for="group">กลุ่ม</label>
-                        <input type="text" class="form-control" id="group" name="group" value="{{ old('name', $group->name) }}" readonly>
+                        @if ($group)
+                            <input type="text" class="form-control" id="group" name="group"
+                                value="{{ old('name', $group->name) }}" readonly>
+                        @else
+                            <p>ยังไม่ได้ประเมิน</p>
+                        @endif
                     </div>
                 </div>
 
@@ -352,6 +399,28 @@
                 </div>
             </div>
 
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="qrModal" tabindex="-1" role="dialog" aria-labelledby="qrModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="qrModalLabel">QR Code</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body img-center">
+                        <img id="qrImage" src="" alt="QR Code" class="img-fluid">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="downloadBtn">ดาวน์โหลด QR Code</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Leaflet CSS -->
@@ -375,5 +444,38 @@
                 L.marker(initialPosition).addTo(map);
             });
         </script>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // คลิกที่ปุ่มเพื่อเปิด Modal
+                document.querySelectorAll('.show-qr').forEach(function(button) {
+                    button.addEventListener('click', function() {
+                        // ดึงข้อมูล QR Code URL จาก data attribute
+                        var qrUrl = this.getAttribute('data-qr-url');
+
+                        // ตั้งค่า URL ของ QR Code ภาพใน Modal
+                        document.getElementById('qrImage').src = qrUrl;
+
+                        // ตั้งค่าค่าที่ใช้สำหรับดาวน์โหลด
+                        document.getElementById('downloadBtn').setAttribute('data-qr-url', qrUrl);
+                    });
+                });
+
+                // คลิกที่ปุ่มดาวน์โหลด
+                document.getElementById('downloadBtn').addEventListener('click', function() {
+                    var qrUrl = this.getAttribute('data-qr-url');
+                    if (qrUrl) {
+                        // สร้างลิงค์ดาวน์โหลด
+                        var link = document.createElement('a');
+                        link.href = qrUrl;
+                        link.download = 'qr-code.png'; // ชื่อไฟล์ที่ดาวน์โหลด
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                    }
+                });
+            });
+        </script>
+
     </body>
 @endsection

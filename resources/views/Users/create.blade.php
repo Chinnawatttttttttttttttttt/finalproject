@@ -1,6 +1,16 @@
 @extends('layouts.app')
 
 @section('content')
+
+<style>
+    .profile-image {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+</style>
+
 <div class="container mt-5">
     <div class="card">
         <div class="card-header">
@@ -47,7 +57,7 @@
                     </div>
                 </div>
 
-                <!-- Nick Name and Username -->
+                <!-- Nick Name -->
                 <div class="form-row">
                     <div class="form-group col-md-3">
                         <label for="NickName">ชื่อเล่น:</label>
@@ -55,7 +65,7 @@
                     </div>
                 </div>
 
-                <!-- Password and Email -->
+                <!-- Username and Password -->
                 <div class="form-row">
                     <div class="form-group col-md-3">
                         <label for="Username">ชื่อผู้ใช้:</label>
@@ -65,9 +75,16 @@
                         <label for="Password">รหัสผ่าน:</label>
                         <input type="password" class="form-control" id="Password" name="Password" required>
                     </div>
-                    <div class="form-group col-md-6">
+                </div>
+                <!-  ->
+                <div class="form-row">
+                    <div class="from-group col-md-6">
                         <label for="Email">อีเมล:</label>
                         <input type="email" class="form-control" id="Email" name="Email" required>
+                    </div>
+                    <div class="from-group col-md-3">
+                        <label for="Phone">เบอร์โทร:</label>
+                        <input type="phone" class="form-control" id="Phone" name="Phone" required>
                     </div>
                 </div>
 
@@ -129,13 +146,16 @@
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="image_Profile">รูปโปรไฟล์:</label>
-                        <input type="file" class="form-control-file" id="image_Profile" name="image_Profile">
+                        <input type="file" class="form-control-file" id="image_Profile" name="image_Profile" onchange="previewImage()">
+                        <div id="image-preview" class="mt-3"></div>
                     </div>
                 </div>
 
-                <div>
-                    <button type="submit" class="btn btn-primary" onclick="combineNameAndAddress()">บันทึก</button>
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-primary" onclick="combineNameAndAddress()">บันทึกข้อมูล</button>
+                    <a href="{{ route('all-user') }}" class="btn btn-danger">ย้อนกลับ</a>
                 </div>
+
             </form>
         </div>
     </div>
@@ -164,5 +184,27 @@
     document.forms[0].onsubmit = function() {
         combineNameAndAddress();
     }
+
+    function previewImage() {
+        const fileInput = document.getElementById('image_Profile');
+        const previewContainer = document.getElementById('image-preview');
+        previewContainer.innerHTML = ''; // Clear any previous previews
+
+        const file = fileInput.files[0];
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.classList.add('profile-image'); // Add the profile-image class
+                previewContainer.appendChild(img);
+            };
+
+            reader.readAsDataURL(file);
+        }
+    }
+
+    
 </script>
 @endsection

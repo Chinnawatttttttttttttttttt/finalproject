@@ -92,6 +92,7 @@ Route::middleware(['auth', 'IsAdmin', 'CheckLogin', 'NowLogin'])->group(function
         Route::get('/maps','showMap')->name('map');
 
         Route::get('/profile-elderlys/{id}','profile')->name('elderlys.profile');
+
     });
 
     // ScoreTAI
@@ -120,6 +121,7 @@ Route::middleware(['auth', 'IsAdmin', 'CheckLogin', 'NowLogin'])->group(function
         Route::get('news/{id}', [NewsVisitorController::class, 'show'])->name('news.show');
         Route::get('news/{id}/edit', [NewsVisitorController::class, 'edit'])->name('news.edit');
         Route::put('news/{id}', [NewsVisitorController::class, 'update'])->name('news.update');
+        Route::delete('delete-news/{id}', 'destroy')->name('news.delete');
     });
 
     Route::controller(VisitController::class)->group(function(){

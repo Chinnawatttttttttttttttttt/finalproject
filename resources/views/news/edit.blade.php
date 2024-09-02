@@ -46,7 +46,7 @@
                         @endif
                     </div>
                 </div>
-                <div class="text-end mt-4">
+                <div class="d-flex justify-content-between mt-4">
                     <button type="submit" class="btn btn-primary">อัปเดต</button>
                     <a href="{{ route('news.show', $news->id) }}" class="btn btn-danger">ยกเลิก</a>
                 </div>
