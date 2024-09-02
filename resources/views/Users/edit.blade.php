@@ -186,10 +186,12 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="image_Profile">รูปภาพ</label>
-                            <input type="file" name="image_Profile" class="form-control">
-                            @if ($user->image_Profile)
-                                <img src="{{ asset('images/' . $user->image_Profile) }}" alt="Profile Image" class="profile-image mt-2">
-                            @endif
+                            <input type="file" id="image_Profile" name="image_Profile" class="form-control" onchange="previewImage()">
+                            <div id="image-preview" class="mt-2">
+                                @if ($user->image_Profile)
+                                    <img src="{{ asset('images/' . $user->image_Profile) }}" alt="Profile Image" class="profile-image mt-2">
+                                @endif
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -219,6 +221,27 @@
 
         console.log('Combined Address:', address); // For debugging
     }
+
+    function previewImage() {
+        const fileInput = document.getElementById('image_Profile');
+        const previewContainer = document.getElementById('image-preview');
+        previewContainer.innerHTML = ''; // Clear any previous previews
+
+        const file = fileInput.files[0];
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.classList.add('profile-image'); // Add the profile-image class
+                previewContainer.appendChild(img);
+            };
+
+            reader.readAsDataURL(file);
+        }
+    }
 </script>
+
 
 @endsection

@@ -1,6 +1,16 @@
 @extends('layouts.app')
 
 @section('content')
+
+<style>
+    .profile-image {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+</style>
+
 <div class="container mt-5">
     <div class="card">
         <div class="card-header">
@@ -136,7 +146,8 @@
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="image_Profile">รูปโปรไฟล์:</label>
-                        <input type="file" class="form-control-file" id="image_Profile" name="image_Profile">
+                        <input type="file" class="form-control-file" id="image_Profile" name="image_Profile" onchange="previewImage()">
+                        <div id="image-preview" class="mt-3"></div>
                     </div>
                 </div>
 
@@ -173,5 +184,27 @@
     document.forms[0].onsubmit = function() {
         combineNameAndAddress();
     }
+
+    function previewImage() {
+        const fileInput = document.getElementById('image_Profile');
+        const previewContainer = document.getElementById('image-preview');
+        previewContainer.innerHTML = ''; // Clear any previous previews
+
+        const file = fileInput.files[0];
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.classList.add('profile-image'); // Add the profile-image class
+                previewContainer.appendChild(img);
+            };
+
+            reader.readAsDataURL(file);
+        }
+    }
+
+    
 </script>
 @endsection

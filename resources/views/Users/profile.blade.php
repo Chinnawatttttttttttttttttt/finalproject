@@ -162,6 +162,7 @@
                                     <div class="form-group">
                                         <label>รูปภาพ</label>
                                         <input type="file" class="form-control-file" name="profile_image">
+                                        <div id="image-preview" class="mt-3"></div>
                                         <button type="submit" class="btn btn-info btn-fill pull-right" onclick="combineNameAndAddress()">อัพโหลด</button>
                                         <button type="button" id="change-password-btn" class="btn btn-warning btn-fill pull-right">เปลี่ยนรหัสผ่าน</button>
                                     </div>
@@ -285,6 +286,27 @@
 
         console.log('Combined Address:', address); // For debugging
     }
+
+    function previewImage() {
+        const fileInput = document.getElementById('image_Profile');
+        const previewContainer = document.getElementById('image-preview');
+        previewContainer.innerHTML = ''; // Clear any previous previews
+
+        const file = fileInput.files[0];
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.classList.add('profile-image'); // Add the profile-image class
+                previewContainer.appendChild(img);
+            };
+
+            reader.readAsDataURL(file);
+        }
+    }
+
 
 </script>
 
