@@ -53,7 +53,8 @@
                             <th>สับสน</th>
                             <th>การป้อนอาหาร</th>
                             <th>การใช้ห้องน้ำ</th>
-                            <th>กลุ่มคะแนน</th>
+                            <th>กลุ่ม TAI</th>
+                            <th>กลุ่มตามคะแนน</th>
                             <th>แบบทดสอบ</th>
                             <th>Qr-Code</th>
                         </tr>
@@ -69,6 +70,23 @@
                                 <td>{{ $score->feed ?? 'N/A' }}</td>
                                 <td>{{ $score->toilet ?? 'N/A' }}</td>
                                 <td>{{ isset($score->group) ? $score->group->name : 'N/A' }}</td>
+                                <td>
+                                    @php
+                                        $groupName = isset($score->group) ? $score->group->name : 'N/A';
+                                        $displayText = 'ยังไม่ได้ประเมิน'; // Default text
+
+                                        if (in_array($groupName, ['B5', 'B4'])) {
+                                            $displayText = 'กลุ่มปกติ';
+                                        } elseif (in_array($groupName, ['B3', 'C4', 'C3', 'C2'])) {
+                                            $displayText = 'กลุ่มติดบ้าน';
+                                        } elseif (in_array($groupName, ['I3', 'I2', 'I1'])) {
+                                            $displayText = 'กลุ่มติดเตียง';
+                                        }
+
+                                    @endphp
+                                    {{ $displayText }}
+                                </td>
+
                                 <td>
                                     <a href="{{ route('score.create', ['id' => $score->id]) }}"
                                         class="btn btn-primary">ไปที่หน้าแบบทดสอบ</a>

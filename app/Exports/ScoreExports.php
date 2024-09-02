@@ -14,30 +14,45 @@ class ScoreExports implements FromCollection, WithHeadings, WithEvents
     public function collection()
     {
         return ScoreTAI::with(['elderly', 'group', 'user'])->get()->map(function ($score) {
+            // Determine the group description based on the group name
+            $groupName = $score->group ? $score->group->name : 'N/A';
+            if (in_array($groupName, ['B5', 'B4'])) {
+                $groupDescription = 'กลุ่มปกติ';
+            } elseif (in_array($groupName, ['B3', 'C4', 'C3', 'C2'])) {
+                $groupDescription = 'กลุ่มติดบ้าน';
+            } elseif (in_array($groupName, ['I3', 'I2', 'I1'])) {
+                $groupDescription = 'กลุ่มติดเตียง';
+            } else {
+                $groupDescription = 'ยังไม่ได้ประเมิน';
+            }
+
             return [
                 'ID' => $score->id,
-                'Elderly Name' => $score->elderly ? $score->elderly->Title .''. $score->elderly->FirstName . ' ' . $score->elderly->LastName : 'N/A',
-                'Mobility' => $score->mobility,
-                'Confuse' => $score->confuse,
-                'Feed' => $score->feed,
-                'Toilet' => $score->toilet,
-                'Group' => $score->group ? $score->group->name : 'N/A',
+                'ชื่อผู้สูงอายุ' => $score->elderly ? $score->elderly->Title . ' ' . $score->elderly->FirstName . ' ' . $score->elderly->LastName : 'N/A',
+                'การเคลื่อนไหว' => $score->mobility,
+                'สับสน' => $score->confuse,
+                'การให้อาหาร' => $score->feed,
+                'การใช้ห้องน้ำ' => $score->toilet,
+                'กลุ่ม TAI' => $score->group ? $score->group->name : 'ยังไม่ได้ประเมิน',
+                'กลุ่ม' => $groupDescription,
                 'QR Code' => '', // ไม่แสดงเส้นทาง QR Code ใน collection
-                'User' => $score->user ? $score->user->FirstName . ' ' . $score->user->LastName : 'N/A',
+                'ผู้บันทึกข้อมูล' => $score->user ? $score->user->FirstName . ' ' . $score->user->LastName : 'N/A',
             ];
         });
     }
+
 
     public function headings(): array
     {
         return [
             'ลำดับ',
             'ผู้สูงอายุ',
-            'Mobility',
-            'Confuse',
-            'Feed',
-            'Toilet',
-            'Group',
+            'การเคลื่อนไหว',
+            'สับสน',
+            'การกินอาหาร',
+            'การเข้าห้องน้ำ',
+            'กลุ่ม TAI',
+            'กลุ่ม',
             'QR Code',
             'ผู้ใช้งาน',
         ];
@@ -59,10 +74,10 @@ class ScoreExports implements FromCollection, WithHeadings, WithEvents
                         $drawing->setHeight(50); // ปรับขนาดให้พอดี
                         $drawing->setWidth(50); // กำหนดความกว้าง
                         $drawing->setWorksheet($event->sheet->getDelegate()); // เพิ่มภาพไปยัง Worksheet
-                        $drawing->setCoordinates('H' . $row); // กำหนดตำแหน่งในการวางภาพ
+                        $drawing->setCoordinates('I' . $row); // กำหนดตำแหน่งในการวางภาพ
                     } else {
                         // หากไม่พบภาพ ให้แสดง "N/A" ในเซลล์
-                        $event->sheet->setCellValue('H' . $row, 'N/A');
+                        $event->sheet->setCellValue('I' . $row, 'N/A');
                     }
 
                     $row++;
