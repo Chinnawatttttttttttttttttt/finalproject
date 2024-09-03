@@ -186,7 +186,7 @@
                     @if ($score->qr_path)
                         <button type="button" class="btn btn-success show-qr" data-toggle="modal" data-target="#qrModal"
                             data-qr-url="{{ asset($score->qr_path) }}">
-                            แสดง QR Code
+                            แสดงข้อมูลประจำตัวผู้สูงอายุ
                         </button>
                     @else
                         ไม่มี QR Code
@@ -407,10 +407,18 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="qrModalLabel">QR Code</h5>
+                        <h5 class="modal-title" id="qrModalLabel">บัตรประจำตัวผู้สูงอายุ</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <div>เลขประจำตัวผู้สูงอายุ</div>
+                        </div>
+                        <div>ชื่อ-สกุล</div>
+                        <div>วันเดือนปีเกิด</div>
+                        <div>ที่อยู่</div>
                     </div>
                     <div class="modal-body img-center">
                         <img id="qrImage" src="" alt="QR Code" class="img-fluid">

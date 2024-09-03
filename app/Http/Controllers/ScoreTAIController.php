@@ -124,13 +124,15 @@ class ScoreTAIController extends Controller
 
         if ($mobility == 5 && $confuse == 5 && $feed == 5 && $toilet == 5) {
             return 'B5';
-        } elseif ($mobility >= 4 && $confuse >= 4 && $feed >= 4 && $toilet >= 4) {
+        } elseif ($mobility >= 3 && $confuse >= 4 && $feed >= 4 && $toilet >= 4) {
             return 'B4';
         } elseif ($mobility >= 3 && $confuse >= 4 && $feed <= 3 && $toilet <= 3) {
             return 'B3';
         } elseif ($mobility >= 3 && $confuse <= 3 && $feed >= 4 && $toilet >= 4) {
             return 'C4';
         } elseif ($mobility >= 3 && $confuse <= 3 && $feed == 3 && $toilet == 4) {
+            return 'C3';
+        } elseif ($mobility >= 3 && $confuse <= 3 && $feed == 4 && $toilet == 3) {
             return 'C3';
         } elseif ($mobility >= 3 && $confuse <= 3 && $feed <= 3 && $toilet <= 3) {
             return 'C2';

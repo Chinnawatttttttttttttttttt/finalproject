@@ -34,12 +34,12 @@
                     <p>รายงานแบบทดสอบ</p>
                 </a>
             </li>
-            {{--  <li class="{{ Request::is('icons') ? 'active' : '' }}">
+            <li class="{{ Request::is('icons') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ url('icons') }}">
                     <i class="nc-icon nc-atom"></i>
-                    <p>Icons</p>
+                    <p>ข้อมูลการบริการ</p>
                 </a>
-            </li>  --}}
+            </li>
             <li class="{{ Request::is('maps') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ url('maps') }}">
                     <i class="nc-icon nc-pin-3"></i>

@@ -16,9 +16,9 @@ class ScoreExports implements FromCollection, WithHeadings, WithEvents
         return ScoreTAI::with(['elderly', 'group', 'user'])->get()->map(function ($score) {
             // Determine the group description based on the group name
             $groupName = $score->group ? $score->group->name : 'N/A';
-            if (in_array($groupName, ['B5', 'B4'])) {
+            if (in_array($groupName, ['B5', 'B4', 'B3'])) {
                 $groupDescription = 'กลุ่มปกติ';
-            } elseif (in_array($groupName, ['B3', 'C4', 'C3', 'C2'])) {
+            } elseif (in_array($groupName, ['C4', 'C3', 'C2'])) {
                 $groupDescription = 'กลุ่มติดบ้าน';
             } elseif (in_array($groupName, ['I3', 'I2', 'I1'])) {
                 $groupDescription = 'กลุ่มติดเตียง';

@@ -99,13 +99,15 @@ private function determineGroup($score)
     // ตรวจสอบกลุ่มที่ถูกต้องตามข้อมูลที่ให้มา
     if ($mobility == 5 && $confuse == 5 && $feed == 5 && $toilet == 5) {
         return 'Group 1';
-    } elseif ($mobility >= 4 && $confuse >= 4 && $feed >= 4 && $toilet >= 4) {
+    } elseif ($mobility >= 3 && $confuse >= 4 && $feed >= 4 && $toilet >= 4) {
         return 'Group 1';
     } elseif ($mobility >= 3 && $confuse >= 4 && $feed <= 3 && $toilet <= 3) {
         return 'Group 2';
     } elseif ($mobility >= 3 && $confuse <= 3 && $feed >= 4 && $toilet >= 4) {
         return 'Group 2';
     } elseif ($mobility >= 3 && $confuse <= 3 && $feed == 3 && $toilet == 4) {
+        return 'Group 2';
+    } elseif ($mobility >= 3 && $confuse <= 3 && $feed == 4 && $toilet == 3) {
         return 'Group 2';
     } elseif ($mobility >= 3 && $confuse <= 3 && $feed <= 3 && $toilet <= 3) {
         return 'Group 2';

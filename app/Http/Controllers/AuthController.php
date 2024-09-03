@@ -10,11 +10,13 @@ use Illuminate\Support\Facades\Session;
 
 class AuthController extends Controller
 {
-    public function login(){
+    public function login()
+    {
         return view('auth.login');
     }
 
-    public function loginUser(Request $request){
+    public function loginUser(Request $request)
+    {
         $request->validate([
             'login' => 'required',
             'password' => 'required'
@@ -35,9 +37,10 @@ class AuthController extends Controller
 
         session(['position_id' => $user->position_id]);
 
-        // Redirect to all-user page
-        return redirect()->route('dashboard');
+        // Redirect to the intended page or fallback to /dashboard if no intended page
+        return redirect()->intended('/dashboard');
     }
+
 
     public function logout(Request $request)
     {

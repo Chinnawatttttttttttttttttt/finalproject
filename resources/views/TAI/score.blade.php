@@ -213,6 +213,7 @@
                 <p id="summary"></p>
                 {{--  <p id="score_summary"></p>  --}}
                 <p id="group_summary"></p>
+
             </div>
 
             <!-- สิ้นสุดการเพิ่มเนื้อหาจาก div ที่สอง -->
@@ -243,7 +244,7 @@
             const feed = document.querySelector('input[name="feed"]:checked').value;
             const toilet = document.querySelector('input[name="toilet"]:checked').value;
 
-            const summary = `Mobility: ${mobility}, Confuse: ${confuse}, Feed: ${feed}, Toilet: ${toilet}`;
+            const summary = `การเคลื่อนไหว : ${mobility}, สับสน : ${confuse}, การกินอาหาร : ${feed}, การเข้าห้องน้ำ : ${toilet}`;
             document.getElementById('summary').innerText = summary;
             {{--  document.getElementById('score_summary').innerText = summary;  --}}
             console.log(summary);
@@ -252,13 +253,15 @@
             let group = '';
             if (mobility === 5 && confuse === 5 && feed === 5 && toilet === 5) {
                 group = 'B5 เป็นกลุ่มปกติ';
-            } else if (mobility >= 4 && confuse >= 4 && feed >= 4 && toilet >= 4) {
+            } else if (mobility >= 3 && confuse >= 4 && feed >= 4 && toilet >= 4) {
                 group = 'B4 เป็นกลุ่มปกติ';
             } else if (mobility >= 3 && confuse >= 4 && feed <= 3 && toilet <= 3) {
-                group = 'B3 เป็นกลุ่มติดบ้าน';
+                group = 'B3 เป็นกลุ่มปกติ';
             } else if (mobility >= 3 && confuse <= 3 && feed >= 4 && toilet >= 4) {
                 group = 'C4 เป็นกลุ่มติดบ้าน';
             } else if (mobility >= 3 && confuse <= 3 && feed === 3 && toilet === 4) {
+                group = 'C3 เป็นกลุ่มติดบ้าน';
+            } else if (mobility >= 3 && confuse <= 3 && feed === 4 && toilet === 3) {
                 group = 'C3 เป็นกลุ่มติดบ้าน';
             } else if (mobility >= 3 && confuse <= 3 && feed <= 3 && toilet <= 3) {
                 group = 'C2 เป็นกลุ่มติดบ้าน';
@@ -267,10 +270,10 @@
             } else if (mobility <= 2 && feed === 3) {
                 group = 'I2 เป็นกลุ่มติดเตียง';
             } else if (mobility <= 2 && feed <= 2) {
-                group = 'I1 เป็นกลุ่มติดเตียง';
+                group = 'I1 เป็นกลุ่มติดเตียง ';
             }
 
-            document.getElementById('group_summary').innerText = 'กลุ่ม: ' + group;
+            document.getElementById('group_summary').innerText = 'กลุ่ม :' + group;
 
         }
     }
