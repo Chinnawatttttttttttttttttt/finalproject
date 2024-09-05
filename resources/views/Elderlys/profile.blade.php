@@ -147,11 +147,21 @@
                 margin-right: 8px;
             }
 
+            /* เพิ่ม CSS ต่อไปนี้ในไฟล์หรือภายใน <style> ของคุณ */
             .modal-body {
-                display: flex;
-                justify-content: center;
-                align-items: center;
                 text-align: center;
+                /* จัดกึ่งกลางเนื้อหาใน modal */
+            }
+
+            #qrImage {
+                max-width: 35%;
+                /* ให้ภาพมีความกว้างสูงสุดที่ 100% ของ container */
+                height: auto;
+                /* ให้ความสูงของภาพปรับตามสัดส่วน */
+                display: block;
+                /* ทำให้ภาพเป็นบล็อค */
+                margin: 0 auto;
+                /* จัดภาพให้ตรงกลาง */
             }
 
             .img-center {
@@ -412,24 +422,27 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <div class="row">
-                        <div class="form-group">
-                            <div>เลขประจำตัวผู้สูงอายุ</div>
-                        </div>
-                        <div>ชื่อ-สกุล</div>
-                        <div>วันเดือนปีเกิด</div>
-                        <div>ที่อยู่</div>
-                    </div>
-                    <div class="modal-body img-center">
-                        <img id="qrImage" src="" alt="QR Code" class="img-fluid">
+                    <div class="modal-body">
+                        <!-- ข้อมูลผู้สูงอายุที่เพิ่มเข้าไป -->
+                        <p>เลขประจำตัวผู้สูงอายุ: {{ $elderly->id }}</p>
+                        <p>ชื่อ-สกุล: {{ $elderly->Title . $elderly->FirstName }} {{ $elderly->LastName }}</p>
+                        <p>วันเดือนปีเกิด: {{ $elderly->Birthday }}</p>
+                        <p>อายุ: {{ $age }} ปี</p>
+                        <p>ที่อยู่: บ้านเลขที่: {{ $houseNumber }} หมู่: {{ $village }} ตำบล:
+                            {{ $subdistrict }} อำเภอ: {{ $district }} จังหวัด: {{ $province }}
+                            รหัสไปรษณีย์: {{ $postalCode }}</p>
+                        <img id="qrImage" src="" alt="QR Code">
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" id="downloadBtn">ดาวน์โหลด QR Code</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
+                        <button type="button" class="btn btn-success"
+                            id="downloadAllBtn">ดาวน์โหลดข้อมูลทั้งหมด</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">ปิด</button>
                     </div>
                 </div>
             </div>
         </div>
+
+
 
         <!-- Leaflet CSS -->
         <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
@@ -452,6 +465,7 @@
                 L.marker(initialPosition).addTo(map);
             });
         </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
         <script>
             document.addEventListener('DOMContentLoaded', function() {
@@ -465,22 +479,27 @@
                         document.getElementById('qrImage').src = qrUrl;
 
                         // ตั้งค่าค่าที่ใช้สำหรับดาวน์โหลด
-                        document.getElementById('downloadBtn').setAttribute('data-qr-url', qrUrl);
+                        document.getElementById('downloadAllBtn').setAttribute('data-qr-url', qrUrl);
                     });
                 });
 
                 // คลิกที่ปุ่มดาวน์โหลด
-                document.getElementById('downloadBtn').addEventListener('click', function() {
-                    var qrUrl = this.getAttribute('data-qr-url');
-                    if (qrUrl) {
-                        // สร้างลิงค์ดาวน์โหลด
+                document.getElementById('downloadAllBtn').addEventListener('click', function() {
+                    var modalContent = document.querySelector('#qrModal .modal-body');
+                    html2canvas(modalContent, {
+                        backgroundColor: '#ffffff',
+                        useCORS: true,
+                        scale: 2 // ขยายภาพ
+                    }).then(function(canvas) {
                         var link = document.createElement('a');
-                        link.href = qrUrl;
-                        link.download = 'qr-code.png'; // ชื่อไฟล์ที่ดาวน์โหลด
+                        link.href = canvas.toDataURL('image/png');
+                        link.download = 'elderly-profile-card.png'; // ชื่อไฟล์ที่ดาวน์โหลด
                         document.body.appendChild(link);
                         link.click();
                         document.body.removeChild(link);
-                    }
+                    }).catch(function(error) {
+                        console.error('Error capturing the modal:', error);
+                    });
                 });
             });
         </script>
