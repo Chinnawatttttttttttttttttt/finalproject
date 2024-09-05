@@ -7,6 +7,7 @@ use App\Models\Elderly;
 use App\Models\Group;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use PhpParser\Node\Expr\FuncCall;
 
 class ScoreTAIController extends Controller
 {
@@ -113,6 +114,47 @@ class ScoreTAIController extends Controller
         $user = Auth::user(); // Get the authenticated user
 
         return view('TAI.show', compact('scores', 'elderly', 'user', 'groups'));
+    }
+
+    public function service()
+    {
+        $scores = ScoreTAI::with('group', 'elderly')->get(); // ใช้ eager loading เพื่อดึงข้อมูลที่เกี่ยวข้อง
+        $groups = Group::all();
+
+        if ($scores->isEmpty()) {
+            return redirect()->back()->with('error', 'No scores found');
+        }
+
+        // ตรวจสอบว่าผู้สูงอายุมีข้อมูลหลายคนหรือไม่
+        $elderlyIds = $scores->pluck('elderly_id')->unique();
+        $elderlies = Elderly::whereIn('id', $elderlyIds)->get();
+
+        if ($elderlies->isEmpty()) {
+            return redirect()->back()->with('error', 'No elderly found');
+        }
+
+        $user = Auth::user();
+
+        // ส่งข้อมูลไปยังมุมมอง
+        return view('TAI.service', [
+            'scores' => $scores,
+            'elderlies' => $elderlies,
+            'user' => $user,
+            'groups' => $groups,
+        ]);
+    }
+
+    public function details($score_id)
+    {
+        $score = ScoreTAI::find($score_id);
+        if (!$score) {
+            return redirect()->back()->with('error', 'Score not found');
+        }
+
+        $group = Group::find($score->group_id);
+        $elderly = Elderly::find($score->elderly_id);
+
+        return view('TAI.details', compact('score', 'group', 'elderly'));
     }
 
     private function determineGroup($score)

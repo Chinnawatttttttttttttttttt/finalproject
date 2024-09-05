@@ -34,8 +34,8 @@
                     <p>รายงานแบบทดสอบ</p>
                 </a>
             </li>
-            <li class="{{ Request::is('icons') ? 'active' : '' }}">
-                <a class="nav-link" href="{{ url('icons') }}">
+            <li class="{{ Request::is('service') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ url('service') }}">
                     <i class="nc-icon nc-atom"></i>
                     <p>ข้อมูลการบริการ</p>
                 </a>
