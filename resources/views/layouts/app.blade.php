@@ -24,6 +24,7 @@
     <!-- DataTables CSS -->
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="//cdn.datatables.net/2.1.4/css/dataTables.bootstrap5.css">
+    
 </head>
 
 <style>

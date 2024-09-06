@@ -510,6 +510,7 @@
                 align-items: flex-start;
                 border-top: 1px solid #000;
                 padding-top: 20px;
+                background-color: #ccc
             }
 
             .id-card-info {
