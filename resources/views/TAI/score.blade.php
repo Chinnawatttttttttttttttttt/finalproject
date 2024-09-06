@@ -131,32 +131,45 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="mobility">ด้านการเคลื่อนไหว (0-5):</label><br>
-                    <div class="radio-group">
-                        {{--  <img src="{{ asset('assets\img\') }}" alt="Mental Status"style="max-width: 100%; height: auto;">  --}}
-                        @php
-                            $descriptions = [
-                                '0' => 'ไม่สามารถเคลื่อนไหวเองได้',
-                                '1' => 'Roll over',
-                                '2' => 'นั่งข้างเตียง',
-                                '3' => 'Move around ใช่เครื่องช่วย',
-                                '4' => 'เดินทางราบ',
-                                '5' => 'ขึ้นบันได',
-                            ];
-                        @endphp
-                        @for ($i = 0; $i <= 5; $i++)
-                            <div class="radio-item"> <!-- ห่อ radio, label, และคำอธิบาย -->
-                                <input type="radio" id="mobility{{ $i }}" name="mobility"
-                                    value="{{ $i }}" @if ($score->mobility == $i) checked @endif required>
-                                <label for="mobility{{ $i }}">{{ $i }}</label>
-                                <span class="description">{{ $descriptions[$i] }}</span> <!-- ข้อความกำกับเพิ่มเติม -->
+                    <label for="mobility">ด้านการเคลื่อนไหว (0-5):</label>
+                    <div class="row">
+                        <!-- Radio Buttons Column -->
+                        <div class="col-md-8">
+                            <div class="radio-group">
+                                @php
+                                    $descriptions = [
+                                        '0' => 'ไม่สามารถเคลื่อนไหวเองได้',
+                                        '1' => 'Roll over',
+                                        '2' => 'นั่งข้างเตียง',
+                                        '3' => 'Move around ใช่เครื่องช่วย',
+                                        '4' => 'เดินทางราบ',
+                                        '5' => 'ขึ้นบันได',
+                                    ];
+                                @endphp
+                                @for ($i = 0; $i <= 5; $i++)
+                                    <div class="radio-item d-flex align-items-center mb-2">
+                                        <!-- Added d-flex for alignment -->
+                                        <input type="radio" id="mobility{{ $i }}" name="mobility"
+                                            value="{{ $i }}" @if ($score->mobility == $i) checked @endif
+                                            required>
+                                        <label for="mobility{{ $i }}"
+                                            class="ml-2 mr-2">{{ $i }}</label>
+                                        <span class="description">{{ $descriptions[$i] }}</span>
+                                    </div>
+                                @endfor
                             </div>
-                        @endfor
+                        </div>
+
+                        <!-- Image Column -->
+                        <div class="col-md-4 d-flex align-items-center justify-content-center">
+                            <img src="{{ asset('assets/img/M.png') }}" alt="Mental Status"
+                                style="max-width: 100%; height: auto;">
+                        </div>
                     </div>
                 </div>
 
                 <div class="question-buttons">
-                    <button type="button" onclick="showQuestion(1, 2)">ถัดไป</button>
+                    <button type="button" class="btn btn-primary" onclick="showQuestion(1, 2)">ถัดไป</button>
                 </div>
             </div>
 
@@ -174,46 +187,45 @@
                     </div>
                 </div>
 
-                {{--  <div class="form-group">
-                    <label for="confuse">Confuse (0-5):</label><br>
-                    <img src="{{ asset('assets/img/MentalStatus.png') }}" alt="Mental Status"
-                        style="max-width: 100%; height: auto;">
-                    <div class="radio-group">
-                        @for ($i = 0; $i <= 5; $i++)
-                            <input type="radio" id="confuse{{ $i }}" name="confuse"
-                                value="{{ $i }}" @if ($score->confuse == $i) checked @endif required>
-                            <label for="confuse{{ $i }}">{{ $i }}</label>
-                        @endfor
-                    </div>
-                </div>  --}}
-
                 <div class="form-group">
-                    <label for="confuse">ด้านการตัดสินใจ (0-5):</label><br>
-                    <div class="radio-group">
-                        @php
-                            $descriptions = [
-                                '0' => 'ไม่มีการตอบสนองต่อสิ่งเร้า',
-                                '1' => 'มีการตอบสนองต่อสิ่งเร้า',
-                                '2' => 'ไม่มีพฤติกรรมที่สร้างปัญหา',
-                                '3' => 'Orientation ดี',
-                                '4' => 'ไม่มีปัญหาการตัดสินใจจนสร้างความรำคาญ',
-                                '5' => 'Cognitive Function ดี',
-                            ];
-                        @endphp
-                        @for ($i = 0; $i <= 5; $i++)
-                            <div class="radio-item"> <!-- ห่อ radio, label, และคำอธิบาย -->
-                                <input type="radio" id="confuse{{ $i }}" name="confuse"
-                                    value="{{ $i }}" @if ($score->confuse == $i) checked @endif required>
-                                <label for="confuse{{ $i }}">{{ $i }}</label>
-                                <span class="description">{{ $descriptions[$i] }}</span> <!-- ข้อความกำกับเพิ่มเติม -->
+                    <label for="confuse">ด้านการตัดสินใจ (0-5):</label>
+                    <div class="row">
+                        <!-- Radio Buttons Column -->
+                        <div class="col-md-8">
+                            <div class="radio-group">
+                                @php
+                                    $descriptions = [
+                                        '0' => 'ไม่มีการตอบสนองต่อสิ่งเร้า',
+                                        '1' => 'มีการตอบสนองต่อสิ่งเร้า',
+                                        '2' => 'ไม่มีพฤติกรรมที่สร้างปัญหา',
+                                        '3' => 'Orientation ดี',
+                                        '4' => 'ไม่มีปัญหาการตัดสินใจจนสร้างความรำคาญ',
+                                        '5' => 'Cognitive Function ดี',
+                                    ];
+                                @endphp
+                                @for ($i = 0; $i <= 5; $i++)
+                                    <div class="radio-item mb-2"> <!-- Margin bottom for spacing -->
+                                        <input type="radio" id="confuse{{ $i }}" name="confuse"
+                                            value="{{ $i }}" @if ($score->confuse == $i) checked @endif
+                                            required>
+                                        <label for="confuse{{ $i }}" class="mr-2">{{ $i }}</label>
+                                        <span class="description">{{ $descriptions[$i] }}</span>
+                                    </div>
+                                @endfor
                             </div>
-                        @endfor
-                    </div>
-                </div>
+                        </div>
 
-                <div class="question-buttons">
-                    <button type="button" onclick="showQuestion(2, 1)">กลับ</button>
-                    <button type="button" onclick="showQuestion(2, 3)">ถัดไป</button>
+                        <!-- Image Column -->
+                        <div class="col-md-4 d-flex align-items-center justify-content-center">
+                            <img src="{{ asset('assets/img/C.png') }}" alt="Mental Status"
+                                style="max-width: 100%; height: auto;">
+                        </div>
+                    </div>
+
+                    <div class="question-buttons mt-3"> <!-- Added margin-top for spacing -->
+                        <button type="button" class="btn btn-secondary" onclick="showQuestion(2, 1)">กลับ</button>
+                        <button type="button" class="btn btn-primary" onclick="showQuestion(2, 3)">ถัดไป</button>
+                    </div>
                 </div>
             </div>
 
@@ -231,45 +243,45 @@
                     </div>
                 </div>
 
-                {{--  <div class="form-group">
-                    <label for="feed">Feed (0-5):</label><br>
-                    <img src="{{ asset('assets/img/Eating.png') }}" alt="Eating" style="max-width: 100%; height: auto;">
-                    <div class="radio-group">
-                        @for ($i = 0; $i <= 5; $i++)
-                            <input type="radio" id="feed{{ $i }}" name="feed" value="{{ $i }}"
-                                @if ($score->feed == $i) checked @endif required>
-                            <label for="feed{{ $i }}">{{ $i }}</label>
-                        @endfor
-                    </div>
-                </div>  --}}
-
                 <div class="form-group">
-                    <label for="feed">ด้านการกินอาหาร (0-5):</label><br>
-                    <div class="radio-group">
-                        @php
-                            $descriptions = [
-                                '0' => 'มีการให้ IVF',
-                                '1' => 'ไม่ IVF',
-                                '2' => 'ไม่ NG',
-                                '3' => 'ไม่มีปัญหาการกลืน',
-                                '4' => 'ไม่ต้องช่วยเหลือ',
-                                '5' => 'กินเองได้ไม่หกเลอะเทอะ',
-                            ];
-                        @endphp
-                        @for ($i = 0; $i <= 5; $i++)
-                            <div class="radio-item"> <!-- ห่อ radio, label, และคำอธิบาย -->
-                                <input type="radio" id="feed{{ $i }}" name="feed"
-                                    value="{{ $i }}" @if ($score->feed == $i) checked @endif required>
-                                <label for="feed{{ $i }}">{{ $i }}</label>
-                                <span class="description">{{ $descriptions[$i] }}</span> <!-- ข้อความกำกับเพิ่มเติม -->
+                    <label for="feed">ด้านการกินอาหาร (0-5):</label>
+                    <div class="row">
+                        <!-- Radio Buttons Column -->
+                        <div class="col-md-8">
+                            <div class="radio-group">
+                                @php
+                                    $descriptions = [
+                                        '0' => 'มีการให้ IVF',
+                                        '1' => 'ไม่ IVF',
+                                        '2' => 'ไม่ NG',
+                                        '3' => 'ไม่มีปัญหาการกลืน',
+                                        '4' => 'ไม่ต้องช่วยเหลือ',
+                                        '5' => 'กินเองได้ไม่หกเลอะเทอะ',
+                                    ];
+                                @endphp
+                                @for ($i = 0; $i <= 5; $i++)
+                                    <div class="radio-item mb-2"> <!-- Margin bottom for spacing -->
+                                        <input type="radio" id="feed{{ $i }}" name="feed"
+                                            value="{{ $i }}" @if ($score->feed == $i) checked @endif
+                                            required>
+                                        <label for="feed{{ $i }}" class="mr-2">{{ $i }}</label>
+                                        <span class="description">{{ $descriptions[$i] }}</span>
+                                    </div>
+                                @endfor
                             </div>
-                        @endfor
-                    </div>
-                </div>
+                        </div>
 
-                <div class="question-buttons">
-                    <button type="button" onclick="showQuestion(3, 2)">กลับ</button>
-                    <button type="button" onclick="showQuestion(3, 4)">ถัดไป</button>
+                        <!-- Image Column -->
+                        <div class="col-md-4 d-flex align-items-center justify-content-center">
+                            <img src="{{ asset('assets/img/F.png') }}" alt="Eating Status"
+                                style="max-width: 100%; height: auto;">
+                        </div>
+                    </div>
+
+                    <div class="question-buttons mt-3"> <!-- Added margin-top for spacing -->
+                        <button type="button" class="btn btn-secondary" onclick="showQuestion(3, 2)">กลับ</button>
+                        <button type="button" class="btn btn-primary" onclick="showQuestion(3, 4)">ถัดไป</button>
+                    </div>
                 </div>
             </div>
 
@@ -301,45 +313,71 @@
                 </div>  --}}
 
                 <div class="form-group">
-                    <label for="toilet">ด้านการใช้ห้องน้ำ (0-5):</label><br>
-                    <div class="radio-group">
-                        @php
-                            $descriptions = [
-                                '0' => 'Ratain foley’s cath',
-                                '1' => 'no foley’s cath',
-                                '2' => 'เปลี่ยนผ้าอ้อมคนเดียวได้',
-                                '3' => 'ใช้ผ้าอ้อมแค่บางครั้ง',
-                                '4' => 'ต้องช่วยเหลือ',
-                                '5' => 'ทำได้เอง และทำความสะอาดเองได้อย่างน้อย 2 สัปดาห์ที่ผ่านมา',
-                            ];
-                        @endphp
-                        @for ($i = 0; $i <= 5; $i++)
-                            <div class="radio-item"> <!-- ห่อ radio, label, และคำอธิบาย -->
-                                <input type="radio" id="toilet{{ $i }}" name="toilet"
-                                    value="{{ $i }}" @if ($score->toilet == $i) checked @endif required>
-                                <label for="toilet{{ $i }}">{{ $i }}</label>
-                                <span class="description">{{ $descriptions[$i] }}</span> <!-- ข้อความกำกับเพิ่มเติม -->
+                    <label for="toilet">ด้านการใช้ห้องน้ำ (0-5):</label>
+                    <div class="row">
+                        <!-- Radio Buttons Column -->
+                        <div class="col-md-8">
+                            <div class="radio-group">
+                                @php
+                                    $descriptions = [
+                                        '0' => 'Ratain foley’s cath',
+                                        '1' => 'no foley’s cath',
+                                        '2' => 'เปลี่ยนผ้าอ้อมคนเดียวได้',
+                                        '3' => 'ใช้ผ้าอ้อมแค่บางครั้ง',
+                                        '4' => 'ต้องช่วยเหลือ',
+                                        '5' => 'ทำได้เอง และทำความสะอาดเองได้อย่างน้อย 2 สัปดาห์ที่ผ่านมา',
+                                    ];
+                                @endphp
+                                @for ($i = 0; $i <= 5; $i++)
+                                    <div class="radio-item mb-2"> <!-- Margin bottom for spacing -->
+                                        <input type="radio" id="toilet{{ $i }}" name="toilet"
+                                            value="{{ $i }}" @if ($score->toilet == $i) checked @endif
+                                            required>
+                                        <label for="toilet{{ $i }}"
+                                            class="mr-2">{{ $i }}</label>
+                                        <span class="description">{{ $descriptions[$i] }}</span>
+                                    </div>
+                                @endfor
                             </div>
-                        @endfor
+                        </div>
+
+                        <!-- Image Column -->
+                        <div class="col-md-4 d-flex align-items-center justify-content-center">
+                            <img src="{{ asset('assets/img/T.png') }}" alt="Toilet Usage"
+                                style="max-width: 100%; height: auto;">
+                        </div>
+                    </div>
+
+                    <div class="question-buttons mt-3"> <!-- Added margin-top for spacing -->
+                        <button type="button" class="btn btn-secondary" onclick="showQuestion(4, 3)">กลับ</button>
+                        <button type="button" class="btn btn-primary" onclick="showQuestion(4, 5)">ถัดไป</button>
                     </div>
                 </div>
 
-                <div class="question-buttons">
-                    <button type="button" onclick="showQuestion(4, 3)">กลับ</button>
-                    <button type="button" onclick="showQuestion(4, 5)">ถัดไป</button>
-                </div>
             </div>
 
             <div id="question5" class="question">
-                <div class="form-group">
-                    <h3>สรุปข้อมูลการประเมิน</h3>
-                    <p id="user_id_summary">ผู้ประเมิน: {{ $user->FirstName }} {{ $user->LastName }}</p>
-                    <p id="elderly_name_summary">ผู้สูงอายุ: {{ $elderly->FirstName }} {{ $elderly->LastName }}</p>
-                    <label for="summary">สรุปคำตอบ:</label><br>
-                    <p id="summary"></p>
-                    {{--  <p id="score_summary"></p>  --}}
-                    <p id="group_summary"></p>
-
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group border p-3 rounded">
+                                <h3>สรุปข้อมูลการประเมิน</h3>
+                                <p id="user_id_summary">ผู้ประเมิน: {{ $user->FirstName }} {{ $user->LastName }}</p>
+                                <p id="elderly_name_summary">ผู้สูงอายุ: {{ $elderly->FirstName }}
+                                    {{ $elderly->LastName }}</p>
+                                <label for="summary">สรุปคำตอบ:</label><br>
+                                <p id="summary"></p>
+                                {{--  <p id="score_summary"></p>  --}}
+                                <p id="group_summary"></p>
+                            </div>
+                        </div>
+                        <div class="col-md-4 d-flex align-items-center justify-content-center">
+                            {{--  <div class="border p-2 rounded">  --}}
+                                <img src="{{ asset('assets/img/MCFT.png') }}" alt="Toilet Usage"
+                                    style="max-width: 100%; height: auto;">
+                            {{--  </div>  --}}
+                        </div>
+                    </div>
                 </div>
 
                 <!-- สิ้นสุดการเพิ่มเนื้อหาจาก div ที่สอง -->
