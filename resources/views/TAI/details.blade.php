@@ -1,13 +1,44 @@
 @extends('layouts.app')
 
-
-
 @section('content')
-    <!-- ในไฟล์ CSS ของคุณ -->
     <style>
-        .large-text {
-            font-size: 1.2rem;
-            font-weight: bold;
+        .service-card {
+            margin-bottom: 20px;
+            border: 1px solid #dee2e6;
+            border-radius: 0.5rem;
+        }
+
+        .service-card-header {
+            background-color: #ffffff;
+            color: rgb(0, 0, 0);
+            padding: 10px 15px;
+            border-radius: 0.5rem 0.5rem 0 0;
+        }
+
+        .service-card-body {
+            padding: 15px;
+        }
+
+        .service-title {
+            margin-bottom: 0;
+        }
+
+        .card-header {
+            cursor: pointer;
+        }
+
+        .list-item {
+            padding: 10px;
+            font-size: 0.95rem;
+        }
+
+        .list-item i {
+            margin-right: 8px;
+        }
+
+        .scrollable-content {
+            max-height: 200px;
+            overflow-y: auto;
         }
     </style>
 
@@ -34,27 +65,28 @@
                     <div class="card p-3 bg-light shadow-sm">
                         <h2 class="mb-3">ข้อมูลคะแนน</h2>
                         <p class="large-text mb-2"><strong>กลุ่ม:</strong> {{ $score->group->name ?? 'N/A' }}</p>
-                        <p class="large-text"><strong>กลุ่มใหญ่:</strong> @php
-                            $groupName = $score->group->name ?? 'N/A';
-                            $displayText = 'ยังไม่ได้ประเมิน';
+                        <p class="large-text"><strong>กลุ่มใหญ่:</strong>
+                            @php
+                                $groupName = $score->group->name ?? 'N/A';
+                                $displayText = 'ยังไม่ได้ประเมิน';
 
-                            if (in_array($groupName, ['B5', 'B4', 'B3'])) {
-                                $displayText = 'กลุ่มปกติ';
-                            } elseif (in_array($groupName, ['C4', 'C3', 'C2'])) {
-                                $displayText = 'กลุ่มติดบ้าน';
-                            } elseif (in_array($groupName, ['I3', 'I2', 'I1'])) {
-                                $displayText = 'กลุ่มติดเตียง';
-                            }
-                        @endphp
+                                if (in_array($groupName, ['B5', 'B4', 'B3'])) {
+                                    $displayText = 'กลุ่มปกติ';
+                                } elseif (in_array($groupName, ['C4', 'C3', 'C2'])) {
+                                    $displayText = 'กลุ่มติดบ้าน';
+                                } elseif (in_array($groupName, ['I3', 'I2', 'I1'])) {
+                                    $displayText = 'กลุ่มติดเตียง';
+                                }
+                            @endphp
                             {{ $displayText }}</p>
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- Service Details -->
-        <h3>ชุดการบริการ การดูแลตามความต้องการ </h3>
-
+        <h3 class="mb-4">ชุดการบริการ การดูแลตามความต้องการ</h3>
         @php
             $services = [
                 'B3' => [
@@ -230,20 +262,31 @@
 
         @foreach ($services as $group => $items)
             @if ($score->group->name === $group)
-                <div class="card mb-4">
-                    <div class="card-header bg-primary text-white">
+                <div class="card service-card">
+                    <div class="service-card-header">
                         <h4 class="mb-0">บริการสำหรับกลุ่ม {{ $group }} ({{ $displayText }})</h4>
                     </div>
-                    <div class="card-body">
+                    <div class="service-card-body">
                         @foreach ($items as $service => $details)
-                            <h5 class="card-title text-success mt-3"><strong>{{ $service }}</strong></h5>
-                            <ul class="list-group list-group-flush">
-                                @foreach ($details as $detail)
-                                    <li class="list-group-item">
-                                        <i class="bi bi-check-circle-fill text-success"></i> {{ $detail }}
-                                    </li>
-                                @endforeach
-                            </ul>
+                            <div class="card mb-3">
+                                <div class="card-header bg-white text-white" data-bs-toggle="collapse"
+                                    href="#collapse-{{ Str::slug($service) }}" role="button" aria-expanded="false"
+                                    aria-controls="collapse-{{ Str::slug($service) }}">
+                                    <h5 class="card-title mb-0 service-title">{{ $service }}</h5>
+                                </div>
+                                <div class="collapse" id="collapse-{{ Str::slug($service) }}">
+                                    <div class="card-body scrollable-content">
+                                        <ul class="list-group list-group-flush">
+                                            @foreach ($details as $detail)
+                                                <li class="list-group-item list-item">
+                                                    <i class="bi bi-check-circle-fill text-success"></i>
+                                                    {{ $detail }}
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
                         @endforeach
                     </div>
                 </div>
