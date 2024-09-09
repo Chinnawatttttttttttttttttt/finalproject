@@ -1,4 +1,4 @@
-<div class="sidebar" > <!-- data-image="{{ asset('assets/img/sidebar-5.jpg') }}" -->
+<div class="sidebar"> <!-- data-image="{{ asset('assets/img/sidebar-5.jpg') }}" -->
     <div class="sidebar-wrapper">
         <div class="logo d-flex justify-content-center">
             <img src="{{ asset('assets/img/ตรากระทรวงสาธารณสุขใหม่.png') }}" alt="Logo" style="width: 50%;" >
