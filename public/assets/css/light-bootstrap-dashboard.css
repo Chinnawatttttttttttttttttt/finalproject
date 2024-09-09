@@ -11,7 +11,7 @@
 =========================================================
 
  The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.*/
- 
+
 /*      light colors         */
 
 @keyframes spin {
@@ -73,11 +73,13 @@ p,
 a,
 .td-name,
 td,
-button.close {
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-font-smoothing: antialiased;
-    font-family: "Roboto", "Helvetica Neue", Arial, sans-serif;
-    font-weight: 400;
+button.close,
+.table {
+    font-family: "Noto Sans Thai", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 400;
+        /* เลือกค่าแฮงค์ที่ต้องการ เช่น 100, 400, 700 */
+        font-style: normal;
 }
 
 h1,

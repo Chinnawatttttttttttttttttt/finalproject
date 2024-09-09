@@ -15,8 +15,10 @@
     <link rel="icon" type="image/png" href="{{ asset('assets/img/favicon.ico') }}">
 
     <!-- ฟอนต์และไอคอน -->
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@100..900&family=SUSE:wght@100..800&display=swap"rel="stylesheet">
 
     <!-- CSS Files -->
     <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet" />
@@ -40,6 +42,7 @@
 <body>
     <div class="wrapper">
         <!-- รวมไซด์บาร์ -->
+
         @include('layouts.sidebar')
 
         <div class="main-panel">
@@ -80,8 +83,15 @@
 
     <!-- Core JS Files -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+    </script>
+
+
+
 
     <!-- ปลั๊กอินสำหรับ Switches -->
     <script src="{{ asset('assets/js/plugins/bootstrap-switch.js') }}"></script>
@@ -92,14 +102,8 @@
     <!-- ปลั๊กอิน Chartist -->
     <script src="https://cdn.jsdelivr.net/npm/chartist/dist/chartist.min.js"></script>
 
-    <!-- ปลั๊กอิน Notifications -->
-    <script src="{{ asset('assets/js/plugins/bootstrap-notify.js') }}"></script>
-
     <!-- ศูนย์ควบคุมสำหรับ Light Bootstrap Dashboard -->
     <script src="{{ asset('assets/js/light-bootstrap-dashboard.js?v=2.0.0') }}" type="text/javascript"></script>
-
-    <!-- แม้กระทั่ง DEMO ของ Light Bootstrap Dashboard อย่านำมาใช้ในโปรเจกต์! -->
-    <script src="{{ asset('assets/js/demo.js') }}"></script>
 
     <!-- DataTables JS -->
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>

@@ -10,9 +10,21 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
+    <!-- ฟอนต์และไอคอน -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@100..900&family=SUSE:wght@100..800&display=swap"rel="stylesheet">
+
+
     <style>
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: "Noto Sans Thai", sans-serif;
+                font-optical-sizing: auto;
+                font-weight: 400;
+                /* เลือกค่าแฮงค์ที่ต้องการ เช่น 100, 400, 700 */
+                font-style: normal;
+
             display: flex;
             flex-direction: column;
             min-height: 100vh;
