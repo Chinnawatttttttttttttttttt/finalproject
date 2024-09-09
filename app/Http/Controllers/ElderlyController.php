@@ -214,5 +214,5 @@ class ElderlyController extends Controller
 
         return view('Elderlys.profile', compact('elderly', 'houseNumber', 'village', 'subdistrict', 'district', 'province', 'postalCode', 'age', 'score', 'group'));
     }
-
+    
 }

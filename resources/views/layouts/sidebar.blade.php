@@ -25,21 +25,21 @@
             <li class="{{ Request::is('tai') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ url('tai') }}">
                     <i class="nc-icon nc-paper-2"></i>
-                    <p>แบบทดสอบ</p>
+                    <p>แบบประเมิน</p>
                 </a>
             </li>
             <li class="{{ Request::is('all-score') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ url('all-score') }}">
                     <i class="nc-icon nc-notes"></i>
-                    <p>รายงานแบบทดสอบ</p>
+                    <p>รายงานแบบประเมิน</p>
                 </a>
             </li>
-            {{--  <li class="{{ Request::is('icons') ? 'active' : '' }}">
-                <a class="nav-link" href="{{ url('icons') }}">
+            <li class="{{ Request::is('service') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ url('service') }}">
                     <i class="nc-icon nc-atom"></i>
-                    <p>Icons</p>
+                    <p>ข้อมูลการบริการ</p>
                 </a>
-            </li>  --}}
+            </li>
             <li class="{{ Request::is('maps') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ url('maps') }}">
                     <i class="nc-icon nc-pin-3"></i>

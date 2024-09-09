@@ -27,7 +27,8 @@ class CheckLogin
 
         // ถ้าไม่มีการเข้าสู่ระบบให้รีไดเร็กต์ไปหน้า login
         if (!Auth::check()) {
-            return redirect('login')->with('error', 'กรุณาเข้าสู่ระบบ');
+            // บันทึก URL ที่ผู้ใช้พยายามเข้าถึง
+            return redirect()->guest('login')->with('error', 'กรุณาเข้าสู่ระบบ');
         }
 
         return $next($request);

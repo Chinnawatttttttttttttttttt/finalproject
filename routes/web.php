@@ -107,6 +107,9 @@ Route::middleware(['auth', 'IsAdmin', 'CheckLogin', 'NowLogin'])->group(function
         Route::get('all-score', 'showTAI')->name('all-score');
 
         Route::get('tai', 'show')->name('show');
+
+        Route::get('/service','service')->name('service.index');
+        Route::get('/service/details/{score_id}','details')->name('service.details');
     });
 
     Route::controller(DashboardController::class)->group(function(){

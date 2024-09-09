@@ -147,11 +147,21 @@
                 margin-right: 8px;
             }
 
+            /* เพิ่ม CSS ต่อไปนี้ในไฟล์หรือภายใน <style> ของคุณ */
             .modal-body {
-                display: flex;
-                justify-content: center;
-                align-items: center;
                 text-align: center;
+                /* จัดกึ่งกลางเนื้อหาใน modal */
+            }
+
+            #qrImage {
+                max-width: 50%;
+                /* ให้ภาพมีความกว้างสูงสุดที่ 100% ของ container */
+                height: auto;
+                /* ให้ความสูงของภาพปรับตามสัดส่วน */
+                display: block;
+                /* ทำให้ภาพเป็นบล็อค */
+                margin: 0 auto;
+                /* จัดภาพให้ตรงกลาง */
             }
 
             .img-center {
@@ -186,7 +196,7 @@
                     @if ($score->qr_path)
                         <button type="button" class="btn btn-success show-qr" data-toggle="modal" data-target="#qrModal"
                             data-qr-url="{{ asset($score->qr_path) }}">
-                            แสดง QR Code
+                            แสดงข้อมูลประจำตัวผู้สูงอายุ
                         </button>
                     @else
                         ไม่มี QR Code
@@ -401,27 +411,192 @@
 
         </div>
 
-        <!-- Modal -->
+        {{--  <!-- Modal -->
         <div class="modal fade" id="qrModal" tabindex="-1" role="dialog" aria-labelledby="qrModalLabel"
             aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="qrModalLabel">QR Code</h5>
+                        <h5 class="modal-title" id="qrModalLabel">บัตรประจำตัวผู้สูงอายุ</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <div class="modal-body img-center">
-                        <img id="qrImage" src="" alt="QR Code" class="img-fluid">
+                    <div class="modal-body">
+                        <!-- ข้อมูลผู้สูงอายุที่เพิ่มเข้าไป -->
+                        <p>เลขประจำตัวผู้สูงอายุ: {{ $elderly->id }}</p>
+                        <p>ชื่อ-สกุล: {{ $elderly->Title . $elderly->FirstName }} {{ $elderly->LastName }}</p>
+                        <p>วันเดือนปีเกิด: {{ $elderly->Birthday }}</p>
+                        <p>อายุ: {{ $age }} ปี</p>
+                        <p>ที่อยู่: บ้านเลขที่: {{ $houseNumber }} หมู่: {{ $village }} ตำบล:
+                            {{ $subdistrict }} อำเภอ: {{ $district }} จังหวัด: {{ $province }}
+                            รหัสไปรษณีย์: {{ $postalCode }}</p>
+                        <img id="qrImage" src="" alt="QR Code">
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" id="downloadBtn">ดาวน์โหลด QR Code</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
+                        <button type="button" class="btn btn-success"
+                            id="downloadAllBtn">ดาวน์โหลดข้อมูลทั้งหมด</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">ปิด</button>
+                    </div>
+                </div>
+            </div>
+        </div>  --}}
+
+        <!-- Modal -->
+        <div class="modal fade" id="qrModal" tabindex="-1" role="dialog" aria-labelledby="qrModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="qrModalLabel">ข้อมูลบัตรประจำตัวประชาชน</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- ข้อมูลบัตร -->
+                        <div class="id-card-full">
+                            <div class="id-card-header">
+                                <h4>บัตรประจำตัวผู้สูงอายุ</h4>
+                            </div>
+                            <div class="id-card-content">
+                                <div class="id-card-info">
+                                    <p><span class="label">เลขประจำตัวผู้สูงอายุ:</span> {{ $elderly->id }}</p>
+                                    <p><span class="label">ชื่อ-สกุล:</span> {{ $elderly->Title }} {{ $elderly->FirstName }} {{ $elderly->LastName }}</p>
+                                    <p><span class="label">วันเดือนปีเกิด:</span> {{ $elderly->Birthday }}</p>
+                                    <p><span class="label">อายุ:</span> {{ $age }} ปี</p>
+                                    <p class="address">
+                                        <span class="label">ที่อยู่:</span>บ้านเลขที่ <span class="data">{{ $houseNumber }}</span>
+                                        หมู่ <span class="data">{{ $village }}</span><br>
+                                        ตำบล <span class="data">{{ $subdistrict }}</span>
+                                        อำเภอ <span class="data">{{ $district }}</span><br>
+                                        จังหวัด <span class="data">{{ $province }}</span>
+                                        รหัสไปรษณีย์ <span class="data">{{ $postalCode }}</span>
+                                    </p>
+                                </div>
+                                <div>
+                                    <img id="qrImage" src="" alt="QR Code">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success"
+                            id="downloadAllBtn">ดาวน์โหลดข้อมูลทั้งหมด</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">ปิด</button>
                     </div>
                 </div>
             </div>
         </div>
+
+        <style>
+            .id-card-full {
+                width: 100%;
+                padding: 20px;
+                border: 1px solid #000;
+                border-radius: 5px;
+                font-family: Arial, sans-serif;
+            }
+
+            .id-card-header {
+                text-align: center;
+                font-weight: bold;
+                margin-bottom: 20px;
+            }
+
+            .id-card-content {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+                border-top: 1px solid #000;
+                padding-top: 20px;
+                background-color: #ccc
+            }
+
+            .id-card-info {
+                font-family: Arial, sans-serif;
+                /* ใช้ฟอนต์ที่อ่านง่าย */
+                font-size: 14px;
+                /* ขนาดตัวอักษร */
+                line-height: 1.6;
+                /* ระยะห่างระหว่างบรรทัด */
+                color: #000;
+                /* สีตัวอักษร */
+                margin: 0;
+                padding: 10px;
+            }
+
+            .id-card-info p {
+                margin: 5px 0;
+                /* ระยะห่างระหว่างพารากราฟ */
+            }
+
+            .id-card-info .label {
+                font-weight: bold;
+                /* เน้นข้อความหัวข้อ */
+            }
+
+            .id-card-info .address {
+                margin-top: 10px;
+                /* ระยะห่างจากพารากราฟก่อนหน้า */
+            }
+
+            .id-card-info .data {
+                font-weight: normal;
+                /* น้ำหนักตัวอักษรปกติ */
+            }
+
+            .address {
+                font-size: 16px;
+                /* ขนาดตัวอักษร */
+                line-height: 1.5;
+                /* ระยะห่างระหว่างบรรทัด */
+                margin: 0;
+                /* ไม่มีระยะห่างรอบๆ */
+                padding: 0;
+                /* ไม่มีการเติมภายใน */
+            }
+
+            .address .label {
+                font-weight: bold;
+                /* เน้นข้อความ "ที่อยู่:" */
+            }
+
+            .address .data {
+                font-weight: normal;
+                /* ปรับน้ำหนักตัวอักษรของข้อมูล */
+            }
+        </style>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                document.querySelectorAll('.show-qr').forEach(function(button) {
+                    button.addEventListener('click', function() {
+                        var qrUrl = this.getAttribute('data-qr-url');
+                        document.getElementById('qrImage').src = qrUrl;
+                        document.getElementById('downloadAllBtn').setAttribute('data-qr-url', qrUrl);
+                    });
+                });
+
+                document.getElementById('downloadAllBtn').addEventListener('click', function() {
+                    var idCardElement = document.querySelector('.id-card-full');
+                    html2canvas(idCardElement, {
+                        useCORS: true,
+                        scale: 2
+                    }).then(function(canvas) {
+                        var link = document.createElement('a');
+                        link.href = canvas.toDataURL('image/png');
+                        link.download = 'id-card-{{ $elderly->id }}.png';
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                    });
+                });
+            });
+        </script>
+
+
+
 
         <!-- Leaflet CSS -->
         <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
@@ -444,38 +619,9 @@
                 L.marker(initialPosition).addTo(map);
             });
         </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                // คลิกที่ปุ่มเพื่อเปิด Modal
-                document.querySelectorAll('.show-qr').forEach(function(button) {
-                    button.addEventListener('click', function() {
-                        // ดึงข้อมูล QR Code URL จาก data attribute
-                        var qrUrl = this.getAttribute('data-qr-url');
 
-                        // ตั้งค่า URL ของ QR Code ภาพใน Modal
-                        document.getElementById('qrImage').src = qrUrl;
-
-                        // ตั้งค่าค่าที่ใช้สำหรับดาวน์โหลด
-                        document.getElementById('downloadBtn').setAttribute('data-qr-url', qrUrl);
-                    });
-                });
-
-                // คลิกที่ปุ่มดาวน์โหลด
-                document.getElementById('downloadBtn').addEventListener('click', function() {
-                    var qrUrl = this.getAttribute('data-qr-url');
-                    if (qrUrl) {
-                        // สร้างลิงค์ดาวน์โหลด
-                        var link = document.createElement('a');
-                        link.href = qrUrl;
-                        link.download = 'qr-code.png'; // ชื่อไฟล์ที่ดาวน์โหลด
-                        document.body.appendChild(link);
-                        link.click();
-                        document.body.removeChild(link);
-                    }
-                });
-            });
-        </script>
 
     </body>
 @endsection

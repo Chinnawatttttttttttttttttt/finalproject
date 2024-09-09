@@ -1,17 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-    @if (session('error'))
-        <div class="alert alert-danger">
-            {{ session('error') }}
-        </div>
-    @endif
-
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
 
     <style>
         /* CSS สำหรับการพิมพ์ */
@@ -75,9 +64,9 @@
                                         $groupName = isset($score->group) ? $score->group->name : 'N/A';
                                         $displayText = 'ยังไม่ได้ประเมิน'; // Default text
 
-                                        if (in_array($groupName, ['B5', 'B4'])) {
+                                        if (in_array($groupName, ['B5', 'B4', 'B3'])) {
                                             $displayText = 'กลุ่มปกติ';
-                                        } elseif (in_array($groupName, ['B3', 'C4', 'C3', 'C2'])) {
+                                        } elseif (in_array($groupName, ['C4', 'C3', 'C2'])) {
                                             $displayText = 'กลุ่มติดบ้าน';
                                         } elseif (in_array($groupName, ['I3', 'I2', 'I1'])) {
                                             $displayText = 'กลุ่มติดเตียง';
