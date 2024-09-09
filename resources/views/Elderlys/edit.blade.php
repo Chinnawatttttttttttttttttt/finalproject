@@ -7,18 +7,7 @@
             <h1 class="mb-0">แก้ไขข้อมูลผู้สูงอายุ</h1>
         </div>
         <div class="card-body">
-            @if(session('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
-                </div>
-            @endif
-
-            @if(session('fail'))
-                <div class="alert alert-danger">
-                    {{ session('fail') }}
-                </div>
-            @endif
-
+            
             <form action="{{ route('elderlys.update', $elderly->id) }}" method="POST" onsubmit="combineNameAndAddress()">
                 @csrf
                 @method('PUT')

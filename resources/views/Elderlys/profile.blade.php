@@ -586,7 +586,7 @@
                     }).then(function(canvas) {
                         var link = document.createElement('a');
                         link.href = canvas.toDataURL('image/png');
-                        link.download = 'id-card.png';
+                        link.download = 'id-card-{{ $elderly->id }}.png';
                         document.body.appendChild(link);
                         link.click();
                         document.body.removeChild(link);

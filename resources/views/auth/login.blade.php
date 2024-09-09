@@ -147,6 +147,78 @@
             font-size: 14px;
             color: #6c757d;
         }
+
+        .modal-body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .modal-body p {
+            text-align: justify;
+            margin-bottom: 20px;
+        }
+
+        /* แก้ไขค่า z-index ให้สูงขึ้น */
+        .modal {
+            z-index: 1050;
+            /* ค่า z-index ของ Modal ควรสูงกว่าค่า z-index ของ backdrop */
+        }
+
+        /* ค่า z-index ของ modal-backdrop ใน Bootstrap 5.x */
+        .modal-backdrop {
+            z-index: 1040;
+            /* ค่า z-index ของ Backdrop */
+        }
+
+        /* สไตล์สำหรับ Modal */
+        .modal {
+            display: none;
+            /* ซ่อน Modal โดยค่าเริ่มต้น */
+            position: fixed;
+            /* ตำแหน่งของ Modal */
+            z-index: 1050;
+            /* เพิ่มค่า z-index ของ Modal ให้สูงขึ้น */
+            left: 0;
+            top: 0;
+            width: 100%;
+            /* ความกว้างของ Modal */
+            height: 100%;
+            /* ความสูงของ Modal */
+            overflow: auto;
+            /* เลื่อนหน้าจอเมื่อเนื้อหาเยอะ */
+            background-color: rgba(0, 0, 0, 0.5);
+            /* พื้นหลังสีดำที่โปร่งแสง */
+        }
+
+        /* สไตล์สำหรับเนื้อหา Modal */
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            /* ระยะห่างจากด้านบนและกลางจอ */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 100%;
+            /* ความกว้างของ Modal */
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            border-radius: 10px;
+        }
+
+        /* ปุ่มปิด Modal */
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
     </style>
 </head>
 
@@ -157,8 +229,7 @@
         <h6 style="padding-left: 125px">BURIRAM PROVINCIAL HEALTH OFFICE</h6>
         <div class="nav-links">
             <a href="{{ route('home') }}">หน้าแรก</a>
-            {{--  <a href="#">ติดต่อ</a>  --}}
-            {{--  <span>จำนวนผู้ใช้งานทั้งหมด: <strong>1234</strong></span>  --}}
+            <a href="#" data-bs-toggle="modal" data-bs-target="#contactModal">ติดต่อ</a>
         </div>
     </div>
 
@@ -197,10 +268,12 @@
                                             </div>
                                             <div class="form-group mt-2">
                                                 <!-- Password Input Field with ID -->
-                                                <input type="password" id="password-input" name="password" class="form-style" placeholder="รหัสผ่าน">
+                                                <input type="password" id="password-input" name="password"
+                                                    class="form-style" placeholder="รหัสผ่าน">
 
                                                 <!-- Icon to Toggle Password Visibility with onClick event -->
-                                                <i id="toggle-password" class="input-icon uil uil-eye-slash" onclick="togglePasswordVisibility()"></i>
+                                                <i id="toggle-password" class="input-icon uil uil-eye-slash"
+                                                    onclick="togglePasswordVisibility()"></i>
 
                                                 <!-- Error Message Display -->
                                                 <span class="text-danger">
@@ -219,6 +292,39 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap Modal -->
+    <div class="modal fade" id="contactModal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" style="background-color: #fff;">
+                <div class="modal-header" style="background-color: #6f42c1; color: white;">
+                    <img src="{{ asset('assets/img/ตรากระทรวงสาธารณสุขใหม่.png') }}" alt="Logo"
+                        style="width: 50px; height: auto;">
+                    <div class="modal-title-container" style="flex: 1; padding-left: 20px;">
+                        <h4>สำนักงานสาธารณสุขจังหวัดบุรีรัมย์</h4>
+                        <h4>BURIRAM PROVINCIAL HEALTH OFFICE</h4>
+                        <h4 class="modal-title" id="contactModalLabel">ติดต่อเรา</h4>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>สำนักงานสาธารณสุขจังหวัดบุรีรัมย์</p>
+                    <p>ที่อยู่:261 ถนนจิระ อำเภอเมือง จังหวัดบุรีรัมย์ 31000</p>
+                    <p>โทร. 044-611562 : โทรสาร 044-611562(112)</p>
+                    <iframe width="100%" height="400" frameborder="0" style="border:0"
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d506.5464345482627!2d103.11023402006114!3d14.99359609634598!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x311995b9454790d3%3A0x5f98e10d638cff6!2z4LiI4LmA4LiX4LiU4Lij4LiB4Lir4Li14Liy4LiU4Lii4LiB!5e0!3m2!1sth!2sth!4v1694474836505!5m2!1sth!2sth"
+                        allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+                    {{--  <a href="https://www.google.com/maps/place/%E0%B8%AA%E0%B8%AB%E0%B8%81%E0%B8%A3%E0%B8%93%E0%B9%8C%E0%B8%AD%E0%B8%AD%E0%B8%A1%E0%B8%97%E0%B8%A3%E0%B8%B1%E0%B8%9E%E0%B8%A2%E0%B9%8C%E0%B8%AA%E0%B8%B2%E0%B8%98%E0%B8%B2%E0%B8%A3%E0%B8%93%E0%B8%AA%E0%B8%B8%E0%B8%82%E0%B8%88%E0%B8%B1%E0%B8%87%E0%B8%AB%E0%B8%A7%E0%B8%B1%E0%B8%94%E0%B8%9A%E0%B8%B8%E0%B8%A3%E0%B8%B5%E0%B8%A3%E0%B8%B1%E0%B8%A1%E0%B8%A2%E0%B9%8C/@14.993714,103.11012,421m/data=!3m1!1e3!4m6!3m5!1s0x311995b9454790d3:0x5f98e10d638cff6!8m2!3d14.9935961!4d103.110234!16s%2Fg%2F1hm5zg2lt?hl=th&entry=ttu&g_ep=EgoyMDI0MDkwNC4wIKXMDSoASAFQAw%3D%3D"
+                        target="_blank" class="btn btn-primary">
+                        ดูแผนที่ใน Google Maps
+                    </a>  --}}
+                </div>
+                {{--  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
+                </div>  --}}
             </div>
         </div>
     </div>
@@ -245,6 +351,17 @@
                 toggleIcon.classList.add('uil-eye-slash');
             }
         }
+
+        // ฟังก์ชันเปิด Modal
+        function openModal() {
+            document.getElementById("myModal").style.display = "block";
+        }
+
+        // ฟังก์ชันปิด Modal
+        function closeModal() {
+            document.getElementById("myModal").style.display = "none";
+        }
+
     </script>
 
 

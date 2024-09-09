@@ -67,6 +67,6 @@ class DepartmentController extends Controller
         $dpt = Department::findOrFail($id);
         $dpt->delete();
 
-        return back()->with('success', 'ลบข้อมูลสำเร็จ');
+        return back()->with('fail', 'ลบข้อมูลสำเร็จ');
     }
 }

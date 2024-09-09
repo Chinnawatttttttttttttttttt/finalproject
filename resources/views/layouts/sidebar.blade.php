@@ -25,13 +25,13 @@
             <li class="{{ Request::is('tai') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ url('tai') }}">
                     <i class="nc-icon nc-paper-2"></i>
-                    <p>แบบทดสอบ</p>
+                    <p>แบบประเมิน</p>
                 </a>
             </li>
             <li class="{{ Request::is('all-score') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ url('all-score') }}">
                     <i class="nc-icon nc-notes"></i>
-                    <p>รายงานแบบทดสอบ</p>
+                    <p>รายงานแบบประเมิน</p>
                 </a>
             </li>
             <li class="{{ Request::is('service') ? 'active' : '' }}">

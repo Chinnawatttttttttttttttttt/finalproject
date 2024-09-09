@@ -117,7 +117,7 @@ class NewsVisitorController extends Controller
             $images = is_array($news->images) ? $news->images : explode(',', $news->images);
 
             foreach ($images as $image) {
-                $imagePath = public_path('images') . '/' . $image;
+                $imagePath = public_path('image') . '/' . $image;
                 if (file_exists($imagePath)) {
                     unlink($imagePath); // ลบไฟล์
                 }

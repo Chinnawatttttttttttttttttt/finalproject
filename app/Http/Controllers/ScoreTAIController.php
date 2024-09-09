@@ -16,13 +16,13 @@ class ScoreTAIController extends Controller
         $score = ScoreTAI::find($id);
 
         if (!$score) {
-            return redirect()->back()->with('error', 'Score not found');
+            return redirect()->back()->with('error', 'ไม่พบคะแนน');
         }
 
         $elderly = Elderly::find($score->elderly_id);
 
         if (!$elderly) {
-            return redirect()->back()->with('error', 'Elderly not found');
+            return redirect()->back()->with('error', 'ไม่พบผู้สูงอายุ');
         }
 
         $user = Auth::user(); // Get the authenticated user
@@ -44,7 +44,7 @@ class ScoreTAIController extends Controller
         // Find or create ScoreTAI record
         $score = ScoreTAI::find($request->input('id'));
         if (!$score) {
-            return redirect()->back()->with('error', 'Score not found');
+            return redirect()->back()->with('error', 'ไม่พบคะแนน');
         }
 
         // Update ScoreTAI record
@@ -81,14 +81,14 @@ class ScoreTAIController extends Controller
         $groups = Group::all();
 
         if ($scores->isEmpty()) {
-            return redirect()->back()->with('error', 'No scores found');
+            return redirect()->back()->with('error', 'ไม่พบคะแนน');
         }
 
         // Assuming the first score's elderly and user details are needed for display
         $elderly = Elderly::find($scores->first()->elderly_id);
 
         if (!$elderly) {
-            return redirect()->back()->with('error', 'Elderly not found');
+            return redirect()->back()->with('error', 'ไม่พบผู้สูงอายุ');
         }
 
         $user = Auth::user(); // Get the authenticated user
@@ -102,13 +102,13 @@ class ScoreTAIController extends Controller
         $groups = Group::all();
 
         if ($scores->isEmpty()) {
-            return redirect()->back()->with('error', 'No scores found');
+            return redirect()->back()->with('error', 'ไม่พบคะแนน');
         }
 
         $elderly = Elderly::find($scores->first()->elderly_id);
 
         if (!$elderly) {
-            return redirect()->back()->with('error', 'Elderly not found');
+            return redirect()->back()->with('error', 'ไม่พบผู้สูงอายุ');
         }
 
         $user = Auth::user(); // Get the authenticated user
@@ -122,7 +122,7 @@ class ScoreTAIController extends Controller
         $groups = Group::all();
 
         if ($scores->isEmpty()) {
-            return redirect()->back()->with('error', 'No scores found');
+            return redirect()->back()->with('error', 'ไม่พบคะแนน');
         }
 
         // ตรวจสอบว่าผู้สูงอายุมีข้อมูลหลายคนหรือไม่
@@ -130,7 +130,7 @@ class ScoreTAIController extends Controller
         $elderlies = Elderly::whereIn('id', $elderlyIds)->get();
 
         if ($elderlies->isEmpty()) {
-            return redirect()->back()->with('error', 'No elderly found');
+            return redirect()->back()->with('error', 'ไม่พบผู้สูงอายุ');
         }
 
         $user = Auth::user();
@@ -148,7 +148,7 @@ class ScoreTAIController extends Controller
     {
         $score = ScoreTAI::find($score_id);
         if (!$score) {
-            return redirect()->back()->with('error', 'Score not found');
+            return redirect()->back()->with('error', 'ไม่พบคะแนน');
         }
 
         $group = Group::find($score->group_id);
@@ -185,7 +185,7 @@ class ScoreTAIController extends Controller
         } elseif ($mobility <= 2 && $feed <= 2) {
             return 'I1';
         } else {
-            return 'Unknown';
+            return 'ไม่พบคะแนน';
         }
     }
 }

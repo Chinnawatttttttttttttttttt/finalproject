@@ -189,7 +189,7 @@ class UserController extends Controller
             return view('Users.profile', ['user' => $user],compact('user', 'houseNumber', 'village', 'subdistrict', 'district', 'province', 'postalCode'));
         } else {
             // Handle case when user is not logged in
-            return redirect()->route('login')->with('error', 'Please login to view your profile.');
+            return redirect()->route('login')->with('error', 'กรุณาเข้าสู่ระบบเพื่อดูโปรไฟล์ของคุณ');
         }
 
     }
@@ -233,7 +233,7 @@ class UserController extends Controller
         $user->save();
 
         // เปลี่ยนเส้นทางกลับไปยังหน้าที่ต้องการพร้อมแสดงข้อความสำเร็จ
-        return redirect()->back()->with('success', 'Profile updated successfully!');
+        return redirect()->back()->with('success', 'อัปเดตโปรไฟล์สำเร็จ');
     }
 
     public function changePassword(Request $request)

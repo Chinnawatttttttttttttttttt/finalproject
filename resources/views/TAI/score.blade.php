@@ -97,12 +97,6 @@
         }
     </style>
 
-    @if (session('error'))
-        <div class="alert alert-danger">
-            {{ session('error') }}
-        </div>
-    @endif
-
     <div class="form-container">
         <form id="score_form" action="{{ route('score.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
@@ -359,6 +353,7 @@
             <div id="question5" class="question">
                 <div class="container">
                     <div class="row">
+                        <!-- Summary Information -->
                         <div class="col-md-8">
                             <div class="form-group border p-3 rounded">
                                 <h3>สรุปข้อมูลการประเมิน</h3>
@@ -366,25 +361,30 @@
                                 <p id="elderly_name_summary">ผู้สูงอายุ: {{ $elderly->FirstName }}
                                     {{ $elderly->LastName }}</p>
                                 <label for="summary">สรุปคำตอบ:</label><br>
-                                <p id="summary"></p>
-                                {{--  <p id="score_summary"></p>  --}}
-                                <p id="group_summary"></p>
+                                <p id="summary">[Summary will be displayed here]</p>
+                                <p id="group_summary">[Group information will be displayed here]</p>
                             </div>
                         </div>
+
+                        <!-- Image Section -->
                         <div class="col-md-4 d-flex align-items-center justify-content-center">
-                            {{--  <div class="border p-2 rounded">  --}}
-                                <img src="{{ asset('assets/img/MCFT.png') }}" alt="Toilet Usage"
-                                    style="max-width: 100%; height: auto;">
-                            {{--  </div>  --}}
+                            <div class="border p-2 rounded">
+                                <img src="{{ asset('assets/img/MCFT.png') }}" alt="Toilet Usage Representation"
+                                    style="max-width: 150%; height: auto;">
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- สิ้นสุดการเพิ่มเนื้อหาจาก div ที่สอง -->
 
-                <div class="question-buttons">
+                {{--  <div class="question-buttons">
                     <button type="button" onclick="showQuestion(5, 4)">กลับ</button>
                     <button type="button" onclick="submitForm()">บันทึก</button>
+                </div>  --}}
+                <div class="question-buttons mt-3"> <!-- Added margin-top for spacing -->
+                    <button type="button" class="btn btn-secondary" onclick="showQuestion(5, 1)">กลับ</button>
+                    <button type="button" class="btn btn-primary" onclick="submitForm()">บันทึก</button>
                 </div>
             </div>
 

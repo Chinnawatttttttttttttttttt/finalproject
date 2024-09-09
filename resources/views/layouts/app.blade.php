@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <title>ระบบการคัดกรองข้อมูลและประเมินสภาวะของผู้สูงอายุผ่านคิวอาร์โค้ดของสำนักงานสาธารณสุขจังหวัดบุรีรัมย์ Screening System and Typology of Aged with Illustration Assessment of the Elderly via the QR code of the Public Health Office Buriram Procince</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no" />
+    <title>ระบบการคัดกรองข้อมูลและประเมินสภาวะของผู้สูงอายุผ่านคิวอาร์โค้ดของสำนักงานสาธารณสุขจังหวัดบุรีรัมย์ Screening
+        System and Typology of Aged with Illustration Assessment of the Elderly via the QR code of the Public Health
+        Office Buriram Procince</title>
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no" />
 
     <!-- Apple Touch Icon และ Favicon -->
     <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('assets/img/apple-icon.png') }}">
@@ -24,14 +28,13 @@
     <!-- DataTables CSS -->
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="//cdn.datatables.net/2.1.4/css/dataTables.bootstrap5.css">
-    
+
 </head>
 
 <style>
-    .content{
+    .content {
         background-color: #ffffff;
     }
-
 </style>
 
 <body>
@@ -44,6 +47,27 @@
             @include('layouts.navbar')
 
             <div class="content">
+
+                @if (session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
+                @if (session('fail'))
+                    <div class="alert alert-success">
+                        {{ session('fail') }}
+                    </div>
+                @endif
+
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        @foreach ($errors->all() as $error)
+                            <div>{{ $error }}</div>
+                        @endforeach
+                    </div>
+                @endif
+
                 <!-- Yield เนื้อหา -->
                 @yield('content')
                 {{--  <button id="print-btn" class="btn btn-primary">พิมพ์</button>  --}}
@@ -89,9 +113,12 @@
     <style>
         /* ปรับขนาดช่อง lengthMenu */
         .dataTables_length select {
-            width: 100px; /* กำหนดความกว้างที่ต้องการ */
-            height: 35px; /* กำหนดความสูงที่ต้องการ */
-            font-size: 16px; /* กำหนดขนาดตัวอักษร */
+            width: 100px;
+            /* กำหนดความกว้างที่ต้องการ */
+            height: 35px;
+            /* กำหนดความสูงที่ต้องการ */
+            font-size: 16px;
+            /* กำหนดขนาดตัวอักษร */
         }
     </style>
 
@@ -118,11 +145,14 @@
                         "previous": "หน้าก่อนหน้า"
                     }
                 },
-                "columnDefs": [
-                    { "className": "dt-center", "targets": "_all" }  // ทำให้ข้อความทุกคอลัมน์อยู่ตรงกลาง
+                "columnDefs": [{
+                        "className": "dt-center",
+                        "targets": "_all"
+                    } // ทำให้ข้อความทุกคอลัมน์อยู่ตรงกลาง
                 ]
             });
         });
     </script>
 </body>
+
 </html>

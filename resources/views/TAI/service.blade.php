@@ -4,12 +4,6 @@
     <div class="container">
         <h1>ข้อมูลบริการสำหรับผู้สูงอายุ</h1>
 
-        @if (session('error'))
-            <div class="alert alert-danger">
-                {{ session('error') }}
-            </div>
-        @endif
-
         <div class="table">
             <table id="table" class="table-hover table-striped">
                 <thead>

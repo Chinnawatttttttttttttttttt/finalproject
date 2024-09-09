@@ -2,16 +2,16 @@
 
 @section('content')
 
-<style>
+    <style>
 
-    .profile-image {
-        width: 150px;
-        height: 150px;
-        object-fit: cover;
-        border-radius: 50%;
-    }
+        .profile-image {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 50%;
+        }
 
-</style>
+    </style>
 
 <div class="container mt-5">
     <div class="card">
