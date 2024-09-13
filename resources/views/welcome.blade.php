@@ -264,7 +264,8 @@
 
 <body>
     <div class="header">
-        <img src="{{ asset('assets/img/ตรากระทรวงสาธารณสุขใหม่.png') }}" alt="Logo">
+        <img src="{{ url('assets/img/ตรากระทรวงสาธารณสุขใหม่.png') }}" alt="Logo">
+        <!-- <img src="{{ url('assets/img/ตรากระทรวงสาธารณสุขใหม่.png') }}" alt="logo"> -->
         <h4 style="padding-left: 125px">สำนักงานสาธารณสุขจังหวัดบุรีรัมย์</h4>
         <h6 style="padding-left: 125px">BURIRAM PROVINCIAL HEALTH OFFICE</h6>
         <div class="nav-links">
@@ -281,13 +282,13 @@
             <!-- แทรกรูปภาพของคุณที่นี่ -->
 
             <div class="slide">
-                <img src="/assets/img/healthID-ssj.png" alt="Slide 1">
+                <img src="{{ url('/assets/img/healthID-ssj.png') }}" alt="Slide 1">
             </div>
             <div class="slide">
-                <img src="/assets/img/p01-67.png" alt="Slide 2">
+                <img src="{{ url('/assets/img/p01-67.png') }}" alt="Slide 2">
             </div>
             <div class="slide">
-                <img src="/assets/img/p02-67.png" alt="Slide 3">
+                <img src="{{ url('/assets/img/p02-67.png') }}" alt="Slide 3">
             </div>
 
         </div>
@@ -308,8 +309,8 @@
                             <a href="#" data-bs-toggle="modal" data-bs-target="#newsModal-{{ $newsItem->id }}">
                                 @php
                                     $image = !empty($newsItem->images[0])
-                                        ? asset('image/' . $newsItem->images[0])
-                                        : asset('path/to/default/image.jpg');
+                                        ? url('image/' . $newsItem->images[0])
+                                        : url('path/to/default/image.jpg');
                                 @endphp
                                 <img src="{{ $image }}" class="card-img-top" alt="ไม่มีรูปภาพ">
                             </a>
@@ -339,7 +340,7 @@
                                     <div class="image-gallery">
                                         @foreach ($newsItem->images as $image)
                                             @php
-                                                $imageUrl = asset('image/' . $image);
+                                                $imageUrl = url('image/' . $image);
                                             @endphp
                                             <img src="{{ $imageUrl }}" alt="ไม่มีรูปภาพ" class="img-fluid mb-3">
                                         @endforeach
@@ -413,7 +414,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content" style="background-color: #fff;">
             <div class="modal-header" style="background-color: #6f42c1; color: white;">
-                <img src="{{ asset('assets/img/ตรากระทรวงสาธารณสุขใหม่.png') }}" alt="Logo"
+                <img src="{{ url('assets/img/ตรากระทรวงสาธารณสุขใหม่.png') }}" alt="Logo"
                     style="width: 50px; height: auto;">
                 <div class="modal-title-container" style="flex: 1; padding-left: 20px;">
                     <h4>สำนักงานสาธารณสุขจังหวัดบุรีรัมย์</h4>

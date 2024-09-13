@@ -21,7 +21,7 @@ use App\Http\Controllers\VisitController;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 
-Route::get('error', function() {
+Route::get('error', function () {
     return view('error.error');
 });
 
@@ -37,44 +37,18 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 });
 
+Route::middleware(['auth', 'CheckLogin', 'NowLogin'])->group(function () {
 
-Route::middleware(['auth', 'IsAdmin', 'CheckLogin', 'NowLogin'])->group(function () {
     // User
-    Route::controller(UserController::class)->group(function() {
+    Route::controller(UserController::class)->group(function () {
         Route::resource('users', UserController::class);
-        Route::get('add-user', 'create')->name('add-user');
         Route::get('profile', 'profile')->name('profile');
-        Route::post('/update-profile','updateProfile')->name('update-profile');
-        Route::patch('/change-password','changePassword')->name('change-password');
+        Route::post('/update-profile', 'updateProfile')->name('update-profile');
+        Route::patch('/change-password', 'changePassword')->name('change-password');
         Route::post('create-user', 'store')->name('users.store');
-        Route::get('all-user', 'index')->name('all-user');
-        Route::get('edit-user/{id}', 'edit')->name('users.edit');
-        Route::patch('update-user/{id}', 'update')->name('users.update');
-        Route::delete('delete-user/{id}', 'destroy')->name('users.delete');
     });
-
-    // Position
-    Route::controller(PositionController::class)->group(function() {
-        Route::get('add-position', 'create')->name('add-position');
-        Route::post('create-position', 'store')->name('positions.store');
-        Route::get('all-position', 'index')->name('all-position');
-        Route::get('edit-position/{id}', 'edit')->name('edit-position');
-        Route::patch('update-position/{id}', 'update')->name('positions.update');
-        Route::delete('delete-position/{id}', 'destroy')->name('positions.delete');
-    });
-
-    // Department
-    Route::controller(DepartmentController::class)->group(function() {
-        Route::get('add-department', 'create')->name('add-department');
-        Route::post('create-department', 'store')->name('departments.store');
-        Route::get('all-department', 'index')->name('all-department');
-        Route::get('edit-department/{id}', 'edit')->name('edit-department');
-        Route::patch('update-department/{id}', 'update')->name('departments.update');
-        Route::delete('delete-department/{id}', 'destroy')->name('departments.delete');
-    });
-
     //Elderly
-    Route::controller(ElderlyController::class)->group(function() {
+    Route::controller(ElderlyController::class)->group(function () {
         Route::get('add-elderly', 'create')->name('add-elderly');
         Route::post('create-elderly', 'store')->name('elderlys.store');
 
@@ -83,20 +57,24 @@ Route::middleware(['auth', 'IsAdmin', 'CheckLogin', 'NowLogin'])->group(function
         // Route::patch('update-elderly/{id}', 'update')->name('elderlys.update');
 
         // Route สำหรับแสดงฟอร์มแก้ไข
-        Route::get('/elderlys/{id}/edit','edit')->name('elderlys.edit');
+        Route::get('/elderlys/{id}/edit', 'edit')->name('elderlys.edit');
         // Route สำหรับอัปเดตข้อมูล
-        Route::put('/elderlys/{id}','update')->name('elderlys.update');
+        Route::put('/elderlys/{id}', 'update')->name('elderlys.update');
 
         Route::delete('delete-elderly/{id}', 'destroy')->name('elderlys.delete');
 
-        Route::get('/maps','showMap')->name('map');
+        Route::get('/maps', 'showMap')->name('map');
 
-        Route::get('/profile-elderlys/{id}','profile')->name('elderlys.profile');
+        Route::get('/profile-elderlys/{id}', 'profile')->name('elderlys.profile');
+    });
 
+    Route::controller(DashboardController::class)->group(function () {
+        Route::get('/dashboard', 'index')->name('dashboard');
+        Route::post('/dashboard/save_colors', 'saveGroupColors')->name('dashboard.save_colors');
     });
 
     // ScoreTAI
-    Route::controller(ScoreTAIController::class)->group(function() {
+    Route::controller(ScoreTAIController::class)->group(function () {
         // Route for showing the form to create a new score
         Route::get('score/{id}', 'create')->name('score.create');
 
@@ -108,28 +86,58 @@ Route::middleware(['auth', 'IsAdmin', 'CheckLogin', 'NowLogin'])->group(function
 
         Route::get('tai', 'show')->name('show');
 
-        Route::get('/service','service')->name('service.index');
-        Route::get('/service/details/{score_id}','details')->name('service.details');
+        Route::get('/service', 'service')->name('service.index');
+        Route::get('/service/details/{score_id}', 'details')->name('service.details');
     });
 
-    Route::controller(DashboardController::class)->group(function(){
-        Route::get('/dashboard','index')->name('dashboard');
-        Route::post('/dashboard/save_colors', 'saveGroupColors')->name('dashboard.save_colors');
-    });
+    Route::middleware(['auth', 'IsAdmin', 'CheckLogin', 'NowLogin'])->group(function () {
 
-    Route::controller(NewsVisitorController::class)->group(function(){
-        Route::get('news/create', [NewsVisitorController::class, 'create'])->name('news.create');
-        Route::post('news', [NewsVisitorController::class, 'store'])->name('news.store');
-        Route::get('news', [NewsVisitorController::class, 'index'])->name('news.index');
-        Route::get('news/{id}', [NewsVisitorController::class, 'show'])->name('news.show');
-        Route::get('news/{id}/edit', [NewsVisitorController::class, 'edit'])->name('news.edit');
-        Route::put('news/{id}', [NewsVisitorController::class, 'update'])->name('news.update');
-        Route::delete('delete-news/{id}', 'destroy')->name('news.delete');
-    });
+        // User
+        Route::controller(UserController::class)->group(function () {
+            Route::resource('users', UserController::class);
+            Route::get('add-user', 'create')->name('add-user');
+            Route::post('create-user', 'store')->name('users.store');
+            Route::get('all-user', 'index')->name('all-user');
+            Route::get('edit-user/{id}', 'edit')->name('users.edit');
+            Route::patch('update-user/{id}', 'update')->name('users.update');
+            Route::delete('delete-user/{id}', 'destroy')->name('users.delete');
+        });
 
-    Route::controller(VisitController::class)->group(function(){
-        Route::get('/visits', [VisitController::class, 'index'])->name('visits.index');
-        Route::get('/logins', [VisitController::class, 'logins'])->name('logins.index');
-    });
+        // Position-Admin&Executive
+        Route::controller(PositionController::class)->group(function () {
+            Route::get('add-position', 'create')->name('add-position');
+            Route::post('create-position', 'store')->name('positions.store');
+            Route::get('all-position', 'index')->name('all-position');
+            Route::get('edit-position/{id}', 'edit')->name('edit-position');
+            Route::patch('update-position/{id}', 'update')->name('positions.update');
+            Route::delete('delete-position/{id}', 'destroy')->name('positions.delete');
+        });
 
+        // Department-Admin&Executive
+        Route::controller(DepartmentController::class)->group(function () {
+            Route::get('add-department', 'create')->name('add-department');
+            Route::post('create-department', 'store')->name('departments.store');
+            Route::get('all-department', 'index')->name('all-department');
+            Route::get('edit-department/{id}', 'edit')->name('edit-department');
+            Route::patch('update-department/{id}', 'update')->name('departments.update');
+            Route::delete('delete-department/{id}', 'destroy')->name('departments.delete');
+        });
+
+        //New-Admin&Executive
+        Route::controller(NewsVisitorController::class)->group(function () {
+            Route::get('news/create', [NewsVisitorController::class, 'create'])->name('news.create');
+            Route::post('news', [NewsVisitorController::class, 'store'])->name('news.store');
+            Route::get('news', [NewsVisitorController::class, 'index'])->name('news.index');
+            Route::get('news/{id}', [NewsVisitorController::class, 'show'])->name('news.show');
+            Route::get('news/{id}/edit', [NewsVisitorController::class, 'edit'])->name('news.edit');
+            Route::put('news/{id}', [NewsVisitorController::class, 'update'])->name('news.update');
+            Route::delete('delete-news/{id}', 'destroy')->name('news.delete');
+        });
+
+        //Visit-Admin&Executive
+        Route::controller(VisitController::class)->group(function () {
+            Route::get('/visits', [VisitController::class, 'index'])->name('visits.index');
+            Route::get('/logins', [VisitController::class, 'logins'])->name('logins.index');
+        });
+    });
 });

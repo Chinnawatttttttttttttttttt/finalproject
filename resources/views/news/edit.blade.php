@@ -41,7 +41,7 @@
                                 $imageArray = is_string($news->images) ? explode(',', $news->images) : $news->images;
                             @endphp
                             @foreach($imageArray as $image)
-                                <img src="{{ asset('image/' . $image) }}" alt="Image" class="img-thumbnail me-2" style="max-height: 150px;">
+                                <img src="{{ url('image/' . $image) }}" alt="Image" class="img-thumbnail me-2" style="max-height: 150px;">
                             @endforeach
                         @endif
                     </div>

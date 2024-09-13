@@ -64,8 +64,8 @@ class ElderlyController extends Controller
             ]);
 
             $qrContent = url('/score/' . $scoreTai->id);
-            $qrImage = QrCode::format('png')->size(300)->generate($qrContent);
-            $qrPath = 'qr-codes/score_tai_' . $scoreTai->id . '.png';
+            $qrImage = QrCode::format('svg')->size(300)->generate($qrContent);
+            $qrPath = 'qr-codes/score_tai_' . $scoreTai->id . '.svg';
 
             // บันทึกภาพ QR code ลงใน path สาธารณะ
             file_put_contents(public_path($qrPath), $qrImage);
@@ -159,7 +159,7 @@ class ElderlyController extends Controller
 
                 // ลบ QR code ตาม ID ใน ScoreTAI
                 foreach ($scores as $score) {
-                    $fileName = "score_tai_{$score->id}.png"; // สร้างชื่อไฟล์ตาม ID
+                    $fileName = "score_tai_{$score->id}.svg"; // สร้างชื่อไฟล์ตาม ID
                     $filePath = public_path('qr-codes/' . $fileName); // สร้างเส้นทางไปยังไฟล์
                     if (file_exists($filePath)) {
                         unlink($filePath); // ลบไฟล์ QR code

@@ -12,7 +12,7 @@
 
     <!-- Apple Touch Icon และ Favicon -->
     <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('assets/img/apple-icon.png') }}">
-    <link rel="icon" type="image/png" href="{{ asset('assets/img/favicon.ico') }}">
+    <link rel="icon" type="image/png" href="{{ url('assets/img/favicon.ico') }}">
 
     <!-- ฟอนต์และไอคอน -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,11 +21,11 @@
         href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@100..900&family=SUSE:wght@100..800&display=swap"rel="stylesheet">
 
     <!-- CSS Files -->
-    <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet" />
-    <link href="{{ asset('assets/css/light-bootstrap-dashboard.css?v=2.0.0') }}" rel="stylesheet" />
+    <link href="{{ url('assets/css/bootstrap.min.css') }}" rel="stylesheet" />
+    <link href="{{ url('assets/css/light-bootstrap-dashboard.css?v=2.0.0') }}" rel="stylesheet" />
 
     <!-- CSS เพื่อวัตถุประสงค์การสาธิตเท่านั้น อย่ารวมไปในโปรเจกต์ -->
-    <link href="{{ asset('assets/css/demo.css') }}" rel="stylesheet" />
+    <link href="{{ url('assets/css/demo.css') }}" rel="stylesheet" />
 
     <!-- DataTables CSS -->
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">

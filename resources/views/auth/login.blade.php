@@ -235,7 +235,7 @@
 
 <body>
     <div class="header">
-        <img src="{{ asset('assets/img/ตรากระทรวงสาธารณสุขใหม่.png') }}" alt="Logo">
+        <img src="{{ url('assets/img/ตรากระทรวงสาธารณสุขใหม่.png') }}" alt="Logo">
         <h4 style="padding-left: 125px">สำนักงานสาธารณสุขจังหวัดบุรีรัมย์</h4>
         <h6 style="padding-left: 125px">BURIRAM PROVINCIAL HEALTH OFFICE</h6>
         <div class="nav-links">
@@ -312,7 +312,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content" style="background-color: #fff;">
                 <div class="modal-header" style="background-color: #6f42c1; color: white;">
-                    <img src="{{ asset('assets/img/ตรากระทรวงสาธารณสุขใหม่.png') }}" alt="Logo"
+                    <img src="{{ url('assets/img/ตรากระทรวงสาธารณสุขใหม่.png') }}" alt="Logo"
                         style="width: 50px; height: auto;">
                     <div class="modal-title-container" style="flex: 1; padding-left: 20px;">
                         <h4>สำนักงานสาธารณสุขจังหวัดบุรีรัมย์</h4>
