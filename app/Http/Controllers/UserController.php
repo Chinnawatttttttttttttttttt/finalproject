@@ -198,6 +198,7 @@ class UserController extends Controller
     {
         // ตรวจสอบความถูกต้องของข้อมูลที่รับเข้ามา
         $request->validate([
+            'Title' => 'required|string|max:255',
             'FirstName' => 'required|string|max:255',
             'LastName' => 'required|string|max:255',
             'Email' => 'required|email|max:255',
@@ -210,6 +211,7 @@ class UserController extends Controller
         $user = Auth::user();
 
         // อัปเดตข้อมูลผู้ใช้
+        $user->Title = $request->Title;
         $user->FirstName = $request->FirstName;
         $user->LastName = $request->LastName;
         $user->Email = $request->Email;

@@ -195,7 +195,7 @@
 
                     @if ($score->qr_path)
                         <button type="button" class="btn btn-success show-qr" data-toggle="modal" data-target="#qrModal"
-                            data-qr-url="{{ asset($score->qr_path) }}">
+                            data-qr-url="{{ url($score->qr_path) }}">
                             แสดงข้อมูลประจำตัวผู้สูงอายุ
                         </button>
                     @else

@@ -9,10 +9,21 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Unicons CSS -->
     <link href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" rel="stylesheet">
+    <!-- ฟอนต์และไอคอน -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@100..900&family=SUSE:wght@100..800&display=swap"rel="stylesheet">
+
 
     <style>
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: "Noto Sans Thai", sans-serif;
+                font-optical-sizing: auto;
+                font-weight: 400;
+                /* เลือกค่าแฮงค์ที่ต้องการ เช่น 100, 400, 700 */
+                font-style: normal;
+
             margin: 0;
             padding: 0;
             background-color: #ffffff;
@@ -224,7 +235,7 @@
 
 <body>
     <div class="header">
-        <img src="{{ asset('assets/img/ตรากระทรวงสาธารณสุขใหม่.png') }}" alt="Logo">
+        <img src="{{ url('assets/img/ตรากระทรวงสาธารณสุขใหม่.png') }}" alt="Logo">
         <h4 style="padding-left: 125px">สำนักงานสาธารณสุขจังหวัดบุรีรัมย์</h4>
         <h6 style="padding-left: 125px">BURIRAM PROVINCIAL HEALTH OFFICE</h6>
         <div class="nav-links">
@@ -301,7 +312,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content" style="background-color: #fff;">
                 <div class="modal-header" style="background-color: #6f42c1; color: white;">
-                    <img src="{{ asset('assets/img/ตรากระทรวงสาธารณสุขใหม่.png') }}" alt="Logo"
+                    <img src="{{ url('assets/img/ตรากระทรวงสาธารณสุขใหม่.png') }}" alt="Logo"
                         style="width: 50px; height: auto;">
                     <div class="modal-title-container" style="flex: 1; padding-left: 20px;">
                         <h4>สำนักงานสาธารณสุขจังหวัดบุรีรัมย์</h4>

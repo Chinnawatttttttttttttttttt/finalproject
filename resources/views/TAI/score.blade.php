@@ -156,7 +156,7 @@
 
                         <!-- Image Column -->
                         <div class="col-md-4 d-flex align-items-center justify-content-center">
-                            <img src="{{ asset('assets/img/M.png') }}" alt="Mental Status"
+                            <img src="{{ url('assets/img/M.png') }}" alt="Mental Status"
                                 style="max-width: 100%; height: auto;">
                         </div>
                     </div>
@@ -211,7 +211,7 @@
 
                         <!-- Image Column -->
                         <div class="col-md-4 d-flex align-items-center justify-content-center">
-                            <img src="{{ asset('assets/img/C.png') }}" alt="Mental Status"
+                            <img src="{{ url('assets/img/C.png') }}" alt="Mental Status"
                                 style="max-width: 100%; height: auto;">
                         </div>
                     </div>
@@ -267,7 +267,7 @@
 
                         <!-- Image Column -->
                         <div class="col-md-4 d-flex align-items-center justify-content-center">
-                            <img src="{{ asset('assets/img/F.png') }}" alt="Eating Status"
+                            <img src="{{ url('assets/img/F.png') }}" alt="Eating Status"
                                 style="max-width: 100%; height: auto;">
                         </div>
                     </div>
@@ -337,7 +337,7 @@
 
                         <!-- Image Column -->
                         <div class="col-md-4 d-flex align-items-center justify-content-center">
-                            <img src="{{ asset('assets/img/T.png') }}" alt="Toilet Usage"
+                            <img src="{{ url('assets/img/T.png') }}" alt="Toilet Usage"
                                 style="max-width: 100%; height: auto;">
                         </div>
                     </div>
@@ -351,30 +351,27 @@
             </div>
 
             <div id="question5" class="question">
-                <div class="container">
-                    <div class="row">
-                        <!-- Summary Information -->
-                        <div class="col-md-8">
-                            <div class="form-group border p-3 rounded">
-                                <h3>สรุปข้อมูลการประเมิน</h3>
-                                <p id="user_id_summary">ผู้ประเมิน: {{ $user->FirstName }} {{ $user->LastName }}</p>
-                                <p id="elderly_name_summary">ผู้สูงอายุ: {{ $elderly->FirstName }}
-                                    {{ $elderly->LastName }}</p>
-                                <label for="summary">สรุปคำตอบ:</label><br>
-                                <p id="summary">[Summary will be displayed here]</p>
-                                <p id="group_summary">[Group information will be displayed here]</p>
-                            </div>
+                <div class="row">
+                    <!-- Summary Information -->
+                    <div class="col-md-8">
+                        <div class="form-group border p-3 rounded">
+                            <h3>สรุปข้อมูลการประเมิน</h3>
+                            <p id="user_id_summary">ผู้ประเมิน: {{ $user->FirstName }} {{ $user->LastName }}</p>
+                            <p id="elderly_name_summary">ผู้สูงอายุ: {{ $elderly->FirstName }} {{ $elderly->LastName }}</p>
+                            <label for="summary">สรุปคำตอบ:</label><br>
+                            <p id="summary">[Summary will be displayed here]</p>
+                            <p id="group_summary">[Group information will be displayed here]</p>
                         </div>
-
-                        <!-- Image Section -->
-                        <div class="col-md-4 d-flex align-items-center justify-content-center">
-                            <div class="border p-2 rounded">
-                                <img src="{{ asset('assets/img/MCFT.png') }}" alt="Toilet Usage Representation"
-                                    style="max-width: 150%; height: auto;">
-                            </div>
+                    </div>
+                
+                    <!-- Image Section -->
+                    <div class="col-md-4 d-flex align-items-center justify-content-center">
+                        <div class="border p-2 rounded">
+                            <img src="{{ url('assets/img/MCFT.png') }}" alt="Toilet Usage Representation" class="img-fluid" style="max-width: 100%; height: auto;">
                         </div>
                     </div>
                 </div>
+                
 
                 <!-- สิ้นสุดการเพิ่มเนื้อหาจาก div ที่สอง -->
 

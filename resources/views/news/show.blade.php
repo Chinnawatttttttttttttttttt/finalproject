@@ -29,7 +29,7 @@
                 <div class="row">
                     @foreach($news->images as $image)
                         <div class="col-md-4 mb-3">
-                            <img src="{{ asset('image/' . $image) }}" alt="News Image" class="img-fluid rounded shadow-sm" style="max-height: 300px; object-fit: cover; width: 100%;">
+                            <img src="{{ url('image/' . $image) }}" alt="News Image" class="img-fluid rounded shadow-sm" style="max-height: 300px; object-fit: cover; width: 100%;">
                         </div>
                     @endforeach
                 </div>
