@@ -37,9 +37,15 @@ class AuthController extends Controller
 
         session(['position_id' => $user->position_id]);
 
-        // Redirect to the intended page or fallback to /dashboard if no intended page
+        // // ถ้า position_id เท่ากับ 3 ให้ redirect ไปที่หน้า /profile
+        // if ($user->position_id == 3) {
+        //     return redirect('/all-elderly');
+        // }
+
+        // // Redirect ไปที่หน้า dashboard หรือหน้าที่ตั้งไว้ก่อนหน้า
         return redirect()->intended('/dashboard');
     }
+
 
 
     public function logout(Request $request)

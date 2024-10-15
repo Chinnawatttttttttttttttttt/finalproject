@@ -59,7 +59,7 @@
                             <div class="form-group">
                                 <label for="NickName">ชื่อเล่น:</label>
                                 <input type="text" class="form-control" id="NickName" name="NickName"
-                                    value="{{ old('NickName') }}">
+                                    value="{{ old('NickName') }}" required>
                                 @error('NickName')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
@@ -147,7 +147,10 @@
                             <div class="form-group">
                                 <label for="village">หมู่:</label>
                                 <input type="text" class="form-control" id="village" name="village"
-                                    value="{{ old('village') }}">
+                                    value="{{ old('village') }}" required>
+                                    @error('village')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
 
@@ -156,7 +159,10 @@
                             <div class="form-group">
                                 <label for="houseNumber">บ้านเลขที่:</label>
                                 <input type="text" class="form-control" id="houseNumber" name="houseNumber"
-                                    value="{{ old('houseNumber') }}">
+                                    value="{{ old('houseNumber') }}" required>
+                                    @error('houseNumber')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
 
@@ -165,7 +171,7 @@
                             <div class="form-group">
                                 <label for="Phone">เบอร์โทร:</label>
                                 <input type="text" class="form-control" id="Phone" name="Phone"
-                                    value="{{ old('Phone') }}">
+                                    value="{{ old('Phone') }}" required>
                                 @error('Phone')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
@@ -187,7 +193,7 @@
                             <div class="form-group">
                                 <label for="Latitude">ละติจูด:</label>
                                 <input type="number" class="form-control" id="Latitude" name="Latitude"
-                                    step="0.0000001">
+                                    step="0.0000001" required>
                                 @error('Latitude')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
@@ -199,7 +205,7 @@
                             <div class="form-group">
                                 <label for="Longitude">ลองจิจูด:</label>
                                 <input type="number" class="form-control" id="Longitude" name="Longitude"
-                                    step="0.0000001">
+                                    step="0.0000001" required>
                                 @error('Longitude')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror

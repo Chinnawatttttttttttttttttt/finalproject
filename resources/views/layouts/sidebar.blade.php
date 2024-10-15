@@ -1,7 +1,8 @@
-<div class="sidebar"> <!-- data-image="{{ url('assets/img/sidebar-5.jpg') }}" -->
+<!-- Sidebar -->
+<div class="sidebar">
     <div class="sidebar-wrapper">
         <div class="logo d-flex justify-content-center">
-            <img src="{{ url('assets/img/ตรากระทรวงสาธารณสุขใหม่.png') }}" alt="Logo" style="width: 50%;" >
+            <img src="{{ url('assets/img/ตรากระทรวงสาธารณสุขใหม่.png') }}" alt="Logo" style="width: 50%;">
         </div>
         <ul class="nav">
             <li class="{{ Request::is('dashboard') ? 'active' : '' }}">
@@ -19,15 +20,17 @@
             <li class="{{ Request::is('all-elderly') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ url('all-elderly') }}">
                     <i class="nc-icon nc-paper-2"></i>
-                    ผู้สูงอาย
+                    ผู้สูงอายุ
                 </a>
             </li>
+            @if (session('position_id') == 1 || session('position_id') == 3)
             <li class="{{ Request::is('tai') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ url('tai') }}">
                     <i class="nc-icon nc-paper-2"></i>
                     แบบประเมิน
                 </a>
             </li>
+            @endif
             <li class="{{ Request::is('all-score') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ url('all-score') }}">
                     <i class="nc-icon nc-notes"></i>
@@ -46,13 +49,13 @@
                     แผนที่
                 </a>
             </li>
-            @if (session('position_id') == 1 || @session('position_id') == 2 ) 
-            <li class="{{ Request::is('notifications') ? 'active' : '' }}">
-                <a class="nav-link" href="{{ url('news') }}">
-                    <i class="nc-icon nc-bell-55"></i>
-                    ข่าวสารประชาสัมพันธ์
-                </a>
-            </li>
+            @if (session('position_id') == 1)
+                <li class="{{ Request::is('notifications') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ url('news') }}">
+                        <i class="nc-icon nc-bell-55"></i>
+                        ข่าวสารประชาสัมพันธ์
+                    </a>
+                </li>
             @endif
         </ul>
     </div>

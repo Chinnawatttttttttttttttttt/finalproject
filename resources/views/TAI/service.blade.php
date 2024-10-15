@@ -5,7 +5,7 @@
         <h1>ข้อมูลบริการสำหรับผู้สูงอายุ</h1>
 
         <div class="table">
-            <table id="table" class="table-hover table-striped">
+            <table id="table" class="table-hover table-striped table-responsive">
                 <thead>
                     <tr>
                         <th>ผู้สูงอายุ</th>

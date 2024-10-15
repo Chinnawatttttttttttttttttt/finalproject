@@ -1,48 +1,16 @@
 <nav class="navbar navbar-expand-lg " color-on-scroll="500">
     <div class="container-fluid">
-        <a class="navbar-brand" href="">ระบบการคัดกรองข้อมูลและประเมินสภาวะของผู้สูงอายุผ่านคิวอาร์โค้ด</a>
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navigation"
-            aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-bar burger-lines"></span>
-            <span class="navbar-toggler-bar burger-lines"></span>
-            <span class="navbar-toggler-bar burger-lines"></span>
+        <a class="navbar-brand" href=""
+            style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 2000px;">
+            ระบบการคัดกรองข้อมูลและประเมินสภาวะของผู้สูงอายุผ่านคิวอาร์โค้ด
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse justify-content-end" id="navigation">
-            <ul class="nav navbar-nav mr-auto">
-                {{--  <li class="nav-item">
-                    <a href="#" class="nav-link" data-toggle="dropdown">
-                        <i class="nc-icon nc-palette"></i>
-                        <span class="d-lg-none">Dashboard</span>
-                    </a>
-                </li>  --}}
-                {{--  <li class="dropdown nav-item">
-                    <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-                        <i class="nc-icon nc-cloud-download-93"></i>
-                        <span class="notification">5</span>
-                        <span class="d-lg-none">Notification</span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <a class="dropdown-item" href="#">Notification 1</a>
-                        <a class="dropdown-item" href="#">Notification 2</a>
-                        <a class="dropdown-item" href="#">Notification 3</a>
-                        <a class="dropdown-item" href="#">Notification 4</a>
-                        <a class="dropdown-item" href="#">Another notification</a>
-                    </ul>
-                </li>  --}}
-                {{--  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nc-icon nc-zoom-split"></i>
-                        <span class="d-lg-block">&nbsp;Search</span>
-                    </a>
-                </li>  --}}
-            </ul>
+        <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
-                {{--  <li class="nav-item">
-                    <a class="nav-link" href="#pablo">
-                        <span class="no-icon">โปรไฟล์</span>
-                    </a>
-                </li>  --}}
-                @if (in_array(session('position_id'), [1, 2]))             {{-- การเช็คสิทธิ์ --}}
+                @if (in_array(session('position_id'), [1, 2]))
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -51,11 +19,10 @@
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             <a class="dropdown-item" href="{{ route('all-user') }}">ข้อมูลผู้ใช้</a>
                             <a class="dropdown-item" href="{{ route('all-elderly') }}">ข้อมูลผู้สูงอายุ</a>
+                            @if (session('position_id') == 1)
                             <a class="dropdown-item" href="{{ route('all-department') }}">ข้อมูลแผนก</a>
                             <a class="dropdown-item" href="{{ route('all-position') }}">ข้อมูลตำแหน่ง</a>
-                            {{--  <a class="dropdown-item" href="#">Something else here</a>  --}}
-                            {{--  <div class="dropdown-divider"></div>  --}}
-                            {{--  <a class="dropdown-item" href="#">Separated link</a>  --}}
+                            @endif
                         </div>
                     </li>
                 @endif

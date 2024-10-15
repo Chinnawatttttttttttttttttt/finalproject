@@ -45,7 +45,7 @@
                     <div class="mb-3">
                         <input type="file" class="form-control" id="images" name="images[]" multiple
                             onchange="previewImages()">
-                        <div id="image-preview" class="image-preview mt-3"></div>
+                        <div id="image-preview" class="image-preview mt-3" required></div>
                     </div>
                     <div class="d-flex justify-content-between mt-4">
                         <button type="submit" class="btn btn-primary">บันทึก</button>

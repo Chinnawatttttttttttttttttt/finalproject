@@ -68,11 +68,6 @@ Route::middleware(['auth', 'CheckLogin', 'NowLogin'])->group(function () {
         Route::get('/profile-elderlys/{id}', 'profile')->name('elderlys.profile');
     });
 
-    Route::controller(DashboardController::class)->group(function () {
-        Route::get('/dashboard', 'index')->name('dashboard');
-        Route::post('/dashboard/save_colors', 'saveGroupColors')->name('dashboard.save_colors');
-    });
-
     // ScoreTAI
     Route::controller(ScoreTAIController::class)->group(function () {
         // Route for showing the form to create a new score
@@ -90,7 +85,15 @@ Route::middleware(['auth', 'CheckLogin', 'NowLogin'])->group(function () {
         Route::get('/service/details/{score_id}', 'details')->name('service.details');
     });
 
+    //dashboard
+    Route::controller(DashboardController::class)->group(function () {
+        Route::get('/dashboard', 'index')->name('dashboard');
+        Route::post('/dashboard/save_colors', 'saveGroupColors')->name('dashboard.save_colors');
+    });
+
     Route::middleware(['auth', 'IsAdmin', 'CheckLogin', 'NowLogin'])->group(function () {
+
+        
 
         // User
         Route::controller(UserController::class)->group(function () {

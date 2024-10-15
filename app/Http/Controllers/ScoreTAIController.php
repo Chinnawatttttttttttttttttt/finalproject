@@ -72,7 +72,8 @@ class ScoreTAIController extends Controller
         $group->save();
 
         // Redirect to index page with success message
-        return redirect()->route('all-score')->with('success', 'บันทึกข้อมูลเรียบร้อยแล้ว');
+        return redirect()->route('service.details', ['score_id' => $score->id])
+            ->with('success', 'บันทึกข้อมูลเรียบร้อยแล้ว');
     }
 
     public function showTAI()
@@ -92,8 +93,22 @@ class ScoreTAIController extends Controller
         }
 
         $user = Auth::user(); // Get the authenticated user
+        // Split address
+        $address = $elderly->Address;
+        $addressParts = preg_split('/\s+/', $address); // Split by whitespace
 
-        return view('TAI.index', compact('scores', 'elderly', 'user', 'groups'));
+        // Assuming the address structure is defined:
+        $houseNumber = $addressParts[1] ?? '';
+        $village = $addressParts[3] ?? '';
+        $subdistrict = $addressParts[5] ?? '';
+        $district = $addressParts[7] ?? '';
+        $province = $addressParts[9] ?? '';
+        $postalCode = $addressParts[11] ?? '';
+
+        // Calculate age
+        $age = (new \Carbon\Carbon($elderly->Birthday))->diffInYears();
+
+        return view('TAI.index', compact('scores', 'elderly', 'user', 'groups', 'houseNumber', 'village', 'subdistrict', 'district', 'province', 'postalCode', 'age'));
     }
 
     public function show()
@@ -112,8 +127,22 @@ class ScoreTAIController extends Controller
         }
 
         $user = Auth::user(); // Get the authenticated user
+        // Split address
+        $address = $elderly->Address;
+        $addressParts = preg_split('/\s+/', $address); // Split by whitespace
 
-        return view('TAI.show', compact('scores', 'elderly', 'user', 'groups'));
+        // Assuming the address structure is defined:
+        $houseNumber = $addressParts[1] ?? '';
+        $village = $addressParts[3] ?? '';
+        $subdistrict = $addressParts[5] ?? '';
+        $district = $addressParts[7] ?? '';
+        $province = $addressParts[9] ?? '';
+        $postalCode = $addressParts[11] ?? '';
+
+        // Calculate age
+        $age = (new \Carbon\Carbon($elderly->Birthday))->diffInYears();
+
+        return view('TAI.show', compact('scores', 'elderly', 'user', 'groups', 'houseNumber', 'village', 'subdistrict', 'district', 'province', 'postalCode', 'age'));
     }
 
     public function service()

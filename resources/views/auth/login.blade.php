@@ -19,21 +19,24 @@
     <style>
         body {
             font-family: "Noto Sans Thai", sans-serif;
-                font-optical-sizing: auto;
-                font-weight: 400;
-                /* เลือกค่าแฮงค์ที่ต้องการ เช่น 100, 400, 700 */
-                font-style: normal;
+            font-optical-sizing: auto;
+            font-weight: 400;
+            /* เลือกค่าแฮงค์ที่ต้องการ เช่น 100, 400, 700 */
+            font-style: normal;
 
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
             margin: 0;
             padding: 0;
             background-color: #ffffff;
-            color: #333;
         }
 
         .header {
             background-color: #6f42c1;
             color: white;
-            padding: 15px;
+            padding: 20px;
+            /*เพิ่มขนาดหัว*/
             text-align: start;
             position: relative;
         }
@@ -45,21 +48,31 @@
             top: 10px;
         }
 
+        .logo {
+            width: 60px;
+            /* ขนาดรูป logo */
+            height: auto;
+        }
+
+        .text-container {
+            margin-left: 125px;
+            /* ตำแหน่งตัวหัวเรื่อง */
+        }
+
+        h4,
+        h6 {
+            margin: 0;
+        }
+
         .nav-links {
             position: absolute;
             right: 20px;
             top: 10px;
         }
 
-        .nav-links a {
-            color: white;
-            margin: 0 10px;
-            text-decoration: none;
-        }
-
-        .nav-links span {
-            color: white;
-            font-weight: bold;
+        .nav-link {
+            color: white !important;
+            /* อักษรสีขาว */
         }
 
         .main-content {
@@ -234,14 +247,31 @@
 </head>
 
 <body>
-    <div class="header">
-        <img src="{{ url('assets/img/ตรากระทรวงสาธารณสุขใหม่.png') }}" alt="Logo">
-        <h4 style="padding-left: 125px">สำนักงานสาธารณสุขจังหวัดบุรีรัมย์</h4>
-        <h6 style="padding-left: 125px">BURIRAM PROVINCIAL HEALTH OFFICE</h6>
-        <div class="nav-links">
-            <a href="{{ route('home') }}">หน้าแรก</a>
-            <a href="#" data-bs-toggle="modal" data-bs-target="#contactModal">ติดต่อ</a>
+    <div class="header d-flex align-items-center">
+        <img src="{{ url('assets/img/ตรากระทรวงสาธารณสุขใหม่.png') }}" alt="Logo" class="logo">
+        <div class="text-container">
+            <h4>สำนักงานสาธารณสุขจังหวัดบุรีรัมย์</h4>
+            <h6>BURIRAM PROVINCIAL HEALTH OFFICE</h6>
         </div>
+        <nav class="navbar navbar-expand-lg ms-auto">
+            <div class="container-fluid">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('home') }}">หน้าแรก</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-bs-toggle="modal"
+                                data-bs-target="#contactModal">ติดต่อ</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
     </div>
 
     <div class="main-content">
@@ -372,9 +402,7 @@
         function closeModal() {
             document.getElementById("myModal").style.display = "none";
         }
-
     </script>
-
 
 </body>
 

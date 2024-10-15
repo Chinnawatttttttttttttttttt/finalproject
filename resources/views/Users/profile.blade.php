@@ -103,7 +103,13 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-12">
+                                    <div class="col-md-3">
+                                        <div class="from-group">
+                                            <label>ชื่อเล่น</label>
+                                            <input type="text" class="form-control" name="NickName" value="{{ old('NickName', $user->NickName) }}" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
                                         <div class="form-group">
                                             <label>อีเมลล์</label>
                                             <input type="email" class="form-control" name="Email"
@@ -208,7 +214,7 @@
                                     </div>
                                 </div>
                                 <button type="submit" class="btn btn-info btn-fill pull-right"
-                                    onclick="combineNameAndAddress()">อัพโหลด</button>
+                                    onclick="combineNameAndAddress()">อัปโหลด</button>
                                 <button type="button" id="change-password-btn"
                                     class="btn btn-warning btn-fill pull-right">เปลี่ยนรหัสผ่าน</button>
                                 <div class="clearfix"></div>

@@ -38,10 +38,16 @@
                         <div class="form-group col-md-4">
                             <label for="FirstName">ชื่อ:</label>
                             <input type="text" class="form-control" id="FirstName" name="FirstName" required>
+                            @error('FirstName')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="form-group col-md-4">
                             <label for="LastName">นามสกุล:</label>
                             <input type="text" class="form-control" id="LastName" name="LastName" required>
+                            @error('LastName')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                     </div>
 
@@ -49,7 +55,10 @@
                     <div class="form-row">
                         <div class="form-group col-md-3">
                             <label for="NickName">ชื่อเล่น:</label>
-                            <input type="text" class="form-control" id="NickName" name="NickName">
+                            <input type="text" class="form-control" id="NickName" name="NickName" required>
+                            @error('NickName')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                     </div>
 
@@ -58,124 +67,145 @@
                         <div class="form-group col-md-3">
                             <label for="Username">ชื่อผู้ใช้:</label>
                             <input type="text" class="form-control" id="Username" name="Username" pattern="\d{13}"
-                                title="Username must be 13 digits" required>
+                                title="Username must be 13 digits" placeholder="กรุณากรอกชื่อผู้ใช้ 13 หลัก" required>
+                            @error('Username')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
+                        
                         <div class="form-group col-md-3">
                             <label for="Password">รหัสผ่าน:</label>
-                            <input type="password" class="form-control" id="Password" name="Password" required>
+                            <input type="password" class="form-control" id="Password" name="Password" pattern="\d{6}"
+                                placeholder="กรุณากรอกรหัสผ่าน 6 หลัก" required>
+                            @error('Password')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        
+                    </div>
+
+                    <div class="form-row">
+                        <div class="from-group col-md-6">
+                            <label for="Email">อีเมล:</label>
+                            <input type="email" class="form-control" id="Email" name="Email" required>
+                            @error('Email')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="from-group col-md-3">
+                            <label for="Phone">เบอร์โทร:</label>
+                            <input type="phone" class="form-control" id="Phone" name="Phone" required>
+                            @error('Phone')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                     </div>
-                    <!- ->
-                        <div class="form-row">
-                            <div class="from-group col-md-6">
-                                <label for="Email">อีเมล:</label>
-                                <input type="email" class="form-control" id="Email" name="Email" required>
-                            </div>
-                            <div class="from-group col-md-3">
-                                <label for="Phone">เบอร์โทร:</label>
-                                <input type="phone" class="form-control" id="Phone" name="Phone" required>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <!-- Province -->
-                            <div class="form-group col-md-3">
-                                <label for="province">จังหวัด:</label>
-                                <select class="form-control" id="Province" name="province" required>
-                                    <option value="">เลือกจังหวัด</option>
-                                </select>
-                                @error('province')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <!-- District -->
-
-                            <div class="form-group col-md-3">
-                                <label for="district">อำเภอ:</label>
-                                <select class="form-control" id="District" name="district" required>
-                                    <option value="">เลือกอำเภอ</option>
-                                </select>
-                                @error('district')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-
-                            <!-- Subdistrict -->
-
-                            <div class="form-group col-md-3">
-                                <label for="subdistrict">ตำบล:</label>
-                                <select class="form-control" id="Subdistrict" name="subdistrict" required>
-                                    <option value="">เลือกตำบล</option>
-                                </select>
-                                @error('subdistrict')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                        </div>
-                        <!-- Address -->
-                        <div class="form-row">
-                            <!-- Postal Code -->
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="postalCode">รหัสไปรษณีย์:</label>
-                                    <input type="text" class="form-control" id="postalCode" name="postalCode" readonly>
-                                </div>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="village">หมู่:</label>
-                                <input type="text" class="form-control" id="village" name="village">
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="houseNumber">บ้านเลขที่:</label>
-                                <input type="text" class="form-control" id="houseNumber" name="houseNumber">
-                            </div>
+                    <div class="form-row">
+                        <!-- Province -->
+                        <div class="form-group col-md-3">
+                            <label for="province">จังหวัด:</label>
+                            <select class="form-control" id="Province" name="province" required>
+                                <option value="">เลือกจังหวัด</option>
+                            </select>
+                            @error('province')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
 
-                        <!-- Hidden field to store combined address -->
-                        <input type="hidden" id="Address" name="Address">
-                        <!-- Hidden fields to store names -->
-                        <input type="hidden" id="ProvinceName" name="provinceName">
-                        <input type="hidden" id="DistrictName" name="districtName">
-                        <input type="hidden" id="SubdistrictName" name="subdistrictName">
+                        <!-- District -->
 
-                        <!-- Phone, Department, Position, and Profile Image -->
-                        <div class="form-row">
-                            <div class="form-group col-md-5">
-                                <label for="department">แผนก:</label>
-                                <select class="form-control" name="department_id" id="department" required>
-                                    @foreach ($dpt as $id => $name)
-                                        <option value="{{ $id }}" {{ $id == $selectedID ? 'selected' : '' }}>
-                                            {{ $name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <div class="form-group col-md-5">
-                                <label for="position">ตำแหน่ง:</label>
-                                <select class="form-control" name="position_id" id="position" required>
-                                    @foreach ($position as $id => $name)
-                                        <option value="{{ $id }}">{{ $name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+                        <div class="form-group col-md-3">
+                            <label for="district">อำเภอ:</label>
+                            <select class="form-control" id="District" name="district" required>
+                                <option value="">เลือกอำเภอ</option>
+                            </select>
+                            @error('district')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
 
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="image_Profile">รูปโปรไฟล์:</label>
-                                <input type="file" class="form-control-file" id="image_Profile" name="image_Profile"
-                                    onchange="previewImage()">
-                                <div id="image-preview" class="mt-3"></div>
-                            </div>
+
+                        <!-- Subdistrict -->
+
+                        <div class="form-group col-md-3">
+                            <label for="subdistrict">ตำบล:</label>
+                            <select class="form-control" id="Subdistrict" name="subdistrict" required>
+                                <option value="">เลือกตำบล</option>
+                            </select>
+                            @error('subdistrict')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
 
-                        <div class="d-flex justify-content-between">
-                            <button type="submit" class="btn btn-primary"
-                                onclick="combineNameAndAddress()">บันทึกข้อมูล</button>
-                            <a href="{{ route('all-user') }}" class="btn btn-danger">ย้อนกลับ</a>
+                    </div>
+                    <!-- Address -->
+                    <div class="form-row">
+                        <!-- Postal Code -->
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="postalCode">รหัสไปรษณีย์:</label>
+                                <input type="text" class="form-control" id="postalCode" name="postalCode" readonly>
+                            </div>
                         </div>
+                        <div class="form-group col-md-4">
+                            <label for="village">หมู่:</label>
+                            <input type="text" class="form-control" id="village" name="village" required>
+                            @error('village')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="houseNumber">บ้านเลขที่:</label>
+                            <input type="text" class="form-control" id="houseNumber" name="houseNumber" required>
+                            @error('houseNumber')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <!-- Hidden field to store combined address -->
+                    <input type="hidden" id="Address" name="Address">
+                    <!-- Hidden fields to store names -->
+                    <input type="hidden" id="ProvinceName" name="provinceName">
+                    <input type="hidden" id="DistrictName" name="districtName">
+                    <input type="hidden" id="SubdistrictName" name="subdistrictName">
+
+                    <!-- Phone, Department, Position, and Profile Image -->
+                    <div class="form-row">
+                        <div class="form-group col-md-5">
+                            <label for="department">แผนก:</label>
+                            <select class="form-control" name="department_id" id="department" required>
+                                @foreach ($dpt as $id => $name)
+                                    <option value="{{ $id }}" {{ $id == $selectedID ? 'selected' : '' }}>
+                                        {{ $name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="form-group col-md-5">
+                            <label for="position">ตำแหน่ง:</label>
+                            <select class="form-control" name="position_id" id="position" required>
+                                @foreach ($position as $id => $name)
+                                    <option value="{{ $id }}">{{ $name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="image_Profile">รูปโปรไฟล์:</label>
+                            <input type="file" class="form-control-file" id="image_Profile" name="image_Profile"
+                                onchange="previewImage()" required>
+                            <div id="image-preview" class="mt-3"></div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <button type="submit" class="btn btn-primary"
+                            onclick="combineNameAndAddress()">บันทึกข้อมูล</button>
+                        <a href="{{ route('all-user') }}" class="btn btn-danger">ย้อนกลับ</a>
+                    </div>
 
                 </form>
             </div>

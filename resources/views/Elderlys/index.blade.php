@@ -13,7 +13,7 @@
             </div>
 
             <div class="table">
-                <table id="table" class="table-striped table-hover">
+                <table id="table" class="table-striped table-hover table-responsive">
                     <thead>
                         <tr>
                             <th style="wight: 5%">ลำดับ</th>

@@ -2,13 +2,14 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>ระบบการคัดกรองข้อมูลและประเมินสภาวะของผู้สูงอายุผ่านคิวอาร์โค้ดของสำนักงานสาธารณสุขจังหวัดบุรีรัมย์ Screening
         System and Typology of Aged with Illustration Assessment of the Elderly via the QR code of the Public Health
         Office Buriram Procince</title>
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no" />
+    {{--  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no" />  --}}
 
     <!-- Apple Touch Icon และ Favicon -->
     <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('assets/img/apple-icon.png') }}">
@@ -42,11 +43,9 @@
 <body>
     <div class="wrapper">
         <!-- รวมไซด์บาร์ -->
-
         @include('layouts.sidebar')
-
+        
         <div class="main-panel">
-            <!-- รวมแถบนาบาร์ -->
             @include('layouts.navbar')
 
             <div class="content">
@@ -58,7 +57,7 @@
                 @endif
 
                 @if (session('fail'))
-                    <div class="alert alert-success">
+                    <div class="alert alert-danger"> <!-- เปลี่ยนเป็น alert-danger -->
                         {{ session('fail') }}
                     </div>
                 @endif
@@ -73,13 +72,12 @@
 
                 <!-- Yield เนื้อหา -->
                 @yield('content')
-                {{--  <button id="print-btn" class="btn btn-primary">พิมพ์</button>  --}}
             </div>
 
-            <!-- รวมฟุตเตอร์ -->
             @include('layouts.footer')
         </div>
     </div>
+
 
     <!-- Core JS Files -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -89,9 +87,6 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
     </script>
-
-
-
 
     <!-- ปลั๊กอินสำหรับ Switches -->
     <script src="{{ asset('assets/js/plugins/bootstrap-switch.js') }}"></script>

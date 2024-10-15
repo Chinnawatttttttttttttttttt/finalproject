@@ -459,5 +459,6 @@
         function submitForm() {
             document.getElementById('score_form').submit();
         }
+        
     </script>
 @endsection

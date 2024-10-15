@@ -11,14 +11,14 @@
                 </a>
             </div>
             <div class="d-flex justify-content-center mt-3">
-                <a href="{{ route('visits.index')}}" class="btn btn-primary btn center">
-                    <i class="nc-icon nc-simple-add"></i> จำนวนการเข้าสู่ระบบ
+                <a href="{{ route('visits.index')}}" class="btn btn-success btn center">
+                 จำนวนการเข้าสู่ระบบ
                 </a>
             </div>
         </div>
         <div class="card-body">
             <div class="table">
-                <table id="table" class="table-hover table-striped" >
+                <table id="table" class="table-hover table-striped table-responsive">
                     <thead>
                         <tr>
                             <th>ลำดับ</th>
@@ -40,12 +40,14 @@
                             <td>{{ $user->department->department_name }}</td>
                             <td>{{ $user->position->position_name }}</td>
                             <td>
+                                @if (session('position_id') == 1)
                                 <a href="{{ route('users.edit', $user->id) }}" class="btn btn-warning btn-sm">
                                     <i class="nc-icon nc-preferences-circle-rotate"></i> แก้ไข
                                 </a>
-
+                                @endif
                             </td>
                             <td>
+                                @if (session('position_id') == 1)
                                 <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display: inline;">
                                     @csrf
                                     @method('DELETE')
@@ -53,6 +55,7 @@
                                         <i class="nc-icon nc-simple-remove"></i> ลบข้อมูล
                                     </a>
                                 </form>
+                                @endif
                             </td>
 
 
